@@ -1,17 +1,43 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var schema = new Schema({
-    'skills': [
-      {type: Schema.ObjectId, ref: 'Skill'}
+var Skill = new Schema({
+    'name': String
+  }
+);
+
+var Knowledge = new Schema({
+    'name': String
+  }
+);
+
+var Job = new Schema({
+    'name': String,
+    'skills_learned': [
+      //{type: Schema.ObjectId, ref: 'Skill'}
+      Skill
     ],
-    'knowledge': [
-      {type: Schema.ObjectId, ref: 'Knowledge'}
-    ]
-    'jobs': [
-      {type: Schema.ObjectId, ref: 'Job'}
+    'knowledge_gained': [
+      //{type: Schema.ObjectId, ref: 'Knowledge'}
+      Knowledge
     ]
   }
 );
 
-module.exports = schema;
+var Portfolio = new Schema({
+    'skills': [
+      //{type: Schema.ObjectId, ref: 'Skill'}
+      Skill
+    ],
+    'knowledge': [
+      //{type: Schema.ObjectId, ref: 'Knowledge'}
+      Knowledge
+    ],
+    'jobs': [
+      //{type: Schema.ObjectId, ref: 'Job'}
+      Job
+    ]
+  }
+);
+
+module.exports = Portfolio;

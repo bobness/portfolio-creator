@@ -11,7 +11,7 @@ router.use(function(req, res, next) {
 
 router.get('/:user_id', function(req, res, next) {
   User.findById(req.params.user_id)
-    //.populate()
+    .populate('portfolio')
     .exec(function(err, user) {
       if (!user) {
         err = new Error("no such user");
@@ -25,19 +25,22 @@ router.get('/:user_id', function(req, res, next) {
 });
 
 router.param('user_id', function(req, res, next, user_id) {
-  User.findOne({_id: ObjectId(user_id)}, function(err, user) {
+  User.findOne({_id: ObjectId(user_id)})
+    .populate('portfolio')
+    .exec(function(err, user) {
 /*
     if (err) {
       return next(err);
     }
 */
     req.user = user;
+    //console.log("got user - ", user);
     return next(err);
   });
 });
 
 router.put('/:user_id', function(req, res, next) {
-  user[req.body.name] = req.body.value;
+  req.user[req.body.name] = req.body.value;
   return user.save(function(err) {
     if (err) {
       next(err);
@@ -46,5 +49,7 @@ router.put('/:user_id', function(req, res, next) {
     }
   });
 });
+
+router.use('/:user_id/portfolio', require('./portfolios'));
 
 module.exports = router;

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var users = require('./routes/users');
+var portfolios = require('./routes/portfolios');
 
 var app = express();
 
@@ -13,6 +14,9 @@ var db = mongoose.createConnection("mongodb://localhost/counteroffer");
 var userSchema = require('./schema/User.js');
 User = db.model('User', userSchema);
 app.set('User', User);
+var portfolioSchema = require('./schema/Portfolio.js');
+Portfolio = db.model('Portfolio', portfolioSchema);
+app.set('Portfolio', Portfolio);
 
 app.use(express.static('public'));
 app.use(logger('dev'));

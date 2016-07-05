@@ -6,7 +6,7 @@ var schema = new Schema({
     'skills_learned': [
       {type: Schema.ObjectId, ref: 'Skill'}
     ],
-    'knowledge_gained': [
+    'knowledge_used_or_gained': [
       {type: Schema.ObjectId, ref: 'Knowledge'}
     ]
   }
