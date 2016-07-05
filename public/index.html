@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css"/>
     <title>Portfolio Creator</title>
@@ -13,33 +13,36 @@
   <body>
     <ul class="nav nav-tabs">
       <li role="presentation" class="active"><a href="#portfolioTab" data-toggle="tab">Portfolio</a></li>
-      <li role="presentation"><a href="#profileTab" data-toggle="tab">Profile</a></li>
+      <!--<li role="presentation"><a href="#profileTab" data-toggle="tab">Profile</a></li>-->
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="portfolioTab">
         <div class="panel panel-default">
           <div class="panel-heading">Skills</div>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new">
+          <ul id="skills"></ul>
+          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/skills">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add another skill
           </a>
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">Knowledge</div>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new">
+          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/knowledge">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add more knowledge
           </a>
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">Jobs</div>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new">
+<!--
+          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/jobs">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add another job
           </a>
+-->
         </div>
       </div>
-      <div class="tab-pane" id="profileTab">
+      <!--<div class="tab-pane" id="profileTab">
         <div class="panel panel-default">
           <div class="panel-heading">Edit your user profile</div>
           <table class="table table-hover" id="profileForm">
@@ -57,7 +60,7 @@
             </tr>
           </table>
         </div>
-      </div>
+      </div>-->
     </div>
         
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
