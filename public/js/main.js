@@ -9,14 +9,28 @@ function init() {
   	$('#name').text(user.name);
   	$('#email').text(user.email);
   	$('#github').text(user.github);
-  	user.portfolio.skills.forEach(function(skill) {
+  	user.portfolio.skills.forEach(function(item) {
     	$('#skills').append($('<li>').html(
-      	'<a href="#" class="editable-value" data-type="text" data-pk="' + skill._id + '" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/skills">' +
-      	skill.name +
+      	'<a href="#" class="editable-value" data-type="text" data-pk="' + item._id + '" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/skills">' +
+      	item.name +
       	'</a>'
     	));
   	});
-  	$('#skills .editable-value').editable({
+  	user.portfolio.knowledge.forEach(function(item) {
+    	$('#knowledge').append($('<li>').html(
+      	'<a href="#" class="editable-value" data-type="text" data-pk="' + item._id + '" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/knowledge">' +
+      	item.name +
+      	'</a>'
+    	));
+  	});
+  	user.portfolio.jobs.forEach(function(item) {
+    	$('#jobs').append($('<li>').html(
+      	'<a href="#" class="editable-value" data-type="text" data-pk="' + item._id + '" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/jobs">' +
+      	item.name +
+      	'</a>'
+    	));
+  	});
+  	$('ul .editable-value').editable({
     	showbuttons: false,
     	params: function(params) { return JSON.stringify(params); },
     	onblur: 'submit',
