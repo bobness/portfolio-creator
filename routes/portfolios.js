@@ -61,6 +61,17 @@ router.put('/skills', function(req, res, next) {
   return savePortfolio(req.user.portfolio, skill, res, next);
 });
 
+router.delete('/skills', function(req, res, next) {
+  var skill = req.user.portfolio.skills.id(req.body.pk);
+  if (!skill) {
+    var err = new Error("no such skill");
+    err.status = 404;
+    return next(err);
+  }
+  skill.remove();
+  return savePortfolio(req.user.portfolio, "", res, next);
+});
+
 router.post('/knowledge', function(req, res, next) {
   var knowledge = req.user.portfolio.knowledge;
   var newknowledge = {name: req.body.value};
@@ -79,6 +90,17 @@ router.put('/knowledge', function(req, res, next) {
   return savePortfolio(req.user.portfolio, knowledge, res, next);
 });
 
+router.delete('/knowledge', function(req, res, next) {
+  var knowledge = req.user.portfolio.knowledge.id(req.body.pk);
+  if (!knowledge) {
+    var err = new Error("no such knowledge");
+    err.status = 404;
+    return next(err);
+  }
+  knowledge.remove();
+  return savePortfolio(req.user.portfolio, "", res, next);
+});
+
 router.post('/jobs', function(req, res, next) {
   var jobs = req.user.portfolio.jobs;
   var newjob = {name: req.body.value};
@@ -95,6 +117,17 @@ router.put('/jobs', function(req, res, next) {
   }
   job.name = req.body.value;
   return savePortfolio(req.user.portfolio, job, res, next);
+});
+
+router.delete('/jobs', function(req, res, next) {
+  var job = req.user.portfolio.jobs.id(req.body.pk);
+  if (!job) {
+    var err = new Error("no such job");
+    err.status = 404;
+    return next(err);
+  }
+  job.remove();
+  return savePortfolio(req.user.portfolio, "", res, next);
 });
 
 module.exports = router;
