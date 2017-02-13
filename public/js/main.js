@@ -40,7 +40,8 @@ function init() {
   	$('.editable-value.new-value').editable({
     		value: '',
     		showbuttons: false,
-    		params: function(params) { return JSON.stringify(params); },
+    		params: function(params) { 
+      		return JSON.stringify(params); },
     		onblur: 'submit',
     		//url: '/users/56c91e75a986a9d2ce8cc456',
     		ajaxOptions: {

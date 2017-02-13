@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+  <div class="panel-heading">{{ title }}</div>
+  <ul>
+    <li ng-repeat="row in data"><a editable-text="row.name">{{ row.name }}</a></li>
+  </ul>
+  <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="{{ url }}">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    Add another
+  </a>
+</div>
