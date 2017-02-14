@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+  <div class="panel-heading">{{ title }} <!--<button ng-click="test()">Test</button>--></div>
+  <ul>
+    <li ng-repeat="row in data"><a editable-text="row.name" onaftersave="update(row)">{{ row.name }}</a> <button ng-click="delete(row)">X</button></li>
+  </ul>
+  <a href="#" editable-text="newrow.name" onaftersave="create(newrow)">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    Add another
+  </a>
+</div>
