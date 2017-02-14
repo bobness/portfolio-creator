@@ -27,12 +27,12 @@ router.get('/:portfolio_id', function(req, res, next) {
 });
 */
 
-function savePortfolio(portfolio, resultString, res, next) {
-  return portfolio.save(function(err) {
+function savePortfolio(portfolio, returnObj, res, next) {
+  return portfolio.save(function(err, obj) {
     if (err) {
       return next(err);
     } else {
-      return res.json(resultString);
+      return returnObj ? obj : '';
     }
   });
 }
@@ -40,14 +40,16 @@ function savePortfolio(portfolio, resultString, res, next) {
 // user changing their portfolio
 router.put('/', function(req, res, next) {
   req.user.portfolio[req.body.name] = req.body.value;
-  return savePortfolio(req.user.portfolio, portfolio, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next);
 });
 
 router.post('/skills', function(req, res, next) {
   var skills = req.user.portfolio.skills;
-  var newskill = {name: req.body.value};
+  var newskill = req.body;
   skills.push(newskill);
-  return savePortfolio(req.user.portfolio, newskill, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(portfolio.skills.pop());
+  });
 });
 
 router.param('skill_id', function(req, res, next, skill_id) {
@@ -62,19 +64,25 @@ router.param('skill_id', function(req, res, next, skill_id) {
 
 router.put('/skills/:skill_id', function(req, res, next) {
   req.skill.name = req.body.name;
-  return savePortfolio(req.user.portfolio, req.skill, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(req.skill);
+  });
 });
 
 router.delete('/skills/:skill_id', function(req, res, next) {
   req.skill.remove();
-  return savePortfolio(req.user.portfolio, "", res, next);
+  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
+    res.sendStatus(200);
+  });
 });
 
 router.post('/knowledge', function(req, res, next) {
   var knowledge = req.user.portfolio.knowledge;
-  var newknowledge = {name: req.body.value};
+  var newknowledge = req.body;
   knowledge.push(newknowledge);
-  return savePortfolio(req.user.portfolio, newknowledge, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(portfolio.knowledge.pop());
+  });
 });
 
 router.param('knowledge_id', function(req, res, next, knowledge_id) {
@@ -89,19 +97,25 @@ router.param('knowledge_id', function(req, res, next, knowledge_id) {
 
 router.put('/knowledge/:knowledge_id', function(req, res, next) {
   req.knowledge.name = req.body.name;
-  return savePortfolio(req.user.portfolio, req.knowledge, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(req.knowledge);
+  });
 });
 
 router.delete('/knowledge/:knowledge_id', function(req, res, next) {
   req.knowledge.remove();
-  return savePortfolio(req.user.portfolio, "", res, next);
+  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
+    res.sendStatus(200);
+  });
 });
 
 router.post('/jobs', function(req, res, next) {
   var jobs = req.user.portfolio.jobs;
-  var newjob = {name: req.body.value};
+  var newjob = req.body;
   jobs.push(newjob);
-  return savePortfolio(req.user.portfolio, newjob, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(portfolio.jobs.pop());
+  });
 });
 
 router.param('job_id', function(req, res, next, job_id) {
@@ -116,12 +130,16 @@ router.param('job_id', function(req, res, next, job_id) {
 
 router.put('/jobs/:job_id', function(req, res, next) {
   req.job.name = req.body.name;
-  return savePortfolio(req.user.portfolio, req.job, res, next);
+  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
+    res.json(req.job);
+  });
 });
 
 router.delete('/jobs/:job_id', function(req, res, next) {
   req.job.remove();
-  return savePortfolio(req.user.portfolio, "", res, next);
+  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
+    res.sendStatus(200);
+  });
 });
 
 module.exports = router;
