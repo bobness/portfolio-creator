@@ -77,25 +77,23 @@ router.post('/knowledge', function(req, res, next) {
   return savePortfolio(req.user.portfolio, newknowledge, res, next);
 });
 
-router.put('/knowledge', function(req, res, next) {
-  var knowledge = req.user.portfolio.knowledge.id(req.body.pk);
-  if (!knowledge) {
-    var err = new Error("no such knowledge");
+router.param('knowledge_id', function(req, res, next, knowledge_id) {
+  req.knowledge = req.user.portfolio.knowledge.id(knowledge_id);
+  if (!req.knowledge) {
+    var err = new Error("no such piece of knowledge");
     err.status = 404;
     return next(err);
   }
-  knowledge.name = req.body.value;
-  return savePortfolio(req.user.portfolio, knowledge, res, next);
+  next();
 });
 
-router.delete('/knowledge', function(req, res, next) {
-  var knowledge = req.user.portfolio.knowledge.id(req.body.pk);
-  if (!knowledge) {
-    var err = new Error("no such knowledge");
-    err.status = 404;
-    return next(err);
-  }
-  knowledge.remove();
+router.put('/knowledge/:knowledge_id', function(req, res, next) {
+  req.knowledge.name = req.body.name;
+  return savePortfolio(req.user.portfolio, req.knowledge, res, next);
+});
+
+router.delete('/knowledge/:knowledge_id', function(req, res, next) {
+  req.knowledge.remove();
   return savePortfolio(req.user.portfolio, "", res, next);
 });
 
@@ -106,25 +104,23 @@ router.post('/jobs', function(req, res, next) {
   return savePortfolio(req.user.portfolio, newjob, res, next);
 });
 
-router.put('/jobs', function(req, res, next) {
-  var job = req.user.portfolio.jobs.id(req.body.pk);
-  if (!job) {
+router.param('job_id', function(req, res, next, job_id) {
+  req.job = req.user.portfolio.jobs.id(job_id);
+  if (!req.job) {
     var err = new Error("no such job");
     err.status = 404;
     return next(err);
   }
-  job.name = req.body.value;
-  return savePortfolio(req.user.portfolio, job, res, next);
+  next();
 });
 
-router.delete('/jobs', function(req, res, next) {
-  var job = req.user.portfolio.jobs.id(req.body.pk);
-  if (!job) {
-    var err = new Error("no such job");
-    err.status = 404;
-    return next(err);
-  }
-  job.remove();
+router.put('/jobs/:job_id', function(req, res, next) {
+  req.job.name = req.body.name;
+  return savePortfolio(req.user.portfolio, req.job, res, next);
+});
+
+router.delete('/jobs/:job_id', function(req, res, next) {
+  req.job.remove();
   return savePortfolio(req.user.portfolio, "", res, next);
 });
 
