@@ -1,4 +1,4 @@
-angular.module('pc').directive('panel', function() {
+angular.module('pc').directive('panel', ['portfolioService', function(portfolioService) {
   return {
     templateUrl: '../html/panel.html',
     scope: {
@@ -7,6 +7,18 @@ angular.module('pc').directive('panel', function() {
       'data': '='
     },
     link: function(scope) {
+
+      scope.update = function(obj) {
+        if (obj) {
+          portfolioService.update(scope.url, obj);
+        }
+      };
+      
+/*
+      scope.test = function() {
+        console.log(scope);
+      };
+*/
     }
   }
-});
+}]);

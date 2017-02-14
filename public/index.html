@@ -16,13 +16,12 @@
     <script src="js/app.js"></script>
     <script src="js/portfolioController.js"></script>
     <script src="js/userService.js"></script>
+    <script src="js/portfolioService.js"></script>
     <script src="js/panel.js"></script>
   </head>
   <body ng-app="pc" ng-controller="portfolioController">
     
-    <panel title="Skills" data="user.portfolio.skills" url="/users/56c91e75a986a9d2ce8cc456/portfolio/skills"></panel>
-    <panel title="Knowledge" data="user.portfolio.knowledge" url="/users/56c91e75a986a9d2ce8cc456/portfolio/knowledge"></panel>
-    <panel title="Jobs" data="user.portfolio.jobs" url="/users/56c91e75a986a9d2ce8cc456/portfolio/jobs"></panel>
+    <panel ng-repeat="panel in panels" title="{{ panel.title }}" data="panel.data" url="{{ panel.url }}"></panel>
     
     <div>
       <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#myModal" data-title="Import LinkedIn">Import LinkedIn</button>

@@ -28,15 +28,9 @@ router.param('user_id', function(req, res, next, user_id) {
   User.findOne({_id: ObjectId(user_id)})
     .populate('portfolio')
     .exec(function(err, user) {
-/*
-    if (err) {
+      req.user = user;
       return next(err);
-    }
-*/
-    req.user = user;
-    //console.log("got user - ", user);
-    return next(err);
-  });
+    });
 });
 
 router.put('/:user_id', function(req, res, next) {

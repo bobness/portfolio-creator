@@ -50,25 +50,23 @@ router.post('/skills', function(req, res, next) {
   return savePortfolio(req.user.portfolio, newskill, res, next);
 });
 
-router.put('/skills', function(req, res, next) {
-  var skill = req.user.portfolio.skills.id(req.body.pk);
-  if (!skill) {
+router.param('skill_id', function(req, res, next, skill_id) {
+  req.skill = req.user.portfolio.skills.id(skill_id);
+  if (!req.skill) {
     var err = new Error("no such skill");
     err.status = 404;
     return next(err);
   }
-  skill.name = req.body.value;
-  return savePortfolio(req.user.portfolio, skill, res, next);
+  next();
 });
 
-router.delete('/skills', function(req, res, next) {
-  var skill = req.user.portfolio.skills.id(req.body.pk);
-  if (!skill) {
-    var err = new Error("no such skill");
-    err.status = 404;
-    return next(err);
-  }
-  skill.remove();
+router.put('/skills/:skill_id', function(req, res, next) {
+  req.skill.name = req.body.name;
+  return savePortfolio(req.user.portfolio, req.skill, res, next);
+});
+
+router.delete('/skills/:skill_id', function(req, res, next) {
+  req.skill.remove();
   return savePortfolio(req.user.portfolio, "", res, next);
 });
 
