@@ -43,6 +43,7 @@ router.put('/', function(req, res, next) {
   return savePortfolio(req.user.portfolio, true, res, next);
 });
 
+/*
 router.post('/skills', function(req, res, next) {
   var skills = req.user.portfolio.skills;
   var newskill = req.body;
@@ -108,6 +109,7 @@ router.delete('/knowledge/:knowledge_id', function(req, res, next) {
     res.sendStatus(200);
   });
 });
+*/
 
 router.post('/jobs', function(req, res, next) {
   var jobs = req.user.portfolio.jobs;
@@ -130,6 +132,8 @@ router.param('job_id', function(req, res, next, job_id) {
 
 router.put('/jobs/:job_id', function(req, res, next) {
   req.job.name = req.body.name;
+  req.job.skills_learned = req.body.skills_learned;
+  req.job.knowledge_gained = req.body.knowledge_gained;
   return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
     res.json(req.job);
   });

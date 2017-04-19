@@ -17,19 +17,21 @@
     <script src="js/portfolioController.js"></script>
     <script src="js/userService.js"></script>
     <script src="js/portfolioService.js"></script>
-    <script src="js/panel.js"></script>
+    <script src="js/job.js"></script>
   </head>
   <body ng-app="pc" ng-controller="portfolioController">
-    
-    <panel ng-repeat="panel in panels" title="{{ panel.title }}" data="panel.data" url="{{ panel.url }}"></panel>
-    
     <div>
       <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#myModal" data-title="Import LinkedIn">Import LinkedIn</button>
       <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#myModal">Upload Evidence</button>
       <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#myModal">Import Evidence</button>
     </div>
+    <job ng-repeat="job in user.portfolio.jobs" data="job"></job>
+    <a href="#" editable-text="newjob.name" onaftersave="createJob(newjob)">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add another
+    </a>
     
-    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+     <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -46,5 +48,6 @@
         </div>
       </div>
     </div>
+
   </body>
 </html>

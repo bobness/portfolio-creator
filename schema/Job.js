@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-    'title': String,
+    'name': String,
     'employer': String,
     'skills_learned': [
-      {type: Schema.ObjectId, ref: 'Skill'}
+      String
     ],
-    'knowledge_used_or_gained': [
-      {type: Schema.ObjectId, ref: 'Knowledge'}
+    'knowledge_gained': [
+      String
     ]
   }
 );

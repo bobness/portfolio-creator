@@ -14,12 +14,10 @@ var Knowledge = new Schema({
 var Job = new Schema({
     'name': String,
     'skills_learned': [
-      //{type: Schema.ObjectId, ref: 'Skill'}
-      Skill
+      String
     ],
     'knowledge_gained': [
-      //{type: Schema.ObjectId, ref: 'Knowledge'}
-      Knowledge
+      String
     ]
   }
 );

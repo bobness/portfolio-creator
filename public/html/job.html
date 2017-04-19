@@ -1,0 +1,19 @@
+<div>
+  <h1>{{ data.name }}</li></h1>
+  <ul>
+    <li>Gained experience in: <ul>
+      <li ng-repeat="skill in data.skills_learned track by $index">{{ skill }} <button ng-click="delete('skills', skill)">Delete</button></li>
+      <li><a href="#" editable-text="newrows.skills" onaftersave="create('skills', newrows.skills)">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add another
+      </a></li>
+    </ul></li>
+    <li>Learned about: <ul>
+      <li ng-repeat="k in data.knowledge_gained track by $index">{{ k }}  <button ng-click="delete('knowledge', k)">Delete</button></li>
+      <li><a href="#" editable-text="newrows.knowledge" onaftersave="create('knowledge', newrows.knowledge)">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add another
+      </a></li>
+    </ul></li>
+  </ul>
+</div>

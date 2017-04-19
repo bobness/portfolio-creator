@@ -6,62 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css"/>
     <title>Portfolio Creator</title>
+    
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/portfolioController.js"></script>
+    <script src="js/userService.js"></script>
+    <script src="js/portfolioService.js"></script>
+    <script src="js/panel.js"></script>
   </head>
-  <body>
-    <ul class="nav nav-tabs">
-      <li role="presentation" class="active"><a href="#portfolioTab" data-toggle="tab">Portfolio</a></li>
-      <!--<li role="presentation"><a href="#profileTab" data-toggle="tab">Profile</a></li>-->
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane active" id="portfolioTab">
-        <div class="panel panel-default">
-          <div class="panel-heading">Skills</div>
-          <ul id="skills"></ul>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/skills">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Add another skill
-          </a>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Knowledge</div>
-          <ul id="knowledge"></ul>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/knowledge">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Add more knowledge
-          </a>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Jobs</div>
-          <ul id="jobs"></ul>
-          <a href="#" class="editable-value new-value" data-type="text" data-pk="new" data-url="/users/56c91e75a986a9d2ce8cc456/portfolio/jobs">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Add another job
-          </a>
-        </div>
-      </div>
-      <!--<div class="tab-pane" id="profileTab">
-        <div class="panel panel-default">
-          <div class="panel-heading">Edit your user profile</div>
-          <table class="table table-hover" id="profileForm">
-            <tr>
-              <th>Name:</th>
-              <td><a href="#" class="editable-value editable-click" id="name" data-type="text" data-pk="edit"></a></td>
-            </tr>
-            <tr>
-              <th>Email:</th>
-              <td><a href="#" class="editable-value editable-click" id="email" data-type="text" data-pk="edit"></a></td>
-            </tr>
-            <tr>
-              <th>GitHub username:</th>
-              <td><a href="#" class="editable-value editable-click" id="github" data-type="text" data-pk="edit"></a></td>
-            </tr>
-          </table>
-        </div>
-      </div>-->
-    </div>
+  <body ng-app="pc" ng-controller="portfolioController">
+    
+    <panel ng-repeat="panel in panels" title="{{ panel.title }}" data="panel.data" url="{{ panel.url }}"></panel>
     
     <div>
       <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#myModal" data-title="Import LinkedIn">Import LinkedIn</button>
@@ -86,11 +46,5 @@
         </div>
       </div>
     </div>
-        
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-    
-    <script src="js/main.js"></script>
   </body>
 </html>
