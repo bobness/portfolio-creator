@@ -132,8 +132,7 @@ router.param('job_id', function(req, res, next, job_id) {
 
 router.put('/jobs/:job_id', function(req, res, next) {
   req.job.name = req.body.name;
-  req.job.skills_learned = req.body.skills_learned;
-  req.job.knowledge_gained = req.body.knowledge_gained;
+  req.job.experience = req.body.experience;
   return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
     res.json(req.job);
   });
