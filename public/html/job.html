@@ -1,8 +1,8 @@
 <div>
   <h1>{{ data.Title }}</h1>
+  <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
   <ul>
-    <li>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</li>
-    <li ng-show="data['Description']">{{ data['Description'] }}</li>
+    <li ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</li>
     <li>Gained experience in: <ul>
       <li ng-repeat="exp in data.experience track by $index">{{ exp }} <button ng-click="deleteExperience(exp)">Delete</button></li>
       <li><a href="#" editable-text="newrows.experience" onaftersave="createExperience(newrows.experience)">

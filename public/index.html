@@ -20,6 +20,7 @@
     <script src="js/userService.js"></script>
     <script src="js/portfolioService.js"></script>
     <script src="js/job.js"></script>
+    <script src="js/histogram.js"></script>
   </head>
   <body ng-app="pc" ng-controller="portfolioController">
     <div>
@@ -29,7 +30,14 @@
       <button class="btn btn-sm btn-default">Import Evidence</button>
 -->
     </div>
-    <job ng-repeat="job in user.portfolio.jobs" data="job"></job>
+    <!--<div style="display:inline-block;width:50%;box-sizing:border-box;">-->
+    <div>
+      <histogram ng-repeat="chart in charts" data="chart"></histogram>
+    </div>
+    <div style="display:inline-block;width:50%;box-sizing:border-box;">
+      <job ng-repeat="job in user.portfolio.jobs | orderBy : parseDate : true" data="job"></job>
+    </div>
+    
 <!--
     <a href="#" editable-text="newjob.name" onaftersave="createJob(newjob)">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
