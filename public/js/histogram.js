@@ -39,14 +39,21 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
         selectedJobs = scope.getJobs().filter(function(job) { return job.experiences.indexOf(expName) > -1; });
         oldExpName = expName;
       };
+      var updateJobs = function() {
+        if (selectedJobs.length > 0) {
+          return portfolioService.update(jobUrl, selectedJobs.pop()).then(function() {
+            updateJobs();
+          });
+        }
+      };
       scope.renameExperiences = function(newExpName) {
         selectedJobs.forEach(function(job) {
           job.experiences = job.experiences.filter(function(expName) {
              return expName !== oldExpName;
           });
           job.experiences.push(newExpName);
-          portfolioService.update(jobUrl, job);
         });
+        updateJobs();
       };
       
       scope.$watchCollection('selectedExperiences', function() {
