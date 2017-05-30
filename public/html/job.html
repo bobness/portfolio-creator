@@ -4,7 +4,7 @@
   <ul>
     <li ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</li>
     <li>Gained experience in: <ul>
-      <li ng-repeat="exp in data.experience track by $index">{{ exp }} <button ng-click="deleteExperience(exp)">Delete</button></li>
+      <li ng-repeat="exp in data.experiences track by $index">{{ exp }} <button ng-click="deleteExperience(exp)">Delete</button></li>
       <li><a href="#" editable-text="newrows.experience" onaftersave="createExperience(newrows.experience)">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add another

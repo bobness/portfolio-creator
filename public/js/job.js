@@ -22,7 +22,7 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
       scope.createExperience = function(name) {
         if (name) {
           resetNewRows();
-          var list = scope.data['experience'];
+          var list = scope.data['experiences'];
           if (!list.some(function(item) { return item === name; })) {
             list.push(name);
             return portfolioService.update(url, scope.data);
@@ -32,7 +32,7 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
       
       scope.deleteExperience = function(name) {
         if (name) {
-          scope.data[list] = scope.data['experience'].filter(function(item) {
+          scope.data['experiences'] = scope.data['experiences'].filter(function(item) {
             return item !== name;
           });
           return portfolioService.update(url, scope.data);

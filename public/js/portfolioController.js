@@ -6,8 +6,20 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     $scope.user = null;
     $scope.newjob = {
       name: '',
-      skills_learned: [],
-      knowledge_gained: []
+      experiences: [],
+    };
+    
+    var filterFunc;
+    $scope.setFilter = function(func) {
+      filterFunc = func;
+    };
+    
+    $scope.jobFilter = function(job) {
+      if (filterFunc) {
+        return filterFunc(job);
+      } else {
+        return true;
+      }
     };
     
     $scope.$watch('user.portfolio.jobs', function() {
@@ -20,6 +32,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         })
       }
     }, true);
+    
+    $scope.getJobs = function() {
+      return $scope.user.portfolio.jobs;
+    };
     
     userService.getUser('56c91e75a986a9d2ce8cc456').$promise.then(function(user) {
       $scope.user = user;
@@ -37,7 +53,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       var charts = [];
       var experiences = [];
       jobs.forEach(function(job) {
-        var jobExperiences = job.experience; // TODO: change to experiences
+        var jobExperiences = job.experiences;
         jobExperiences.forEach(function(name) {
           var exp = experiences.filter(function(exp2) { return exp2.name === name; })[0];
           if (!exp) {

@@ -31,11 +31,11 @@
 -->
     </div>
     <!--<div style="display:inline-block;width:50%;box-sizing:border-box;">-->
-    <div>
-      <histogram ng-repeat="chart in charts" data="chart"></histogram>
+    <div style="max-height:300px;overflow-y:scroll;">
+      <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-jobs="getJobs()"></histogram>
     </div>
     <div style="display:inline-block;width:50%;box-sizing:border-box;">
-      <job ng-repeat="job in user.portfolio.jobs | orderBy : parseDate : true" data="job"></job>
+      <job ng-repeat="job in user.portfolio.jobs | filter:jobFilter | orderBy : parseDate : true" data="job"></job>
     </div>
     
 <!--
