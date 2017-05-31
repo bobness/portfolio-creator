@@ -19,7 +19,7 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
         experience: ''
       };
       
-      scope.createExperience = function(name) {
+      scope.createTag = function(name) {
         if (name) {
           resetNewRows();
           var list = scope.data['experiences'];
@@ -30,9 +30,9 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
         }
       };
       
-      scope.deleteExperience = function(name) {
+      scope.deleteTag = function(name) {
         if (name) {
-          scope.data['experiences'] = scope.data['experiences'].filter(function(item) {
+          scope.data['tags'] = scope.data['tags'].filter(function(item) {
             return item !== name;
           });
           return portfolioService.update(url, scope.data);
@@ -49,9 +49,9 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
         return text;
       }
       
-      scope.addSelectedExperience = function() {
+      scope.addSelectedTag = function() {
         var text = getSelectionText();
-        scope.createExperience(text);
+        scope.createTag(text);
       };
       
     }

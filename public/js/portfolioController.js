@@ -5,8 +5,12 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.user = null;
     $scope.newjob = {
-      name: '',
-      experiences: [],
+      'Company Name': '',
+      'Title': '',
+      'Description': '',
+      'Start Date': null,
+      'End Date': null,
+      'tags': []
     };
     
     var filterFunc;
@@ -51,20 +55,20 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     var makeCharts = function(jobs) {
       var charts = [];
-      var experiences = [];
+      var tags = [];
       jobs.forEach(function(job) {
-        var jobExperiences = job.experiences;
-        jobExperiences.forEach(function(name) {
-          var exp = experiences.filter(function(exp2) { return exp2.name === name; })[0];
-          if (!exp) {
-            exp = {name: name, count: 0};
-            experiences.push(exp);
+        var jobTags = job.tags;
+        jobTags.forEach(function(name) {
+          var tag = tags.filter(function(tag2) { return tag2.name === name; })[0];
+          if (!tag) {
+            tag = {name: name, count: 0};
+            tags.push(tag);
           }
-          exp.count++;
+          tag.count++;
         });
       });
       charts.push(
-        experiences.sort(function(a,b) { return b.count - a.count; })
+        tags.sort(function(a,b) { return b.count - a.count; })
       );
       return charts;
     };

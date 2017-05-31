@@ -3,13 +3,13 @@
   <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
   <ul>
     <li ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</li>
-    <li>Gained experience in: <ul>
-      <li ng-repeat="exp in data.experiences track by $index">{{ exp }} <button ng-click="deleteExperience(exp)">Delete</button></li>
-      <li><a href="#" editable-text="newrows.experience" onaftersave="createExperience(newrows.experience)">
+    <li>Tags: <ul>
+      <li ng-repeat="tag in data.tags track by $index">{{ tag }} <button ng-click="deleteTag(tag)">Delete</button></li>
+      <li><a href="#" editable-text="newrows.tag" onaftersave="createTag(newrows.tag)">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add another
       </a></li>
-      <button ng-show="data['Description']" ng-click="addSelectedExperience()">Add Selected</button>
+      <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
     </ul></li>
   </ul>
 </div>

@@ -38,12 +38,10 @@
       <job ng-repeat="job in user.portfolio.jobs | filter:jobFilter | orderBy : parseDate : true" data="job"></job>
     </div>
     
-<!--
-    <a href="#" editable-text="newjob.name" onaftersave="createJob(newjob)">
+    <a href="#" editable-text="newjob.Title" onaftersave="createJob(newjob)">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       Add another
     </a>
--->
 
   </body>
 </html>

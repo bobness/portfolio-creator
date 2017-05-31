@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Theme = new Schema({
-  'experiences': [
+  'tags': [
     String
   ] 
 });
@@ -14,7 +14,7 @@ var Job = new Schema({
   'Start Date': String,
   'End Date': String,
   'Title': String,
-  'experiences': [
+  'tags': [
     String
   ]
 });
