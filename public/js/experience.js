@@ -1,13 +1,13 @@
-angular.module('pc').directive('job', ['portfolioService', function(portfolioService) {
+angular.module('pc').directive('experience', ['portfolioService', function(portfolioService) {
   return {
-    templateUrl: '../html/job.html',
+    templateUrl: '../html/experience.html',
     scope: {
       data: '='
     },
     link: function(scope) {
       
       // TODO: parameterize the user id instead of using my test account
-      var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/jobs';
+      var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
       
       var resetNewRows = function() {
         Object.keys(scope.newrows).forEach(function(key) {
@@ -22,7 +22,7 @@ angular.module('pc').directive('job', ['portfolioService', function(portfolioSer
       scope.createTag = function(name) {
         if (name) {
           resetNewRows();
-          var list = scope.data['experiences'];
+          var list = scope.data['tags'];
           if (!list.some(function(item) { return item === name; })) {
             list.push(name);
             return portfolioService.update(url, scope.data);

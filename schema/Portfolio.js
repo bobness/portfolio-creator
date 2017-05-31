@@ -7,7 +7,7 @@ var Theme = new Schema({
   ] 
 });
 
-var Job = new Schema({
+var Experience = new Schema({
   'Company Name': String,
   'Description': String,
   'Location': String,
@@ -20,9 +20,9 @@ var Job = new Schema({
 });
 
 var Portfolio = new Schema({
-  'jobs': [
+  'experiences': [
     //{type: Schema.ObjectId, ref: 'Job'}
-    Job
+    Experience
   ],
   'themes': [
     Theme

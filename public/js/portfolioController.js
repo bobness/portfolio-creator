@@ -1,10 +1,10 @@
 angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', 'userService', 'portfolioService',
   function($scope, $uibModal, userService, portfolioService) {
     
-    var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/jobs';
+    var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
     
     $scope.user = null;
-    $scope.newjob = {
+    $scope.newexp = {
       'Company Name': '',
       'Title': '',
       'Description': '',
@@ -18,47 +18,47 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       filterFunc = func;
     };
     
-    $scope.jobFilter = function(job) {
+    $scope.expFilter = function(exp) {
       if (filterFunc) {
-        return filterFunc(job);
+        return filterFunc(exp);
       } else {
         return true;
       }
     };
     
-    $scope.$watch('user.portfolio.jobs', function() {
+    $scope.$watch('user.portfolio.experiences', function() {
       if ($scope.user && $scope.user.portfolio) {
-        $scope.charts = makeCharts($scope.user.portfolio.jobs);
-        $scope.user.portfolio.jobs.forEach(function(job) {
-            if (job.Description && job.Description.indexOf("\"") === 0) {
-              job.Description = job.Description.substring(1,job.Description.length-1);
+        $scope.charts = makeCharts($scope.user.portfolio.experiences);
+        $scope.user.portfolio.experiences.forEach(function(exp) {
+            if (exp.Description && exp.Description.indexOf("\"") === 0) {
+              exp.Description = exp.Description.substring(1,exp.Description.length-1);
             }
         })
       }
     }, true);
     
-    $scope.getJobs = function() {
-      return $scope.user.portfolio.jobs;
+    $scope.getExperiences = function() {
+      return $scope.user.portfolio.experiences;
     };
     
     userService.getUser('56c91e75a986a9d2ce8cc456').$promise.then(function(user) {
       $scope.user = user;
     });
     
-    $scope.parseDate = function(job) {
-      var date = job['Start Date'],
+    $scope.parseDate = function(exp) {
+      var date = exp['Start Date'],
           parts = date.split('/'),
           month = parts[0],
           year = parts[1];
       return new Date(`${year}-${month}`);
     };
     
-    var makeCharts = function(jobs) {
+    var makeCharts = function(experiences) {
       var charts = [];
       var tags = [];
-      jobs.forEach(function(job) {
-        var jobTags = job.tags;
-        jobTags.forEach(function(name) {
+      experiences.forEach(function(exp) {
+        var expTags = exp.tags;
+        expTags.forEach(function(name) {
           var tag = tags.filter(function(tag2) { return tag2.name === name; })[0];
           if (!tag) {
             tag = {name: name, count: 0};
@@ -73,12 +73,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return charts;
     };
     
-//     $scope.charts = makeCharts($scope.user.portfolio.jobs);
-    
-    $scope.createJob = function(job) {
-      return portfolioService.create(url, job).then(function(newjob) {
-        $scope.user.portfolio.jobs.push(newjob);
-        $scope.newjob.name = '';
+    $scope.createExperience = function(exp) {
+      return portfolioService.create(url, exp).then(function(newexp) {
+        $scope.user.portfolio.experiences.push(newexp);
+        $scope.newexp.name = '';
       });
     };
     
@@ -100,34 +98,33 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
               reader.onload = function() {
                 var rows = reader.result.split('\n');
                 var cols = rows.shift().split('\t');
-                var jobs = [];
-                var currentJob;
+                var experiences = [];
+                var currentExp;
                 rows.forEach(function(row) {
                   if (row) {
                    var items = row.split('\t');
                     if (items.length === cols.length || items.length === 2) {
-                      currentJob = {};
+                      currentExp = {};
                       for (var i = 0; i < items.length; i++) {
                         var item = items[i];
                         var col = cols[i];
-                        currentJob[col] = item;
+                        currentExp[col] = item;
                       }
-                      jobs.push(currentJob);                
+                      experiences.push(currentExp);                
                     } else if (items.length === 1) {
-                        currentJob.Description += `\n${row}`;
+                        currentExp.Description += `\n${row}`;
                     } else if (items.length === 5) {
-                        currentJob.Description += `\n${items[0]}`;
-                        currentJob.Location = items[1];
-                        currentJob['Start Date'] = items[2];
-                        currentJob['End Date'] = items[3];
-                        currentJob.Title = items[4];
+                        currentExp.Description += `\n${items[0]}`;
+                        currentExp.Location = items[1];
+                        currentExp['Start Date'] = items[2];
+                        currentExp['End Date'] = items[3];
+                        currentExp.Title = items[4];
                     }
                   }
                 });
-                //console.log(jobs);
                 $scope.$applyAsync(function() {
-                  jobs.forEach(function(job) {
-                    $scope.createJob(job);
+                  experiences.forEach(function(exp) {
+                    $scope.createExperience(exp);
                   });
                 });
               };

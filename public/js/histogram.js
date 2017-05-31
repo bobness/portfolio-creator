@@ -4,11 +4,11 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
     scope: {
       data: '=',
       setFilter: '&',
-      getJobs: '&'
+      getExperiences: '&'
     },
     link: function(scope) {
       var themeUrl = '/users/56c91e75a986a9d2ce8cc456/portfolio/themes';
-      var jobUrl = '/users/56c91e75a986a9d2ce8cc456/portfolio/jobs';
+      var expUrl = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
       
       scope.createTheme = function() {};
       
@@ -23,9 +23,9 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
         }
       };
       
-      var filterJobsBySelectedTags = function(job) {
+      var filterExperiencesBySelectedTags = function(exp) {
         return scope.selectedTags.reduce(function(matched, tag) {
-          return matched && (job.tags.indexOf(tag.name) > -1);
+          return matched && (exp.tags.indexOf(tag.name) > -1);
         }, true);
       };
       
@@ -33,33 +33,33 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
         return scope.selectedTags.map(function(tag) { return tag.name; }).indexOf(tag.name) > -1;
       };
       
-      var selectedJobs = [];
+      var selectedExperiences = [];
       var oldTagName = '';
-      scope.selectJobsFromTag = function(tagName) {
-        selectedJobs = scope.getJobs().filter(function(job) { return job.tags.indexOf(tagName) > -1; });
+      scope.selectExperiencesFromTag = function(tagName) {
+        selectedExperiences = scope.getExperiences().filter(function(exp) { return exp.tags.indexOf(tagName) > -1; });
         oldTagName = tagName;
       };
-      var updateJobs = function() {
-        if (selectedJobs.length > 0) {
-          return portfolioService.update(jobUrl, selectedJobs.pop()).then(function() {
-            updateJobs();
+      var updateExperiences = function() {
+        if (selectedExperiences.length > 0) {
+          return portfolioService.update(expUrl, selectedExperiences.pop()).then(function() {
+            updateExperiences();
           });
         }
       };
       scope.renameTags = function(newTagName) {
-        selectedJobs.forEach(function(job) {
-          job.tags = job.tags.filter(function(tagName) {
+        selectedExperiences.forEach(function(exp) {
+          exp.tags = exp.tags.filter(function(tagName) {
              return tagName !== oldTagName;
           });
-          job.tags.push(newTagName);
+          exp.tags.push(newTagName);
         });
-        updateJobs();
+        updateExperiences();
       };
       
       scope.$watchCollection('selectedTags', function() {
         if (scope.setFilter) {
           if (scope.selectedTags.length > 0) {
-            scope.setFilter({func: filterJobsBySelectedTags});
+            scope.setFilter({func: filterExperiencesBySelectedTags});
           } else {
             scope.setFilter({func: null});
           }

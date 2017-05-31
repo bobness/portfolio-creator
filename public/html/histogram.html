@@ -5,7 +5,7 @@
   </div>
   <span ng-repeat="tag in data | filter:filter" style="display:inline-block;width:70px;vertical-align:bottom;margin:15px;font-size: smaller;">
     <div style="text-overflow:ellipsis;overflow:hidden;">
-      <a href="#" editable-text="tag.name" onbeforesave="selectJobsFromTag(tag.name)" onaftersave="renameTags(tag.name)">{{ tag.name }}</a>
+      <a href="#" editable-text="tag.name" onbeforesave="selectExperiencesFromTag(tag.name)" onaftersave="renameTags(tag.name)">{{ tag.name }}</a>
     </div>
     <div 
       style="height: {{ tag.count * 15 }}px;background-color: {{ isSelected(tag) ? 'red' : 'blue' }};color:white;text-align:center;vertical-align:bottom;cursor:pointer;"
