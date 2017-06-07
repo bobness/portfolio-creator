@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.css">
     <link rel="stylesheet" href="../style.css"/>
     <title>Portfolio Creator</title>
     
@@ -15,6 +16,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/ng-tags-input/ng-tags-input.js"></script>
     <script src="js/app.js"></script>
     <script src="js/portfolioController.js"></script>
     <script src="js/userService.js"></script>
@@ -25,12 +27,7 @@
   <body ng-app="pc" ng-controller="portfolioController">
     <div>
       <button class="btn btn-sm btn-default" ng-click="openLinkedInModal()">Import LinkedIn</button>
-<!--
-      <button class="btn btn-sm btn-default">Upload Evidence</button>
-      <button class="btn btn-sm btn-default">Import Evidence</button>
--->
     </div>
-    <!--<div style="display:inline-block;width:50%;box-sizing:border-box;">-->
     <div style="max-height:300px;overflow-y:scroll;">
       <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()"></histogram>
     </div>

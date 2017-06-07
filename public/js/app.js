@@ -2,7 +2,8 @@ angular.module('pc', [
   'ngResource',
   'xeditable',
   'ui.bootstrap',
-  'ngSanitize'
+  'ngSanitize',
+  'ngTagsInput'
 ]).run(function (editableOptions) {
    editableOptions.theme = 'bs3';
 });

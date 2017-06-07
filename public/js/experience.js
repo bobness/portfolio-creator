@@ -19,21 +19,27 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
         experience: ''
       };
       
-      scope.createTag = function(name) {
-        if (name) {
+      scope.tagObjects = scope.data.tags.map(function(tag) {
+        return {
+          text: tag
+        };
+      });
+      
+      scope.createTag = function(tag) {
+        if (tag && tag.text) {
           resetNewRows();
-          var list = scope.data['tags'];
-          if (!list.some(function(item) { return item === name; })) {
-            list.push(name);
+          var list = scope.data.tags;
+          if (!list.some(function(item) { return item === tag.text; })) {
+            list.push(tag.text);
             return portfolioService.update(url, scope.data);
           }
         }
       };
       
-      scope.deleteTag = function(name) {
-        if (name) {
-          scope.data['tags'] = scope.data['tags'].filter(function(item) {
-            return item !== name;
+      scope.deleteTag = function(tag) {
+        if (tag && tag.text) {
+          scope.data.tags = scope.data.tags.filter(function(item) {
+            return item !== tag.text;
           });
           return portfolioService.update(url, scope.data);
         }

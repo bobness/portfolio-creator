@@ -1,15 +1,14 @@
 <div>
   <h1>{{ data.Title }}</h1>
   <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
-  <ul>
-    <li ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</li>
-    <li>Tags: <ul>
-      <li ng-repeat="tag in data.tags track by $index">{{ tag }} <button ng-click="deleteTag(tag)">Delete</button></li>
-      <li><a href="#" editable-text="newrows.tag" onaftersave="createTag(newrows.tag)">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Add another
-      </a></li>
-      <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
-    </ul></li>
+  <p ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</p>
+  <tags-input 
+    ng-model="tagObjects" 
+    display-property="text"
+    placeholder="Add a tag" 
+    on-tag-added="createTag($tag)"
+    on-tag-removed="deleteTag($tag)"
+    ></tags-input>
+  <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
   </ul>
 </div>
