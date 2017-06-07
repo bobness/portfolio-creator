@@ -10,6 +10,8 @@ var portfolios = require('./routes/portfolios');
 
 var app = express();
 
+app.set('port', process.env.PORT || 3000);
+
 var db = mongoose.createConnection("mongodb://localhost/counteroffer");
 var userSchema = require('./schema/User.js');
 User = db.model('User', userSchema);

@@ -1,0 +1,14 @@
+<div>
+  <h1>{{ data.Title }}</h1>
+  <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
+  <p ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</p>
+  <tags-input 
+    ng-model="tagObjects" 
+    display-property="text"
+    placeholder="Add a tag" 
+    on-tag-added="createTag($tag)"
+    on-tag-removed="deleteTag($tag)"
+    ></tags-input>
+  <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
+  </ul>
+</div>

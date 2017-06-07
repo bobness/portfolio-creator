@@ -43,100 +43,35 @@ router.put('/', function(req, res, next) {
   return savePortfolio(req.user.portfolio, true, res, next);
 });
 
-router.post('/skills', function(req, res, next) {
-  var skills = req.user.portfolio.skills;
-  var newskill = req.body;
-  skills.push(newskill);
+router.post('/experiences', function(req, res, next) {
+  var experiences = req.user.portfolio.experiences;
+  var newexp = req.body;
+  experiences.push(newexp);
   return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(portfolio.skills.pop());
+    res.json(portfolio.experiences.pop());
   });
 });
 
-router.param('skill_id', function(req, res, next, skill_id) {
-  req.skill = req.user.portfolio.skills.id(skill_id);
-  if (!req.skill) {
-    var err = new Error("no such skill");
+router.param('exp_id', function(req, res, next, exp_id) {
+  req.exp = req.user.portfolio.experiences.id(exp_id);
+  if (!req.exp) {
+    var err = new Error("no such experience");
     err.status = 404;
     return next(err);
   }
   next();
 });
 
-router.put('/skills/:skill_id', function(req, res, next) {
-  req.skill.name = req.body.name;
+router.put('/experiences/:exp_id', function(req, res, next) {
+  req.exp.name = req.body.name;
+  req.exp.tags = req.body.tags;
   return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(req.skill);
+    res.json(req.exp);
   });
 });
 
-router.delete('/skills/:skill_id', function(req, res, next) {
-  req.skill.remove();
-  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
-    res.sendStatus(200);
-  });
-});
-
-router.post('/knowledge', function(req, res, next) {
-  var knowledge = req.user.portfolio.knowledge;
-  var newknowledge = req.body;
-  knowledge.push(newknowledge);
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(portfolio.knowledge.pop());
-  });
-});
-
-router.param('knowledge_id', function(req, res, next, knowledge_id) {
-  req.knowledge = req.user.portfolio.knowledge.id(knowledge_id);
-  if (!req.knowledge) {
-    var err = new Error("no such piece of knowledge");
-    err.status = 404;
-    return next(err);
-  }
-  next();
-});
-
-router.put('/knowledge/:knowledge_id', function(req, res, next) {
-  req.knowledge.name = req.body.name;
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(req.knowledge);
-  });
-});
-
-router.delete('/knowledge/:knowledge_id', function(req, res, next) {
-  req.knowledge.remove();
-  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
-    res.sendStatus(200);
-  });
-});
-
-router.post('/jobs', function(req, res, next) {
-  var jobs = req.user.portfolio.jobs;
-  var newjob = req.body;
-  jobs.push(newjob);
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(portfolio.jobs.pop());
-  });
-});
-
-router.param('job_id', function(req, res, next, job_id) {
-  req.job = req.user.portfolio.jobs.id(job_id);
-  if (!req.job) {
-    var err = new Error("no such job");
-    err.status = 404;
-    return next(err);
-  }
-  next();
-});
-
-router.put('/jobs/:job_id', function(req, res, next) {
-  req.job.name = req.body.name;
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(req.job);
-  });
-});
-
-router.delete('/jobs/:job_id', function(req, res, next) {
-  req.job.remove();
+router.delete('/experiences/:exp_id', function(req, res, next) {
+  req.exp.remove();
   return savePortfolio(req.user.portfolio, false, res, next).then(function() {
     res.sendStatus(200);
   });
