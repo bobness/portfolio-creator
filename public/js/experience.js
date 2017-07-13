@@ -1,6 +1,6 @@
 angular.module('pc').directive('experience', ['portfolioService', function(portfolioService) {
   return {
-    templateUrl: '../html/experience.html',
+    templateUrl: 'html/experience.html',
     scope: {
       data: '='
     },
