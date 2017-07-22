@@ -1,0 +1,10 @@
+<div>
+  <h1>{{ data.Title }}</h1>
+  <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
+  <p ng-show="data['Description']" style="white-space: pre;">{{ data['Description'] }}</p>
+  <tags-input 
+    ng-model="tagObjects" 
+    display-property="text"
+    ></tags-input>
+  </ul>
+</div>
