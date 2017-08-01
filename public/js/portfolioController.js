@@ -5,8 +5,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       'Company Name': '',
       'Title': '',
       'Description': '',
-      'Start Date': null,
-      'End Date': null,
+      'Start Date': "",
+      'End Date': "",
       'tags': []
     };
     
