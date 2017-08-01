@@ -6,8 +6,8 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
     },
     link: function(scope) {
       
-      // TODO: parameterize the user id instead of using my test account
-      var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
+      // TODO: parameterize the id instead of using my test account
+      var url = '/portfolios/577b11b224ec6cce246a5751/experiences';
       
       var resetNewRows = function() {
         Object.keys(scope.newrows).forEach(function(key) {
@@ -26,20 +26,26 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
       });
       
       scope.createTag = function(tag) {
-        if (tag && tag.text) {
+        if (tag) {
+          if (tag.text) {
+            tag = tag.text;
+          }
           resetNewRows();
           var list = scope.data.tags;
-          if (!list.some(function(item) { return item === tag.text; })) {
-            list.push(tag.text);
+          if (!list.some(function(item) { return item === tag; })) {
+            list.push(tag);
             return portfolioService.update(url, scope.data);
           }
         }
       };
       
       scope.deleteTag = function(tag) {
-        if (tag && tag.text) {
+        if (tag) {
+          if (tag.text) {
+            tag = tag.text;
+          }
           scope.data.tags = scope.data.tags.filter(function(item) {
-            return item !== tag.text;
+            return item !== tag;
           });
           return portfolioService.update(url, scope.data);
         }

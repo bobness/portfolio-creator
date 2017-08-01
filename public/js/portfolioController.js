@@ -70,7 +70,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return charts;
     };
     
-    var expUrl = '/portfolio/577b11b224ec6cce246a5751/experiences';
+    var expUrl = '/portfolios/577b11b224ec6cce246a5751/experiences';
     
     $scope.createExperience = function(exp) {
       return portfolioService.create(expUrl, exp).then(function(newexp) {

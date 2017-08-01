@@ -24,6 +24,7 @@ gulp.task('export', () => {
     'public/export_html/*.html', 
     'public/bower_components/**/*.min.js',
     'public/bower_components/**/*.css'
+    'public/bower_components/**/*.map'
   ], {base: 'public'})
     .pipe(gulp.dest(dist));
 });

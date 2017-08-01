@@ -15,21 +15,22 @@ var db = mongoose.createConnection("mongodb://localhost/counteroffer");
 var portfolioSchema = require('./schema/Portfolio.js');
 Portfolio = db.model('Portfolio', portfolioSchema);
 app.set('Portfolio', Portfolio);
-app.use('/portfolios', portfolios);
 
 app.use(express.static('public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/portfolios', portfolios);
 
 // catch 404 and forward to error handler
+/*
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
+*/
 
 // error handlers
 

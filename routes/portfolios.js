@@ -9,7 +9,7 @@ router.use(function(req, res, next) {
   next();
 });
 
-router.get('/:portfolio_id', function(req, res, next) {
+router.param('portfolio_id', function(req, res, next, exp_id) {
   Portfolio.findById(req.params.portfolio_id, function(err, portfolio) {
     if (!portfolio) {
       err = new Error("no such portfolio");
@@ -18,8 +18,13 @@ router.get('/:portfolio_id', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    return res.json(portfolio);
+    req.portfolio = portfolio;
+    return next();
   });
+});
+
+router.get('/:portfolio_id', function(req, res, next) {
+  return res.json(req.portfolio);
 });
 
 function savePortfolio(portfolio, returnObj, res, next) {
@@ -33,22 +38,22 @@ function savePortfolio(portfolio, returnObj, res, next) {
 }
 
 // user changing their portfolio
-router.put('/', function(req, res, next) {
-  req.user.portfolio[req.body.name] = req.body.value;
-  return savePortfolio(req.user.portfolio, true, res, next);
+router.put('/:portfolio_id', function(req, res, next) {
+  req.portfolio[req.body.name] = req.body.value;
+  return savePortfolio(req.portfolio, true, res, next);
 });
 
-router.post('/experiences', function(req, res, next) {
-  var experiences = req.user.portfolio.experiences;
+router.post('/:portfolio_id/experiences', function(req, res, next) {
+  var experiences = req.portfolio.experiences;
   var newexp = req.body;
   experiences.push(newexp);
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(portfolio.experiences.pop());
+  return savePortfolio(req.portfolio, true, res, next).then(function(portfolio) {
+    return res.json(portfolio.experiences.pop());
   });
 });
 
 router.param('exp_id', function(req, res, next, exp_id) {
-  req.exp = req.user.portfolio.experiences.id(exp_id);
+  req.exp = req.portfolio.experiences.id(exp_id);
   if (!req.exp) {
     var err = new Error("no such experience");
     err.status = 404;
@@ -57,18 +62,20 @@ router.param('exp_id', function(req, res, next, exp_id) {
   next();
 });
 
-router.put('/experiences/:exp_id', function(req, res, next) {
-  req.exp.name = req.body.name;
-  req.exp.tags = req.body.tags;
-  return savePortfolio(req.user.portfolio, true, res, next).then(function(portfolio) {
-    res.json(req.exp);
+router.put('/:portfolio_id/experiences/:exp_id', function(req, res, next) {
+  req.exp.tags = [];
+  req.body.tags.forEach(function(tag) {
+    req.exp.tags.push(tag);
+  });
+  return savePortfolio(req.portfolio, true, res, next).then(function(portfolio) {
+    return res.json(req.exp);
   });
 });
 
-router.delete('/experiences/:exp_id', function(req, res, next) {
+router.delete('/:portfolio_id/experiences/:exp_id', function(req, res, next) {
   req.exp.remove();
-  return savePortfolio(req.user.portfolio, false, res, next).then(function() {
-    res.sendStatus(200);
+  return savePortfolio(req.portfolio, false, res, next).then(function() {
+    return res.sendStatus(200);
   });
 });
 

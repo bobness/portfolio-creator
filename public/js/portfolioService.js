@@ -1,6 +1,8 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
+  // TODO: create syntactic sugar for these methods, maybe even using ngResource
+  
   service.get = function(baseUrl) {
     return $http.get(baseUrl).then(function(res) {
       return res.data;

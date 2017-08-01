@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=8080 node ./bin/www"
+    "start": "PORT=8080 node ./bin/www",
+    "debug": "PORT=8080 node --inspect ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
