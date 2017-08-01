@@ -9,23 +9,18 @@ router.use(function(req, res, next) {
   next();
 });
 
-// TODO: public access of a portfolio
-/*
 router.get('/:portfolio_id', function(req, res, next) {
-  Portfolio.findById(req.params.user_id)
-    //.populate('skills')
-    .exec(function(err, portfolio) {
-      if (!portfolio) {
-        err = new Error("no such portfolio");
-        err.status = 404;
-      }
-      if (err) {
-        next(err);
-      }
-      return res.json(portfolio);
-    })
+  Portfolio.findById(req.params.portfolio_id, function(err, portfolio) {
+    if (!portfolio) {
+      err = new Error("no such portfolio");
+      err.status = 404;
+    }
+    if (err) {
+      return next(err);
+    }
+    return res.json(portfolio);
+  });
 });
-*/
 
 function savePortfolio(portfolio, returnObj, res, next) {
   return portfolio.save(function(err, obj) {

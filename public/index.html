@@ -14,16 +14,15 @@
     <!-- build:lib -->
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/ng-tags-input/ng-tags-input.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
     <!-- endbuild -->
     
     <!-- build:js -->
     <script src="js/app.js"></script>
     <script src="js/portfolioController.js"></script>
-    <script src="js/userService.js"></script>
     <script src="js/portfolioService.js"></script>
     <script src="js/experience.js"></script>
     <script src="js/histogram.js"></script>
@@ -36,8 +35,8 @@
     <div style="max-height:300px;overflow-y:scroll;">
       <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()"></histogram>
     </div>
-    <div style="display:inline-block;width:50%;box-sizing:border-box;">
-      <experience ng-repeat="exp in user.portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
+    <div style="display:inline-block;box-sizing:border-box;">
+      <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
     </div>
     
     <a href="#" editable-text="newexp.Title" onaftersave="createExperience(newexp)">

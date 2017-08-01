@@ -1,6 +1,12 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
+  service.get = function(baseUrl) {
+    return $http.get(baseUrl).then(function(res) {
+      return res.data;
+    });
+  };
+  
   service.update = function(baseUrl, data) {
     return $http.put(baseUrl + '/' + data._id, data).then(function(res) {
       return res.data;

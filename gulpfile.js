@@ -22,7 +22,7 @@ gulp.task('export', () => {
     'public/readonly.css',
     'public/js/*.js', 
     'public/export_html/*.html', 
-    'public/bower_components/**/*.js',
+    'public/bower_components/**/*.min.js',
     'public/bower_components/**/*.css'
   ], {base: 'public'})
     .pipe(gulp.dest(dist));

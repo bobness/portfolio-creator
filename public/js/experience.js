@@ -60,6 +60,10 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
         scope.createTag(text);
       };
       
+      scope.getFormattedDescription = function() {
+        return scope.data.Description.split('\n').join('<br>');
+      };
+      
     }
   }
 }]);

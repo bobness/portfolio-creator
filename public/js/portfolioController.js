@@ -1,9 +1,6 @@
-angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', 'userService', 'portfolioService',
-  function($scope, $uibModal, userService, portfolioService) {
+angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', 'portfolioService',
+  function($scope, $uibModal, portfolioService) {
     
-    var url = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
-    
-    $scope.user = null;
     $scope.newexp = {
       'Company Name': '',
       'Title': '',
@@ -26,10 +23,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       }
     };
     
-    $scope.$watch('user.portfolio.experiences', function() {
-      if ($scope.user && $scope.user.portfolio) {
-        $scope.charts = makeCharts($scope.user.portfolio.experiences);
-        $scope.user.portfolio.experiences.forEach(function(exp) {
+    $scope.$watch('portfolio.experiences', function() {
+      if ($scope.portfolio) {
+        $scope.charts = makeCharts($scope.portfolio.experiences);
+        $scope.portfolio.experiences.forEach(function(exp) {
             if (exp.Description && exp.Description.indexOf("\"") === 0) {
               exp.Description = exp.Description.substring(1,exp.Description.length-1);
             }
@@ -38,11 +35,11 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     }, true);
     
     $scope.getExperiences = function() {
-      return $scope.user.portfolio.experiences;
+      return $scope.portfolio.experiences;
     };
     
-    userService.getUser('56c91e75a986a9d2ce8cc456').$promise.then(function(user) {
-      $scope.user = user;
+    portfolioService.get('/portfolios/577b11b224ec6cce246a5751').then(function(portfolio) {
+      $scope.portfolio = portfolio;
     });
     
     $scope.parseDate = function(exp) {
@@ -73,9 +70,11 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return charts;
     };
     
+    var expUrl = '/portfolio/577b11b224ec6cce246a5751/experiences';
+    
     $scope.createExperience = function(exp) {
-      return portfolioService.create(url, exp).then(function(newexp) {
-        $scope.user.portfolio.experiences.push(newexp);
+      return portfolioService.create(expUrl, exp).then(function(newexp) {
+        $scope.portfolio.experiences.push(newexp);
         $scope.newexp.name = '';
       });
     };
@@ -92,7 +91,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
               $uibModalInstance.dismiss('cancel');
             };
             
-            $scope.uploadCSV = function() {
+            $scope.uploadCSV = function() { // TODO: change to parse the "quoted descriptions" correctly
               var file = document.getElementById('csvFile').files[0];
               var reader = new FileReader();
               reader.onload = function() {
