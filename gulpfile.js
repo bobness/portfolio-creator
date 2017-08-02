@@ -62,7 +62,7 @@ gulp.task('rename-portfolioService', () => {
 });
 
 gulp.task('concat-js', () => {
-  return gulp.src('public/js/*.js')
+  return gulp.src(`${dist}/js/*.js`)
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest(dist));
 });
@@ -74,22 +74,32 @@ gulp.task('uglify-js', () => {
 });
 
 gulp.task('concat-lib', () => {
-  return gulp.src('public/bower_components/**/*.js')
+  return gulp.src(`${dist}/bower_components/**/*.min.js`)
     .pipe(concat('lib.js'))
     .pipe(gulp.dest(dist));
 });
 
+gulp.task('concat-css', () => {
+  return gulp.src(`${dist}/bower_components/**/*.css`)
+    .pipe(concat('lib.css'))
+    .pipe(gulp.dest(dist));
+});
+
+/*
 gulp.task('uglify-lib', () => {
   return gulp.src(`${dist}/lib.js`)
     .pipe(uglify())
     .pipe(gulp.dest(dist));
 });
+*/
 
-gulp.task('replace', () => {
+gulp.task('replace', ['concat-js', 'concat-lib', 'concat-css'], () => {
   return gulp.src(`${dist}/index.html`)
     .pipe(htmlreplace({
       js: 'scripts.js',
-      lib: 'lib.js'
+      lib: 'lib.js',
+      hide: '',
+      css: 'lib.css'
     }))
     .pipe(gulp.dest(dist))
 });

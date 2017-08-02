@@ -4,11 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- build:css -->
     <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.css">
+    <!-- endbuild -->
+    
     <link rel="stylesheet" href="style.css"/>
+    
     <title>Portfolio Creator</title>
     
     <!-- build:lib -->
@@ -27,11 +33,16 @@
     <script src="js/experience.js"></script>
     <script src="js/histogram.js"></script>
     <!-- endbuild -->
+    
   </head>
   <body ng-app="pc" ng-controller="portfolioController">
+    
+    <!-- build:hide -->
     <div>
       <button class="btn btn-sm btn-default" ng-click="openLinkedInModal()">Import LinkedIn</button>
     </div>
+    <!-- endbuild -->
+    
     <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
       <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()"></histogram>
     </div>
@@ -39,10 +50,19 @@
       <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
     </div>
     
+    <!-- build:hide -->
     <a href="#" editable-text="newexp.Title" onaftersave="createExperience(newexp)">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       Add another
     </a>
+    <!-- endbuild -->
+    
+    <script type="text/ng-template" id="tag-template">
+      <div class="tag-template tag label label-info">
+        <span>{{$getDisplayText()}}</span>
+        <a class="remove-button" ng-click="$removeTag()">x</a>
+      </div>
+    </script>
 
   </body>
 </html>
