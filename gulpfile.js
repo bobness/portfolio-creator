@@ -16,10 +16,26 @@ gulp.task('clean', () => {
   return del(dist);
 });
 
-gulp.task('export', () => {
+gulp.task('json', () => {
+  return mongobackup.export({
+    host: 'localhost',
+    port: 27017,
+    db: 'counteroffer',
+    collection: 'portfolios',
+    query: '{"_id": {"$oid": "577b11b224ec6cce246a5751"}}',
+    out: 'public/577b11b224ec6cce246a5751.json' // TODO: parameterize based on id?
+  });
+});
+
+gulp.task('export', ['move'], () => {
+  return gulp.start('rename');
+});
+
+gulp.task('move', ['json'], () => {
   return gulp.src([
     'public/index.html',
     'public/readonly.css',
+    'public/*.json',
     'public/js/*.js', 
     'public/export_html/*.html', 
     'public/bower_components/**/*.min.js',
@@ -29,22 +45,19 @@ gulp.task('export', () => {
     .pipe(gulp.dest(dist));
 });
 
+gulp.task('rename', ['rename-html', 'rename-css', 'rename-portfolioService']);
+
 gulp.task('rename-html', () => {
-  fs.rename(`${dist}/export_html`, `${dist}/html`);
+  return fs.rename(`${dist}/export_html`, `${dist}/html`);
 });
 
 gulp.task('rename-css', () => {
-  fs.rename(`${dist}/readonly.css`, `${dist}/style.css`);
+  return fs.rename(`${dist}/readonly.css`, `${dist}/style.css`);
 });
 
-gulp.task('json', () => {
-  return mongobackup.export({
-    host: 'localhost',
-    port: 27017,
-    db: 'counteroffer',
-    collection: 'portfolios',
-    query: '{"_id": {"$oid": "577b11b224ec6cce246a5751"}}',
-    out: 'portfolio.json'
+gulp.task('rename-portfolioService', () => {
+  return fs.unlink(`${dist}/js/portfolioService.js`, () => {
+    fs.rename(`${dist}/js/readonly-portfolioService.js`, `${dist}/js/portfolioService.js`);
   });
 });
 
