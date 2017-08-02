@@ -5,11 +5,7 @@
   <tags-input 
     ng-model="tagObjects" 
     display-property="text"
-    placeholder="Add a tag" 
-    on-tag-added="createTag($tag)"
-    on-tag-removed="deleteTag($tag)"
     replace-spaces-with-dashes="false"
     ></tags-input>
-  <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
   </ul>
 </div>

@@ -1,21 +1,43 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
-  service.update = function(baseUrl, data) {
-    return $http.put(baseUrl + '/' + data._id, data).then(function(res) {
+  var put = function(data) {
+    return $http.put(`/portfolios/${this.id}/experiences`, data).then(function(res) {
       return res.data;
     });
   };
   
-  service.create = function(baseUrl, data) {
-    return $http.post(baseUrl, data).then(function(res) {
+  var post = function(url, data) {
+    return $http.post(url, data).then(function(res) {
       return res.data;
     });
   };
   
-  service.delete = function(baseUrl, data) {
-    return $http.delete(baseUrl + '/' + data._id);
+  // service.id;
+  
+  service.getPortfolio = function(id) {
+    this.id = id;
+    return $http.get(`/portfolios/${id}`).then(function(res) {
+      return res.data;
+    });
   };
+  
+  service.addTag = function(tag, experience) {
+    experience.tags.push(tag);
+    return put(experience);
+  };
+  
+  service.removeTag = function(tag, experience) {
+    experience.tags = experience.filter(function(item) {
+      return item !== tag;
+    });
+    return put(experience);
+  };
+    
+  service.createExperience = function(experience) {
+    return post(`/portfolios/${this.id}/experiences`, experience);
+  };
+
   
   return service;
 });

@@ -1,6 +1,6 @@
 angular.module('pc').directive('histogram', ['portfolioService', function(portfolioService) {
   return {
-    templateUrl: '../html/histogram.html',
+    templateUrl: 'html/histogram.html',
     scope: {
       data: '=',
       setFilter: '&',

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=8080 node ./bin/www"
+    "start": "PORT=8080 node ./bin/www",
+    "debug": "PORT=8080 node --inspect ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -13,5 +14,17 @@
     "mongodb": "^2.1.18",
     "mongoose": "^4.5.1",
     "morgan": "~1.7.0"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-append": "^0.3.4",
+    "gulp-cat": "^0.3.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "mongobackup": "^0.3.5"
   }
 }

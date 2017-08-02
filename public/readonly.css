@@ -1,0 +1,6 @@
+body {
+  margin: 50px;
+}
+.remove-button, input.input {
+  display: none;
+}

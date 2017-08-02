@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var users = require('./routes/users');
 var portfolios = require('./routes/portfolios');
 
 var app = express();
@@ -13,9 +12,6 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 
 var db = mongoose.createConnection("mongodb://localhost/counteroffer");
-var userSchema = require('./schema/User.js');
-User = db.model('User', userSchema);
-app.set('User', User);
 var portfolioSchema = require('./schema/Portfolio.js');
 Portfolio = db.model('Portfolio', portfolioSchema);
 app.set('Portfolio', Portfolio);
@@ -24,17 +20,17 @@ app.use(express.static('public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', users);
+app.use('/portfolios', portfolios);
 
 // catch 404 and forward to error handler
+/*
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
+*/
 
 // error handlers
 
