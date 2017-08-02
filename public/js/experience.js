@@ -33,8 +33,7 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
           resetNewRows();
           var list = scope.data.tags;
           if (!list.some(function(item) { return item === tag; })) {
-            list.push(tag);
-            return portfolioService.update(url, scope.data);
+            return portfolioService.addTag(tag, scope.data);
           }
         }
       };
@@ -44,10 +43,7 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
           if (tag.text) {
             tag = tag.text;
           }
-          scope.data.tags = scope.data.tags.filter(function(item) {
-            return item !== tag;
-          });
-          return portfolioService.update(url, scope.data);
+          return portfolioService.removeTag(tag, scope.data);
         }
       };
       

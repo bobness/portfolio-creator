@@ -1,28 +1,41 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
-  // TODO: create syntactic sugar for these methods, maybe even using ngResource
+  // service.id;
   
-  service.get = function(baseUrl) {
-    return $http.get(baseUrl).then(function(res) {
+  service.getPortfolio = function(id) {
+    this.id = id;
+    return $http.get(`/portfolios/${id}`).then(function(res) {
       return res.data;
     });
   };
   
-  service.update = function(baseUrl, data) {
-    return $http.put(baseUrl + '/' + data._id, data).then(function(res) {
+  service.addTag = function(tag, experience) {
+    experience.tags.push(tag);
+    this.put(experience);
+  };
+  
+  service.removeTag = function(tag, experience) {
+    experience.tags = experience.filter(function(item) {
+      return item !== tag;
+    });
+    this.put(experience);
+  };
+  
+  service.put = function(data) {
+    return $http.put(`/portfolios/${this.id}/experiences`, data).then(function(res) {
       return res.data;
     });
   };
   
-  service.create = function(baseUrl, data) {
-    return $http.post(baseUrl, data).then(function(res) {
-      return res.data;
-    });
+  service.createExperience = function(experience) {
+    return this.post(`/portfolios/${this.id}/experiences`, experience);
   };
   
-  service.delete = function(baseUrl, data) {
-    return $http.delete(baseUrl + '/' + data._id);
+  service.post = function(url, data) {
+    return $http.post(url, data).then(function(res) {
+      return res.data;
+    });
   };
   
   return service;

@@ -38,7 +38,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return $scope.portfolio.experiences;
     };
     
-    portfolioService.get('/portfolios/577b11b224ec6cce246a5751').then(function(portfolio) {
+    portfolioService.getPortfolio('577b11b224ec6cce246a5751').then(function(portfolio) {
       $scope.portfolio = portfolio;
     });
     
@@ -70,10 +70,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return charts;
     };
     
-    var expUrl = '/portfolios/577b11b224ec6cce246a5751/experiences';
-    
     $scope.createExperience = function(exp) {
-      return portfolioService.create(expUrl, exp).then(function(newexp) {
+      return portfolioService.createExperience(exp).then(function(newexp) {
         $scope.portfolio.experiences.push(newexp);
         $scope.newexp.name = '';
       });
