@@ -9,6 +9,7 @@
     on-tag-added="createTag($tag)"
     on-tag-removed="deleteTag($tag)"
     replace-spaces-with-dashes="false"
+    template="tag-template"
     ></tags-input>
   <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
   </ul>

@@ -62,7 +62,7 @@ gulp.task('rename-portfolioService', () => {
 });
 
 gulp.task('concat-js', () => {
-  return gulp.src('public/js/*.js')
+  return gulp.src(`${dist}/js/*.js`)
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest(dist));
 });
@@ -74,22 +74,59 @@ gulp.task('uglify-js', () => {
 });
 
 gulp.task('concat-lib', () => {
-  return gulp.src('public/bower_components/**/*.js')
+  return gulp.src(`${dist}/bower_components/**/*.min.js`)
     .pipe(concat('lib.js'))
     .pipe(gulp.dest(dist));
 });
 
+gulp.task('concat-css', () => {
+  return gulp.src(`${dist}/bower_components/**/*.css`)
+    .pipe(concat('lib.css'))
+    .pipe(gulp.dest(dist));
+});
+
+// https://gist.github.com/liangzan/807712
+const rmDir = (dirPath) => {
+  try { 
+    var files = fs.readdirSync(dirPath); 
+  }
+  catch(e) { return; }
+  if (files.length > 0)
+    for (var i = 0; i < files.length; i++) {
+      var filePath = dirPath + '/' + files[i];
+      if (fs.statSync(filePath).isFile())
+        fs.unlinkSync(filePath);
+      else
+        rmDir(filePath);
+    }
+  fs.rmdirSync(dirPath);
+};
+
+gulp.task('remove-non-concat', () => {
+//   fs.unlinkSync(`${dist}/js/*.js`);
+//   fs.rmdirSync(`${dist}/js`);
+  rmDir(`${dist}/js`);
+//   fs.unlinkSync(`${dist}/bower_components/**/*`);
+//   fs.rmdirSync(`${dist}/bower_components`);
+  rmDir(`${dist}/bower_components`);
+  fs.unlinkSync(`${dist}/bower.json`);
+});
+
+/*
 gulp.task('uglify-lib', () => {
   return gulp.src(`${dist}/lib.js`)
     .pipe(uglify())
     .pipe(gulp.dest(dist));
 });
+*/
 
-gulp.task('replace', () => {
+gulp.task('replace', ['concat-js', 'concat-lib', 'concat-css'], () => {
   return gulp.src(`${dist}/index.html`)
     .pipe(htmlreplace({
       js: 'scripts.js',
-      lib: 'lib.js'
+      lib: 'lib.js',
+      hide: '',
+      css: 'lib.css'
     }))
     .pipe(gulp.dest(dist))
 });
