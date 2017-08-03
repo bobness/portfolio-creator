@@ -85,6 +85,33 @@ gulp.task('concat-css', () => {
     .pipe(gulp.dest(dist));
 });
 
+// https://gist.github.com/liangzan/807712
+const rmDir = (dirPath) => {
+  try { 
+    var files = fs.readdirSync(dirPath); 
+  }
+  catch(e) { return; }
+  if (files.length > 0)
+    for (var i = 0; i < files.length; i++) {
+      var filePath = dirPath + '/' + files[i];
+      if (fs.statSync(filePath).isFile())
+        fs.unlinkSync(filePath);
+      else
+        rmDir(filePath);
+    }
+  fs.rmdirSync(dirPath);
+};
+
+gulp.task('remove-non-concat', () => {
+//   fs.unlinkSync(`${dist}/js/*.js`);
+//   fs.rmdirSync(`${dist}/js`);
+  rmDir(`${dist}/js`);
+//   fs.unlinkSync(`${dist}/bower_components/**/*`);
+//   fs.rmdirSync(`${dist}/bower_components`);
+  rmDir(`${dist}/bower_components`);
+  fs.unlinkSync(`${dist}/bower.json`);
+});
+
 /*
 gulp.task('uglify-lib', () => {
   return gulp.src(`${dist}/lib.js`)
