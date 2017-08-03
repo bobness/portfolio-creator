@@ -1,1 +1,1 @@
-![](https://github.com/bobness/portfolio-creator/blob/master/creator%20ss.png)
+![](https://github.com/bobness/portfolio-creator/blob/master/ss.png)
