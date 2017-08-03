@@ -23,7 +23,7 @@ gulp.task('json', () => {
     db: 'counteroffer',
     collection: 'portfolios',
     query: '{"_id": {"$oid": "577b11b224ec6cce246a5751"}}',
-    out: 'public/577b11b224ec6cce246a5751.json' // TODO: parameterize based on id?
+    out: 'public/dist/577b11b224ec6cce246a5751.json' // TODO: parameterize based on id?
   });
 });
 

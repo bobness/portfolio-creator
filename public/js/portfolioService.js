@@ -1,8 +1,8 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
-  var put = function(data) {
-    return $http.put(`/portfolios/${this.id}/experiences`, data).then(function(res) {
+  var put = function(portfolioId, data) {
+    return $http.put(`/portfolios/${portfolioId}/experiences/${data._id}`, data).then(function(res) {
       return res.data;
     });
   };
@@ -24,14 +24,14 @@ angular.module('pc').factory('portfolioService', function($http) {
   
   service.addTag = function(tag, experience) {
     experience.tags.push(tag);
-    return put(experience);
+    return put(this.id, experience);
   };
   
   service.removeTag = function(tag, experience) {
-    experience.tags = experience.filter(function(item) {
+    experience.tags = experience.tags.filter(function(item) {
       return item !== tag;
     });
-    return put(experience);
+    return put(this.id, experience);
   };
     
   service.createExperience = function(experience) {
