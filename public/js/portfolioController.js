@@ -65,7 +65,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
           parts = date.split('/'),
           month = parts[0],
           year = parts[1];
-      return new Date(year + '-' + month});
+      return new Date(year + '-' + month);
     };
     
     var makeCharts = function(experiences) {
