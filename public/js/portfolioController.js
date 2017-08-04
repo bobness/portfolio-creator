@@ -1,5 +1,5 @@
-angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', 'portfolioService',
-  function($scope, $uibModal, portfolioService) {
+angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '$location', 'portfolioService',
+  function($scope, $uibModal, $location, portfolioService) {
     
     $scope.newexp = {
       'Company Name': '',
@@ -13,6 +13,24 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     var filterFunc;
     $scope.setFilter = function(func) {
       filterFunc = func;
+    };
+    
+    $scope.selectedTags = [];
+    
+    $scope.createTheme = function(selectedTags) {
+      var name = prompt('Theme name');
+      var theme = {
+        name: name,
+        tags: selectedTags.map(function(tag) { return tag.name; })
+      };
+      return portfolioService.createTheme(theme).then(function(theme) {
+        $scope.portfolio.themes.push(theme);
+        $scope.selectedTags = [];
+      });
+    };
+    
+    $scope.themeIsSelected = function(name) {
+      return $location.path().substring(1) === name;
     };
     
     $scope.expFilter = function(exp) {

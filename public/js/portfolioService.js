@@ -1,8 +1,8 @@
 angular.module('pc').factory('portfolioService', function($http) {
   var service = {};
   
-  var put = function(portfolioId, data) {
-    return $http.put(`/portfolios/${portfolioId}/experiences/${data._id}`, data).then(function(res) {
+  var put = function(url, data) {
+    return $http.put(url, data).then(function(res) {
       return res.data;
     });
   };
@@ -13,8 +13,6 @@ angular.module('pc').factory('portfolioService', function($http) {
     });
   };
   
-  // service.id;
-  
   service.getPortfolio = function(id) {
     this.id = id;
     return $http.get(`/portfolios/${id}`).then(function(res) {
@@ -23,19 +21,26 @@ angular.module('pc').factory('portfolioService', function($http) {
   };
   
   service.addTag = function(tag, experience) {
+    var expUrl = `/portfolios/${this.id}/experiences/${experience._id}`;
     experience.tags.push(tag);
-    return put(this.id, experience);
+    return put(expUrl, experience);
   };
   
   service.removeTag = function(tag, experience) {
+    var expUrl = `/portfolios/${this.id}/experiences/${experience._id}`;
+    experience.tags.splice()
     experience.tags = experience.tags.filter(function(item) {
       return item !== tag;
     });
-    return put(this.id, experience);
+    return put(expUrl, experience);
   };
     
   service.createExperience = function(experience) {
     return post(`/portfolios/${this.id}/experiences`, experience);
+  };
+  
+  service.createTheme = function(theme) {
+    return post(`/portfolios/${this.id}/themes`, theme);
   };
 
   
