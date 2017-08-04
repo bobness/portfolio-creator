@@ -5,7 +5,6 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
       data: '=',
       setFilter: '&',
       getExperiences: '&',
-      updateExperience: '&',
       selectedTags: '=',
       themes: '<'
     },
@@ -57,7 +56,7 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
         selectedExperiences = scope.getExperiences().filter(function(exp) { return exp.tags.indexOf(tagName) > -1; });
         oldTagName = tagName;
       };
-      
+
       scope.renameTags = function(newTagName) {
         $q.all(selectedExperiences.map(function(exp) {
           exp.tags.splice(exp.tags.indexOf(oldTagName), 1);

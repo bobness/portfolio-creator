@@ -37,5 +37,7 @@ angular.module('pc').factory('portfolioService', ['$http', '$q', function($http,
     };
   };
   
+  service.createTheme = function() {};
+  
   return service;
 }]);

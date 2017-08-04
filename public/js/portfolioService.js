@@ -46,6 +46,10 @@ angular.module('pc').factory('portfolioService', function($http) {
   service.createTheme = function(theme) {
     return post('/portfolios/' + this.id + '/themes', theme);
   };
+  
+  service.createTheme = function(theme) {
+    return post(`/portfolios/${this.id}/themes`, theme);
+  };
 
   
   return service;
