@@ -37,16 +37,29 @@
   </head>
   <body ng-app="pc" ng-controller="portfolioController">
     
-    <h1 style="text-align:center;">Bob Stark</h1>
+    <div style="text-align:center;">
+      <h1>Bob Stark</h1>
+      <ul ng-show="portfolio.themes" style="list-style-type:none;display:inline;">
+        <li>
+          <a href="#">All</a>
+        </li>
+        <li ng-repeat="theme in portfolio.themes">
+          <a href="#{{ theme.name }}">{{ theme.name }}</a>
+        </li>
+      </ul>
+    </div>
     
     <!-- build:hide -->
     <div>
-      <button class="btn btn-sm btn-default" ng-click="openLinkedInModal()">Import LinkedIn</button>
+      <button class="btn btn-sm btn-default" style="display:inline-block;" ng-click="openLinkedInModal()">Import LinkedIn</button>
+      <button class="btn btn-sm btn-default" style="display:inline-block;" 
+        ng-if="selectedTags.length > 0"
+        ng-click="createTheme(selectedTags)">Create Theme</button>
     </div>
     <!-- endbuild -->
     
     <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
-      <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()"></histogram>
+      <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()" selected-tags="selectedTags"></histogram>
     </div>
     <div style="display:inline-block;box-sizing:border-box;">
       <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>

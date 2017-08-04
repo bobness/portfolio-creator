@@ -4,22 +4,21 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
     scope: {
       data: '=',
       setFilter: '&',
-      getExperiences: '&'
+      getExperiences: '&',
+      selectedTags: '='
     },
     link: function(scope) {
-      var themeUrl = '/users/56c91e75a986a9d2ce8cc456/portfolio/themes';
-      var expUrl = '/users/56c91e75a986a9d2ce8cc456/portfolio/experiences';
+      var expUrl = '/portfolios/577b11b224ec6cce246a5751/experiences';
       
       scope.createTheme = function() {};
       
       scope.deleteTheme = function() {};
       
-      scope.selectedTags = [];
       scope.selectTag = function(tag) {
         if (scope.selectedTags.indexOf(tag) === -1) {
           scope.selectedTags.push(tag);
         } else {
-          scope.selectedTags = scope.selectedTags.filter(function(tag2) { return tag2.name !== tag.name; });
+          scope.selectedTags.splice(scope.selectedTags.indexOf(tag.name));
         }
       };
       
@@ -41,7 +40,7 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
       };
       var updateExperiences = function() {
         if (selectedExperiences.length > 0) {
-          return portfolioService.update(expUrl, selectedExperiences.pop()).then(function() {
+          return portfolioService.update(expUrl, selectedExperiences.pop()).then(function() { // FIXME: use a new service function
             updateExperiences();
           });
         }

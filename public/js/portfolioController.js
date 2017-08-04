@@ -15,6 +15,20 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       filterFunc = func;
     };
     
+    $scope.selectedTags = [];
+    
+    $scope.createTheme = function(selectedTags) {
+      var name = prompt('Theme name');
+      var theme = {
+        name: name,
+        tags: selectedTags.map(function(tag) { return tag.name; })
+      };
+      return portfolioService.createTheme(theme).then(function(theme) {
+        $scope.portfolio.themes.push(theme);
+        $scope.selectedTags = [];
+      });
+    };
+    
     $scope.expFilter = function(exp) {
       if (filterFunc) {
         return filterFunc(exp);

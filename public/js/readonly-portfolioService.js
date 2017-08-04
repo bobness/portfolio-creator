@@ -13,5 +13,7 @@ angular.module('pc').factory('portfolioService', function($http) {
   
   service.createExperience = function() {};
   
+  service.createTheme = function() {};
+  
   return service;
 });
