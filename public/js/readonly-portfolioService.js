@@ -1,4 +1,4 @@
-angular.module('pc').factory('portfolioService', function($http) {
+angular.module('pc').factory('portfolioService', ['$http', '$q', function($http, $q) {
   var service = {};
   
   service.getPortfolio = function(id) {
@@ -7,13 +7,35 @@ angular.module('pc').factory('portfolioService', function($http) {
     });
   };
   
-  service.addTag = function() {};
+  service.addTag = function() {
+    return {
+      then: function() {}
+    };
+  };
   
-  service.removeTag = function() {};
+  service.removeTag = function() {
+    return {
+      then: function() {}
+    };
+  };
   
-  service.createExperience = function() {};
+  service.createExperience = function() {
+    return {
+      then: function() {}
+    };
+  };
   
-  service.createTheme = function() {};
+  service.updateExperience = function() {
+    return {
+      then: function() {}
+    };
+  };
+  
+  service.createTheme = function() {
+    return {
+      then: function() {}
+    };
+  };
   
   return service;
-});
+}]);

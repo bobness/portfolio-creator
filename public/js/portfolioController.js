@@ -97,7 +97,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.openLinkedInModal = function() {
         var modal = $uibModal.open({
-          templateUrl: '../html/linkedin-modal.html',
+          templateUrl: 'html/linkedin-modal.html',
           transclude: true,
           scope: $scope,
           controller: function($scope, $uibModalInstance, $sce) {

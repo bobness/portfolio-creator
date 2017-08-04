@@ -39,6 +39,10 @@ angular.module('pc').factory('portfolioService', function($http) {
     return post('/portfolios/' + this.id + '/experiences', experience);
   };
   
+  service.updateExperience = function(experience) {
+    return put('/portfolios/' + this.id + '/experiences/' + experience._id, experience);
+  };
+  
   service.createTheme = function(theme) {
     return post('/portfolios/' + this.id + '/themes', theme);
   };
