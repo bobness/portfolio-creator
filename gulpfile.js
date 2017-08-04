@@ -102,7 +102,7 @@ const rmDir = (dirPath) => {
   fs.rmdirSync(dirPath);
 };
 
-gulp.task('remove-non-concat', () => {
+gulp.task('remove-non-concat', ['concat-js', 'concat-lib', 'concat-css'], () => {
 //   fs.unlinkSync(`${dist}/js/*.js`);
 //   fs.rmdirSync(`${dist}/js`);
   rmDir(`${dist}/js`);
@@ -120,7 +120,7 @@ gulp.task('uglify-lib', () => {
 });
 */
 
-gulp.task('replace', ['concat-js', 'concat-lib', 'concat-css'], () => {
+gulp.task('replace', ['remove-non-concat'], () => {
   return gulp.src(`${dist}/index.html`)
     .pipe(htmlreplace({
       js: 'scripts.js',

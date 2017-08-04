@@ -1,11 +1,12 @@
-angular.module('pc').directive('histogram', ['portfolioService', function(portfolioService) {
+angular.module('pc').directive('histogram', ['$location', 'portfolioService', function($location, portfolioService) {
   return {
     templateUrl: 'html/histogram.html',
     scope: {
       data: '=',
       setFilter: '&',
       getExperiences: '&',
-      selectedTags: '='
+      selectedTags: '=',
+      themes: '<'
     },
     link: function(scope) {
       var expUrl = '/portfolios/577b11b224ec6cce246a5751/experiences';
@@ -13,6 +14,8 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
       scope.createTheme = function() {};
       
       scope.deleteTheme = function() {};
+      
+      scope.visibleTags = angular.copy(scope.data);
       
       scope.selectTag = function(tag) {
         if (scope.selectedTags.indexOf(tag) === -1) {
@@ -22,11 +25,27 @@ angular.module('pc').directive('histogram', ['portfolioService', function(portfo
         }
       };
       
-      var filterExperiencesBySelectedTags = function(exp) {
-        return scope.selectedTags.reduce(function(matched, tag) {
-          return matched && (exp.tags.indexOf(tag.name) > -1);
+      var filterExperiencesByTags = function(exp, tags) {
+        return tags.reduce(function(matched, tag) {
+          var name = tag.name || tag;
+          return matched && (exp.tags.indexOf(name) > -1);
         }, true);
       };
+      
+      var filterExperiencesBySelectedTags = function(exp) {
+        return filterExperiencesByTags(exp, scope.selectedTags);
+      };
+      
+      scope.$watch(function() { return $location.path(); }, function(path) {
+        var currentTheme = scope.themes.filter(function(theme) { return theme.name === path.substring(1)})[0];
+        if (currentTheme) {
+          scope.visibleTags = scope.data.filter(function(tag) { 
+            return currentTheme.tags.indexOf(tag.name) > -1;
+          });
+        } else {
+          scope.visibleTags = angular.copy(scope.data);
+        }
+      });
       
       scope.isSelected = function(tag) {
         return scope.selectedTags.map(function(tag) { return tag.name; }).indexOf(tag.name) > -1;

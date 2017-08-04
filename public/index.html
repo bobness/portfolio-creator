@@ -39,18 +39,22 @@
     
     <div style="text-align:center;">
       <h1>Bob Stark</h1>
-      <ul ng-show="portfolio.themes" style="list-style-type:none;display:inline;">
-        <li>
-          <a href="#">All</a>
-        </li>
-        <li ng-repeat="theme in portfolio.themes">
-          <a href="#{{ theme.name }}">{{ theme.name }}</a>
-        </li>
-      </ul>
+      <span><a href="mailto:bob@bobstark.me">bob@bobstark.me</a></span>
+      <div style="margin:1em;">
+        <ul ng-show="portfolio.themes" class="nav nav-pills" style="display:inline-block;">
+          <li ng-class="{active: themeIsSelected('')}">
+            <a href="#">All</a>
+          </li>
+          <li ng-repeat="theme in portfolio.themes" ng-class="{active: themeIsSelected(theme.name)}">
+            <a href="#{{ theme.name }}">{{ theme.name }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <a href="https://github.com/bobness/portfolio-creator" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     
     <!-- build:hide -->
-    <div>
+    <div style="text-align:center;margin:1em;">
       <button class="btn btn-sm btn-default" style="display:inline-block;" ng-click="openLinkedInModal()">Import LinkedIn</button>
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
         ng-if="selectedTags.length > 0"
@@ -59,7 +63,13 @@
     <!-- endbuild -->
     
     <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
-      <histogram ng-repeat="chart in charts" data="chart" set-filter="setFilter(func)" get-experiences="getExperiences()" selected-tags="selectedTags"></histogram>
+      <histogram ng-repeat="chart in charts" 
+        data="chart" 
+        set-filter="setFilter(func)" 
+        get-experiences="getExperiences()" 
+        selected-tags="selectedTags"
+        themes="portfolio.themes"
+        ></histogram>
     </div>
     <div style="display:inline-block;box-sizing:border-box;">
       <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
