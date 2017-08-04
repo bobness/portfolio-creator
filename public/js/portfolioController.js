@@ -65,7 +65,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
           parts = date.split('/'),
           month = parts[0],
           year = parts[1];
-      return new Date(`${year}-${month}`);
+      return new Date(year + '-' + month);
     };
     
     var makeCharts = function(experiences) {
@@ -97,7 +97,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.openLinkedInModal = function() {
         var modal = $uibModal.open({
-          templateUrl: '../html/linkedin-modal.html',
+          templateUrl: 'html/linkedin-modal.html',
           transclude: true,
           scope: $scope,
           controller: function($scope, $uibModalInstance, $sce) {
@@ -127,9 +127,9 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
                       }
                       experiences.push(currentExp);                
                     } else if (items.length === 1) {
-                        currentExp.Description += `\n${row}`;
+                        currentExp.Description += '\n' + row;
                     } else if (items.length === 5) {
-                        currentExp.Description += `\n${items[0]}`;
+                        currentExp.Description += '\n' + items[0];
                         currentExp.Location = items[1];
                         currentExp['Start Date'] = items[2];
                         currentExp['End Date'] = items[3];

@@ -1,4 +1,4 @@
-angular.module('pc').directive('histogram', ['$location', 'portfolioService', function($location, portfolioService) {
+angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'portfolioService', function($location, $q, $window, portfolioService) {
   return {
     templateUrl: 'html/histogram.html',
     scope: {
@@ -9,8 +9,6 @@ angular.module('pc').directive('histogram', ['$location', 'portfolioService', fu
       themes: '<'
     },
     link: function(scope) {
-      var expUrl = '/portfolios/577b11b224ec6cce246a5751/experiences';
-      
       scope.createTheme = function() {};
       
       scope.deleteTheme = function() {};
@@ -53,25 +51,20 @@ angular.module('pc').directive('histogram', ['$location', 'portfolioService', fu
       
       var selectedExperiences = [];
       var oldTagName = '';
+      
       scope.selectExperiencesFromTag = function(tagName) {
         selectedExperiences = scope.getExperiences().filter(function(exp) { return exp.tags.indexOf(tagName) > -1; });
         oldTagName = tagName;
       };
-      var updateExperiences = function() {
-        if (selectedExperiences.length > 0) {
-          return portfolioService.update(expUrl, selectedExperiences.pop()).then(function() { // FIXME: use a new service function
-            updateExperiences();
-          });
-        }
-      };
+
       scope.renameTags = function(newTagName) {
-        selectedExperiences.forEach(function(exp) {
-          exp.tags = exp.tags.filter(function(tagName) {
-             return tagName !== oldTagName;
-          });
+        $q.all(selectedExperiences.map(function(exp) {
+          exp.tags.splice(exp.tags.indexOf(oldTagName), 1);
           exp.tags.push(newTagName);
+          return portfolioService.updateExperience(exp);
+        })).then(function() {
+          $window.location.reload();
         });
-        updateExperiences();
       };
       
       scope.$watchCollection('selectedTags', function() {
