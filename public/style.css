@@ -10,3 +10,8 @@ tags-input .tags .tag-item {
   background: none !important;
   cursor: pointer;
 }
+@media only screen and (max-width: 720px) {
+  ul.nav.nav-pills>li {
+    float:none;
+  }
+}
