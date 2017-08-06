@@ -9,6 +9,9 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
       themes: '<'
     },
     link: function(scope) {
+      
+      // TODO: bring histogram-creating code into this file from portfolioCreator
+      
       scope.createTheme = function() {};
       
       scope.deleteTheme = function() {};

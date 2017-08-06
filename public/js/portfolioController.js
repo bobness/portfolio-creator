@@ -58,6 +58,17 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     portfolioService.getPortfolio('577b11b224ec6cce246a5751').then(function(portfolio) {
       $scope.portfolio = portfolio;
+      
+/*
+      // DEBUG
+      $scope.portfolio.questions = [
+        {
+          text: 'What is the salary range?',
+          html: '<blah><span>$</span><input type="number"></input><span> thousand (e.g., $150-200 thousand)</span></blah>'
+        }
+      ];
+      // /DEBUG
+*/
     });
     
     $scope.parseDate = function(exp) {
@@ -94,6 +105,26 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         $scope.newexp.name = '';
       });
     };
+    
+    $scope.showTheme = function(theme) {
+      if (theme) {
+        $location.path(theme.name);
+      } else {
+        $location.path('');
+      }
+    }
+    
+    $scope.showSurvey = function() {
+      $location.hash('contact');
+    };
+    
+    $scope.hideSurvey = function() {
+      $location.hash('');
+    };
+    
+    $scope.surveyVisible = function() {
+      return $location.hash() === 'contact';
+    }
     
     $scope.openLinkedInModal = function() {
         var modal = $uibModal.open({

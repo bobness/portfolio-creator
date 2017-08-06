@@ -1,5 +1,6 @@
 body {
   margin: 50px;
+  color: #333;
 }
 tags-input .tags .tag-item {
   padding: 0 !important;
@@ -14,4 +15,12 @@ tags-input .tags .tag-item {
   ul.nav.nav-pills>li {
     float:none;
   }
+}
+.btn-white {
+  background-color: white;
+  border: 1px #ccc solid;
+}
+.btn-white:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }

@@ -1,5 +1,6 @@
 body {
   margin: 50px;
+  color: #333;
 }
 .remove-button, input.input {
   display: none;
@@ -17,4 +18,12 @@ tags-input .tags .tag-item {
   ul.nav.nav-pills>li {
     float:none;
   }
+}
+.btn {
+  background-color: white;
+  border: 1px #ccc solid;
+}
+.btn:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }

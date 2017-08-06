@@ -120,6 +120,7 @@ gulp.task('uglify-lib', () => {
 });
 */
 
+// TODO: combine with export
 gulp.task('replace', ['remove-non-concat'], () => {
   return gulp.src(`${dist}/index.html`)
     .pipe(htmlreplace({
