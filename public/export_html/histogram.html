@@ -1,12 +1,17 @@
 <div style="display:inline-block;width:100%;">
   <div style="text-align:center;padding:5px;">
-    <input type="text" ng-model="filter" placeholder="Filter tags" />
-    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="cursor:pointer;" ng-click="filter = ''"></span>
+    <strong style="float:left">Click one or mor bars to filter experiences</strong>
+    <div style="float:right;">
+      <input type="text" ng-model="filter" placeholder="Search" />
+      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="cursor:pointer;" ng-click="filter = ''"></span>
+    </div>
   </div>
-  <span ng-repeat="tag in visibleTags | filter:filter" style="display:inline-block;width:70px;vertical-align:bottom;margin:15px;font-size: smaller;">
-    <div style="text-overflow:ellipsis;overflow:hidden;">{{ tag.name }}</div>
-    <div 
-      style="height: {{ tag.count * 15 }}px;background-color: {{ isSelected(tag) ? 'red' : 'blue' }};color:white;text-align:center;vertical-align:bottom;cursor:pointer;"
-      ng-click="selectTag(tag)"></div>
-  </span>
+  <div style="clear:both;">
+    <span ng-repeat="tag in visibleTags | filter:filter" style="display:inline-block;width:70px;vertical-align:bottom;margin:15px;font-size: smaller;">
+      <div style="text-overflow:ellipsis;overflow:hidden;">{{ tag.name }}</div>
+      <div 
+        style="height: {{ tag.count * 15 }}px;background-color: {{ isSelected(tag) ? 'red' : 'blue' }};color:white;text-align:center;vertical-align:bottom;cursor:pointer;"
+        ng-click="selectTag(tag)"></div>
+    </span>
+  </div>
 </div>

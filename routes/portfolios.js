@@ -1,13 +1,23 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
-var Portfolio;
+let Portfolio;
 router.use(function(req, res, next) {
   Portfolio = req.app.get('Portfolio');
   next();
 });
+
+function savePortfolio(portfolio, returnObj, res, next) {
+  return portfolio.save(function(err, obj) {
+    if (err) {
+      return next(err);
+    } else {
+      return returnObj ? obj : '';
+    }
+  });
+}
 
 router.param('portfolio_id', function(req, res, next, exp_id) {
   Portfolio.findById(req.params.portfolio_id, function(err, portfolio) {
@@ -26,16 +36,6 @@ router.param('portfolio_id', function(req, res, next, exp_id) {
 router.get('/:portfolio_id', function(req, res, next) {
   return res.json(req.portfolio);
 });
-
-function savePortfolio(portfolio, returnObj, res, next) {
-  return portfolio.save(function(err, obj) {
-    if (err) {
-      return next(err);
-    } else {
-      return returnObj ? obj : '';
-    }
-  });
-}
 
 // user changing their portfolio
 router.put('/:portfolio_id', function(req, res, next) {

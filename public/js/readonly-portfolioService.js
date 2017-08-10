@@ -1,6 +1,12 @@
 angular.module('pc').factory('portfolioService', ['$http', '$q', function($http, $q) {
   var service = {};
   
+  var post = function(url, data) {
+    return $http.post(url, data).then(function(res) {
+      return res.data;
+    });
+  };
+  
   service.getPortfolio = function(id) {
     return $http.get(id + '.json').then(function(res) {
       return res.data;
@@ -37,7 +43,15 @@ angular.module('pc').factory('portfolioService', ['$http', '$q', function($http,
     };
   };
   
-  service.createTheme = function() {};
+  service.createTheme = function() {
+    return {
+      then: function() {}
+    };
+  };
+  
+  service.sendSurvey = function(surveyObj) {
+    return post('http://counteroffer.me:3000/contact', surveyObj);
+  };
   
   return service;
 }]);

@@ -1,4 +1,4 @@
-angular.module('pc').directive('survey', ['$sce', function($sce) {
+angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($sce, portfolioService) {
   return {
     templateUrl: 'html/survey.html',
     scope: {
@@ -72,17 +72,19 @@ angular.module('pc').directive('survey', ['$sce', function($sce) {
 
       // TODO: use dynamic questions, but for now just manually computer progress
       scope.progress = function() {
-        var denominator = 4;
-        var numerator = Object.keys(scope.answered).filter(function(questionName) { return scope.answered[questionName]; }).length;
+        var answered = Object.keys(scope.answered);
+        var denominator = answered.length;
+        var numerator = answered.filter(function(questionName) { return scope.answered[questionName]; }).length;
         
         return Math.round((numerator/denominator)*100);
       };
       
       scope.answered = {
-        salary: null,
+        salary: null, // TODO: make this two fields to force a range
         teamSize: null,
         company: null,
-        themes: null
+        themes: null,
+        email: null
       };
       
       scope.answer = function(questionName, value) {
@@ -105,6 +107,20 @@ angular.module('pc').directive('survey', ['$sce', function($sce) {
           }, false);
         }
         
+      };
+      
+      scope.submit = function() {
+        // ng-models: themes.selected, salary, company, teamSize
+        var email = {
+          email: scope.email,
+          selectedThemes: scope.themes
+            .filter(function(theme) { return theme.selected; })
+            .map(function(theme) { return theme.name; }),
+          salary: scope.salary,
+          company: scope.company,
+          teamSize: scope.teamSize
+        };
+        return portfolioService.sendSurvey(email);
       };
     }
   };
