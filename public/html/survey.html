@@ -35,7 +35,7 @@
     
     <div class="panel" ng-class="{'panel-primary': answered['salary'] === null, 'panel-success': answered['salary'], 'panel-danger': answered['salary'] === false}">
       <div class="panel-heading">What is the salary range?</div>
-      <div class="panel-body"><span>$</span><input type="number" ng-model="salary" ng-change="answer('salary', salary)" min="1"></input><span> thousand (e.g., $150-200 thousand)</span></div>
+      <div class="panel-body"><span>$</span><input type="text" ng-model="salary" ng-change="answer('salary', salary)"></input></div>
     </div>
     
     <div class="panel" ng-class="{'panel-primary': answered['company'] === null, 'panel-success': answered['company'], 'panel-danger': answered['company'] === false}">

@@ -80,7 +80,7 @@ angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($
       };
       
       scope.answered = {
-        salary: null, // TODO: make this two fields to force a range
+        salary: null,
         teamSize: null,
         company: null,
         themes: null,
