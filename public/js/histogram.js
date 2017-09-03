@@ -16,10 +16,13 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
       scope.visibleTags = angular.copy(scope.data);
       
       scope.selectTag = function(tag) {
-        if (scope.selectedTags.indexOf(tag) === -1) {
+        var index = scope.selectedTags
+          .map(function(tag) { return tag.name; })
+          .indexOf(tag.name);
+        if (index === -1) {
           scope.selectedTags.push(tag);
         } else {
-          scope.selectedTags.splice(scope.selectedTags.indexOf(tag.name));
+          scope.selectedTags.splice(index, 1);
         }
       };
       
