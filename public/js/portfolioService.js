@@ -13,21 +13,20 @@ angular.module('pc').factory('portfolioService', function($http) {
     });
   };
   
-  service.getPortfolio = function(id) {
-    this.id = id;
-    return $http.get('/portfolios/' + id).then(function(res) {
+  service.getPortfolio = function() {
+    return $http.get('/').then(function(res) {
       return res.data;
     });
   };
   
   service.addTag = function(tag, experience) {
-    var expUrl = '/portfolios/' + this.id + '/experiences/' + experience._id;
+    var expUrl = '/experiences/' + experience.index;
     experience.tags.push(tag);
     return put(expUrl, experience);
   };
   
   service.removeTag = function(tag, experience) {
-    var expUrl = '/portfolios/' + this.id + '/experiences/' + experience._id;
+    var expUrl = '/portfolios/' + this.id + '/experiences/' + experience.index;
     experience.tags.splice()
     experience.tags = experience.tags.filter(function(item) {
       return item !== tag;

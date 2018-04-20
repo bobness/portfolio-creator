@@ -1,32 +1,27 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+const express = require('express');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const routes = require('./js/routes');
+const Portfolio = require('./js/portfolio');
+const app = express();
 
-var portfolios = require('./routes/portfolios');
-
-var app = express();
+const filePath = process.argv[2]; // node app.js [path]
+const portfolio = new Portfolio(filePath);
+app.set('portfolio', portfolio);
 
 app.set('port', process.env.PORT || 3000);
-
-var db = mongoose.createConnection("mongodb://localhost/counteroffer");
-var portfolioSchema = require('./schema/Portfolio.js');
-Portfolio = db.model('Portfolio', portfolioSchema);
-app.set('Portfolio', Portfolio);
-
 app.use(express.static('public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/portfolios', portfolios);
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 /*
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
