@@ -1,6 +1,7 @@
 body {
   margin: 50px;
 }
+
 tags-input .tags .tag-item {
   padding: 0 !important;
   float: none !important;
@@ -10,6 +11,15 @@ tags-input .tags .tag-item {
   background: none !important;
   cursor: pointer;
 }
+
+.editable-textarea {
+	width: 100%;
+}
+
+.editable-textarea .editable-controls {
+	width: 100%;
+}
+
 @media only screen and (max-width: 720px) {
   ul.nav.nav-pills>li {
     float:none;

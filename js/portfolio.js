@@ -44,12 +44,11 @@ class Portfolio {
   }
   
   addExperience(exp) {
-    exp.index = this.obj.experiences.length;
     this.obj.experiences.push(exp);
   }
   
-  deleteExperience(exp) {
-    this.obj.experiences.splice(exp.index, 1);
+  deleteExperience(index) {
+    this.obj.experiences.splice(index, 1);
   }
   
   get themes() {
@@ -61,12 +60,11 @@ class Portfolio {
   }
   
   addTheme(theme) {
-    theme.index = this.obj.themes.length;
     this.obj.themes.push(theme);
   }
   
-  deleteTheme(theme) {
-    this.obj.themes.splice(theme.index, 1);
+  deleteTheme(index) {
+    this.obj.themes.splice(index, 1);
   }
 }
 

@@ -24,13 +24,33 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         tags: selectedTags.map(function(tag) { return tag.name; })
       };
       return portfolioService.createTheme(theme).then(function(theme) {
-        $scope.portfolio.themes.push(theme);
-        $scope.selectedTags = [];
+        $scope.$applyAsync(function() {
+	        $scope.portfolio.themes.push(theme);
+					$scope.selectedTags = [];
+        });
       });
     };
     
     $scope.themeIsSelected = function(name) {
-      return $location.path().substring(1) === name;
+	    if (name) {
+		    return selectedThemeName() === name;
+	    }
+	    if ($scope.portfolio) {
+		    return $scope.portfolio.themes.map(function(theme) { return theme.name; }).indexOf(selectedThemeName()) > -1;
+	    }
+	    return false;
+    };
+    
+    const selectedThemeName = function() {
+	    return $location.path().substring(1);
+    };
+    
+    $scope.deleteSelectedTheme = function() {
+	    var name = selectedThemeName();
+	    return portfolioService.deleteTheme(name).then(function() {
+		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
+		    $location.path('');
+	    });
     };
     
     $scope.expFilter = function(exp) {

@@ -50,8 +50,18 @@ angular.module('pc').factory('portfolioService', function($http) {
     return put(rootUrl + '/experiences/' + index, experience);
   };
   
+  service.deleteExperience = function(experience) {
+	  var index = portfolio.experiences.indexOf(experience);
+	  return $http.delete(rootUrl + '/experiences/' + index);
+  };
+  
   service.createTheme = function(theme) {
     return post(rootUrl + '/themes', theme);
+  };
+  
+  service.deleteTheme = function(themeName) {
+	  var index = portfolio.themes.map(function(theme) { return theme.name; }).indexOf(themeName);
+	  return $http.delete(rootUrl + '/themes/' + index);
   };
 
   

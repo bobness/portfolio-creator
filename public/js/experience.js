@@ -68,6 +68,14 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
 	      return '';
       };
       
+      scope.updateExperience = function(exp) {
+	      return portfolioService.updateExperience(exp);
+      };
+      
+      scope.deleteExperience = function(exp) {
+	      return portfolioService.deleteExperience(exp);
+      }
+      
     }
   }
 }]);
