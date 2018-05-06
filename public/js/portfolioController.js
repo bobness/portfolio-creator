@@ -2,11 +2,11 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
   function($scope, $uibModal, $location, portfolioService) {
     
     $scope.newexp = {
-      'Company Name': '',
-      'Title': '',
-      'Description': '',
-      'Start Date': "",
-      'End Date': "",
+      'company': '',
+      'title': '',
+      'description': '',
+      'start': '',
+      'end': '',
       'tags': []
     };
     
@@ -56,12 +56,12 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return $scope.portfolio.experiences;
     };
     
-    portfolioService.getPortfolio('577b11b224ec6cce246a5751').then(function(portfolio) {
+    portfolioService.getPortfolio().then(function(portfolio) {
       $scope.portfolio = portfolio;
     });
     
     $scope.parseDate = function(exp) {
-      var date = exp['Start Date'],
+      var date = exp['start'],
           parts = date.split('/'),
           month = parts[0],
           year = parts[1];
@@ -131,7 +131,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
                     } else if (items.length === 5) {
                         currentExp.Description += '\n' + items[0];
                         currentExp.Location = items[1];
-                        currentExp['Start Date'] = items[2];
+                        currentExp['start'] = items[2];
                         currentExp['End Date'] = items[3];
                         currentExp.Title = items[4];
                     }
