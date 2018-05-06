@@ -62,7 +62,10 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
       };
       
       scope.getFormattedDescription = function() {
-        return scope.data.description.split('\n').join('<br>');
+	      if (scope.data.description) {
+	        return scope.data.description.split('\n').join('<br>');
+	      }
+	      return '';
       };
       
     }

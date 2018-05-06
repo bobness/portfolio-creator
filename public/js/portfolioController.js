@@ -62,10 +62,14 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.parseDate = function(exp) {
       var date = exp['start'],
-          parts = date.split('/'),
-          month = parts[0],
-          year = parts[1];
-      return new Date(year + '-' + month);
+          parts = date.split('/');
+      if (parts.length >= 2) {
+	      var month = parts[0],
+            year = parts[1];
+	      return new Date(year + '-' + month);
+      } else {
+	      return new Date(date);
+      }
     };
     
     var makeCharts = function(experiences) {
