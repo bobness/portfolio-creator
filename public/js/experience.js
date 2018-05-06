@@ -56,11 +56,13 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
       
       scope.addSelectedTag = function() {
         var text = getSelectionText();
-        scope.createTag(text);
+        return scope.createTag(text).then(function() {
+		    	scope.tagObjects.push({text: text});
+        });
       };
       
       scope.getFormattedDescription = function() {
-        return scope.data.Description.split('\n').join('<br>');
+        return scope.data.description.split('\n').join('<br>');
       };
       
     }

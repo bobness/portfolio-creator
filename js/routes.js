@@ -10,7 +10,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-  return res.json(portfolio);
+  return res.json(portfolio.obj);
 });
 
 /*
@@ -45,7 +45,7 @@ router.put('/experiences/:exp_ix', (req, res, next) => {
     req.exp.tags.push(tag);
   });
   return portfolio.save().then(() => {
-    return res.sendStatus(200);
+    return res.json(req.exp);
   });
 });
 

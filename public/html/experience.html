@@ -1,7 +1,7 @@
 <div>
-  <h1>{{ data.Title }}</h1>
-  <strong>{{ data['Company Name'] }} {{ data['Start Date'] }} - {{ data['End Date'] }}</strong>
-  <p ng-show="data['Description']" ng-bind-html="getFormattedDescription()"></p>
+  <h1>{{ data.title }}</h1>
+  <strong>{{ data.company }} {{ data.start }} - {{ data.end }}</strong>
+  <p ng-show="data.description" ng-bind-html="getFormattedDescription()"></p>
   <tags-input 
     ng-model="tagObjects" 
     display-property="text"
@@ -11,6 +11,6 @@
     replace-spaces-with-dashes="false"
     template="tag-template"
     ></tags-input>
-  <button ng-show="data['Description']" ng-click="addSelectedTag()">Add Selected</button>
+  <button ng-show="data.description" ng-click="addSelectedTag()">Add Selected</button>
   </ul>
 </div>

@@ -40,7 +40,6 @@
     <div style="text-align:center;">
       <h1>Bob Stark</h1>
       <p><a href="mailto:bob@bobstark.me">bob@bobstark.me</a></p>
-      <p><a href="http://bobstark.me" target="_blank">bobstark.me</a></p>
       <div style="margin:1em;">
         <ul ng-show="portfolio.themes" class="nav nav-pills" style="display:inline-block;">
           <li ng-class="{active: themeIsSelected('')}">
@@ -77,7 +76,7 @@
     </div>
     
     <!-- build:hide -->
-    <a href="#" editable-text="newexp.Title" onaftersave="createExperience(newexp)">
+    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       Add another
     </a>

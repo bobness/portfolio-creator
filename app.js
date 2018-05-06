@@ -5,18 +5,24 @@ const bodyParser = require('body-parser');
 const routes = require('./js/routes');
 const Portfolio = require('./js/portfolio');
 const app = express();
+const http = require('http');
 
 const filePath = process.argv[2]; // node app.js [path]
 const portfolio = new Portfolio(filePath);
 app.set('portfolio', portfolio);
 
-app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', routes);
+app.use('/portfolio', routes);
+
+const server = http.createServer(app);
+server.listen(process.env.PORT || 3000);
+server.on('listening', () => {
+	console.log('Listening on ', server.address());
+});
 
 // catch 404 and forward to error handler
 /*
