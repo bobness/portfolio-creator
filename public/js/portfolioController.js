@@ -1,6 +1,23 @@
 angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '$location', 'portfolioService',
   function($scope, $uibModal, $location, portfolioService) {
     
+    $scope.alerts = [];
+    
+    var addAlert = function(type, msg) {
+      $scope.alerts.push({
+        type: type,
+        msg: msg
+      });
+    };
+    
+    var success = function(msg) {
+      addAlert('success', msg);
+    };
+    
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+    };
+    
     $scope.newexp = {
       'company': '',
       'title': '',
@@ -19,15 +36,17 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.createTheme = function(selectedTags) {
       var name = prompt('Theme name');
-      var theme = {
-        name: name,
-        tags: selectedTags.map(function(tag) { return tag.name; })
-      };
-      return portfolioService.createTheme(theme).then(function(theme) {
-	      $scope.portfolio.themes.push(theme);
-				$scope.selectedTags = [];
-				$location.path(theme.name);
-      });
+      if (name) {
+        var theme = {
+          name: name,
+          tags: selectedTags.map(function(tag) { return tag.name; })
+        };
+        return portfolioService.createTheme(theme).then(function(theme) {
+  	      $scope.portfolio.themes.push(theme);
+  				$scope.selectedTags = [];
+  				$location.path(theme.name);
+        });
+      }
     };
     
     $scope.themeIsSelected = function(name) {
@@ -179,6 +198,13 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
             };
           }
         });
+    };
+    
+    $scope.createCampaign = function() {
+      var themeName = selectedThemeName();
+      return portfolioService.createCampaign(themeName).then(function() {
+        success('Created campaign JSON file: ' + themeName + '.json');
+      });
     };
   }]
 );

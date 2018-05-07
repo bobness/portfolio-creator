@@ -11,8 +11,9 @@
       <div style="text-overflow:ellipsis;overflow:hidden;">
         <a href="#" editable-text="tag.name" onbeforesave="selectExperiencesFromTag(tag.name)" onaftersave="renameTags(tag.name)">{{ tag.name }}</a>
       </div>
-      <div 
-        style="height: {{ tag.count * 15 }}px;background-color: {{ isSelected(tag) ? 'red' : 'blue' }};color:white;text-align:center;vertical-align:bottom;cursor:pointer;"
+      <div class="tagBar"
+        style="height: {{ tag.count * 15 }}px;color:white;text-align:center;vertical-align:bottom;cursor:pointer;"
+	      ng-class="{ danger : isSelected(tag) }"
         ng-click="selectTag(tag)">{{ tag.count }}</div>
     </span>
   </div>

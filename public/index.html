@@ -63,6 +63,9 @@
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
       	ng-if="themeIsSelected()"
       	ng-click="deleteSelectedTheme()">Delete Theme</button>
+      <button class="btn btn-sm btn-default" style="display:inline-block;"
+        ng-if="themeIsSelected()"
+      	ng-click="createCampaign()">Export Theme</button>
     </div>
     <!-- endbuild -->
     
@@ -97,6 +100,10 @@
         <a class="remove-button" ng-click="$removeTag()">x</a>
       </div>
     </script>
+    
+    <div style="position:fixed;right:50px;bottom:0;">
+      <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{ alert.msg }}</div>
+    </div>
 
   </body>
 </html>

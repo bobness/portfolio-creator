@@ -12,6 +12,14 @@ tags-input .tags .tag-item {
   cursor: pointer;
 }
 
+.tagBar {
+	background-color: #337ab7;
+}
+
+.tagBar.danger {
+	background-color: #d9534f;
+}
+
 .editable-textarea {
 	width: 100%;
 }
