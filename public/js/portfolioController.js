@@ -24,13 +24,32 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         tags: selectedTags.map(function(tag) { return tag.name; })
       };
       return portfolioService.createTheme(theme).then(function(theme) {
-        $scope.portfolio.themes.push(theme);
-        $scope.selectedTags = [];
+	      $scope.portfolio.themes.push(theme);
+				$scope.selectedTags = [];
+				$location.path(theme.name);
       });
     };
     
     $scope.themeIsSelected = function(name) {
-      return $location.path().substring(1) === name;
+	    if (name) {
+		    return selectedThemeName() === name;
+	    }
+	    if ($scope.portfolio) {
+		    return $scope.portfolio.themes.map(function(theme) { return theme.name; }).indexOf(selectedThemeName()) > -1;
+	    }
+	    return false;
+    };
+    
+    const selectedThemeName = function() {
+	    return $location.path().substring(1);
+    };
+    
+    $scope.deleteSelectedTheme = function() {
+	    var name = selectedThemeName();
+	    return portfolioService.deleteTheme(name).then(function() {
+		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
+		    $location.path('');
+	    });
     };
     
     $scope.expFilter = function(exp) {
@@ -94,9 +113,18 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.createExperience = function(exp) {
       return portfolioService.createExperience(exp).then(function(newexp) {
-        $scope.portfolio.experiences.push(newexp);
-        $scope.newexp.name = '';
+	      $scope.$applyAsync(function() {
+        	$scope.portfolio.experiences.push(newexp);
+					$scope.newexp.name = '';
+	      });
       });
+    };
+    
+    $scope.refreshExperiences = function(callObj) {
+	    var removedExp = callObj.exp;
+	    $scope.$applyAsync(function() {
+		    $scope.portfolio.experiences = $scope.portfolio.experiences.filter(function(exp) { return exp !== removedExp; });
+		  });
     };
     
     $scope.openLinkedInModal = function() {

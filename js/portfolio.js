@@ -36,37 +36,29 @@ class Portfolio {
   }
   
   get experiences() {
-    return this.obj.experiences;
-  }
-  
-  get lastExperience() {
-    return this.obj.experiences[this.obj.experieces.length-1];
+	  return Array.from(this.obj.experiences);
   }
   
   addExperience(exp) {
-    exp.index = this.obj.experiences.length;
     this.obj.experiences.push(exp);
+    return exp;
   }
   
-  deleteExperience(exp) {
-    this.obj.experiences.splice(exp.index, 1);
+  deleteExperience(index) {
+    this.obj.experiences.splice(index, 1);
   }
   
   get themes() {
-    return this.obj.themes;
-  }
-  
-  get lastTheme() {
-    return this.obj.themes[this.obj.themes.length-1];
+	  return Array.from(this.obj.themes);
   }
   
   addTheme(theme) {
-    theme.index = this.obj.themes.length;
     this.obj.themes.push(theme);
+    return theme;
   }
   
-  deleteTheme(theme) {
-    this.obj.themes.splice(theme.index, 1);
+  deleteTheme(index) {
+    this.obj.themes.splice(index, 1);
   }
 }
 

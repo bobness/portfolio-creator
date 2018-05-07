@@ -23,9 +23,9 @@ router.put('/', (req, res, next) => {
 */
 
 router.post('/experiences', (req, res, next) => {
-  portfolio.addExperience(req.body);
+  const exp = portfolio.addExperience(req.body);
   portfolio.save().then((portfolio) => {
-    return res.json(portfolio.lastExperience);
+    return res.json(exp);
   });
 });
 
@@ -39,27 +39,31 @@ router.param('exp_ix', (req, res, next, exp_ix) => {
   next();
 });
 
+router.get('/experiences/:exp_ix', (req, res, next) => {
+	return res.json(req.exp);
+});
+
 router.put('/experiences/:exp_ix', (req, res, next) => {
-  req.exp.tags = [];
-  req.body.tags.forEach(function(tag) {
-    req.exp.tags.push(tag);
-  });
+	const index = portfolio.experiences.indexOf(req.exp);
+	console.log("updating exp: ", req.body);
+  portfolio.experiences[index] = req.body;
   return portfolio.save().then(() => {
-    return res.json(req.exp);
+    return res.json(req.body);
   });
 });
 
 router.delete('/experiences/:exp_ix', (req, res, next) => {
-  portfolio.deleteExperience(req.exp);
+	const index = portfolio.experiences.indexOf(req.exp);
+  portfolio.deleteExperience(index);
   return portfolio.save().then(() => {
     return res.sendStatus(200);
   });
 });
 
 router.post('/themes', (req, res, next) => {
-  portfolio.addTheme(req.body);
+  const theme = portfolio.addTheme(req.body);
   return portfolio.save().then((portfolio) => {
-    return res.json(portfolio.lastTheme);
+    return res.json(theme);
   });
 });
 
@@ -73,8 +77,13 @@ router.param('theme_ix', (req, res, next, theme_ix) => {
   next();
 });
 
+router.get('/themes/:theme_ix', (req, res, next) => {
+	return res.json(req.theme);
+});
+
 router.delete('/themes/:theme_ix', (req, res, next) => {
-  portfolio.deleteTheme(req.theme);
+	const index = portfolio.themes.indexOf(req.theme);
+  portfolio.deleteTheme(index);
   return portfolio.save().then(() => {
     return res.sendStatus(200);
   });

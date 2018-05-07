@@ -42,7 +42,7 @@
       <p><a href="mailto:bob@bobstark.me">bob@bobstark.me</a></p>
       <div style="margin:1em;">
         <ul ng-show="portfolio.themes" class="nav nav-pills" style="display:inline-block;">
-          <li ng-class="{active: themeIsSelected('')}">
+          <li ng-class="{active: !themeIsSelected()}">
             <a href="#">All</a>
           </li>
           <li ng-repeat="theme in portfolio.themes" ng-class="{active: themeIsSelected(theme.name)}">
@@ -55,10 +55,14 @@
     
     <!-- build:hide -->
     <div style="text-align:center;margin:1em;">
-      <button class="btn btn-sm btn-default" style="display:inline-block;" ng-click="openLinkedInModal()">Import LinkedIn</button>
+      <button class="btn btn-sm btn-default" style="display:inline-block;" 
+      	ng-click="openLinkedInModal()">Import LinkedIn</button>
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
         ng-if="selectedTags.length > 0"
         ng-click="createTheme(selectedTags)">Create Theme</button>
+      <button class="btn btn-sm btn-default" style="display:inline-block;" 
+      	ng-if="themeIsSelected()"
+      	ng-click="deleteSelectedTheme()">Delete Theme</button>
     </div>
     <!-- endbuild -->
     
@@ -72,14 +76,19 @@
         ></histogram>
     </div>
     <div style="display:inline-block;box-sizing:border-box;">
-      <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
+      <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" 
+      	data="exp"
+      	refresh-callback="refreshExperiences({exp: exp})">
+      	</experience>
     </div>
     
     <!-- build:hide -->
-    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add another
-    </a>
+    <div style="margin-top:10px;">
+	    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
+	      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	      Add another
+	    </a>
+    </div>
     <!-- endbuild -->
     
     <script type="text/ng-template" id="tag-template">

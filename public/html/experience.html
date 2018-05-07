@@ -1,7 +1,25 @@
 <div>
-  <h1>{{ data.title }}</h1>
-  <strong>{{ data.company }} {{ data.start }} - {{ data.end }}</strong>
-  <p ng-show="data.description" ng-bind-html="getFormattedDescription()"></p>
+  <h1>
+	  <a href="#" editable-text="data.title" onaftersave="updateExperience(data)">
+      {{ data.title }}
+    </a>
+	  </h1>
+  <h2>
+  	<a href="#" editable-text="data.company" onaftersave="updateExperience(data)">
+	  	{{ data.company }}
+  	</a>
+  </h2>
+	<a href="#" editable-text="data.start" onaftersave="updateExperience(data)">
+  	{{ data.start }}
+	</a> - 
+	<a href="#" editable-text="data.end" onaftersave="updateExperience(data)">
+  	{{ data.end }}
+	</a>
+	<div ng-show="data.description">
+		<a href="#" editable-textarea="data.description" onaftersave="updateExperience(data)" e-style="width:90%; height:200px;">
+	  	<span ng-bind-html="getFormattedDescription()"></span>
+		</a>
+	</div>
   <tags-input 
     ng-model="tagObjects" 
     display-property="text"
@@ -11,6 +29,8 @@
     replace-spaces-with-dashes="false"
     template="tag-template"
     ></tags-input>
-  <button ng-show="data.description" ng-click="addSelectedTag()">Add Selected</button>
-  </ul>
+  <button ng-show="data.description" ng-click="addSelectedTag()">Add Selected Text</button>
+  <div>
+	  <button ng-click="deleteExperience(data)">Delete Experience</button>
+  </div>
 </div>
