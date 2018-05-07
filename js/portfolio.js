@@ -2,6 +2,20 @@
 
 const fs = require('fs');
 
+const writeFile = (path, data) => {
+  console.log(`called WriteFile(${path}, `, data)
+  return new Promise((resolve, reject) => {
+    fs.writeFile(path, JSON.stringify(data), (err) => {
+      console.log('callback: ', err);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
 class Portfolio {
   constructor(filePath) {
     if (filePath) {      
@@ -13,26 +27,13 @@ class Portfolio {
       if (!this.obj.experiences) {
         this.obj.experiences = [];
       }
-    } /*else {
-      this.obj = {
-        experiences: [],
-        themes: []
-      };
-      this.path = 'portfolio.json';
-      this.save(this.path, this.obj);
-    } */
+    } else {
+	    throw new Error('Usage: node app.js [portfolioFile]');
+    }
   }
   
   save(path = this.path, obj = this.obj) {
-    return new Promise((resolve, reject) => {
-      fs.writeFile(path, JSON.stringify(obj), (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(obj);
-        }
-      });
-    });
+    return writeFile(path, obj);
   }
   
   get experiences() {
@@ -59,6 +60,14 @@ class Portfolio {
   
   deleteTheme(index) {
     this.obj.themes.splice(index, 1);
+  }
+  
+  writeCampaignFile(path, themeName) {
+    const theme = this.obj.themes.find((theme) => theme.name === themeName),
+          data = theme.tags.reduce((experiences, tag) => {
+            return experiences.concat(this.obj.experiences.filter((exp) => exp.tags.indexOf(tag) > -1));
+          }, []);
+    return writeFile(path, data);
   }
 }
 

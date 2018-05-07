@@ -63,6 +63,14 @@ angular.module('pc').factory('portfolioService', function($http) {
 	  var index = portfolio.themes.map(function(theme) { return theme.name; }).indexOf(themeName);
 	  return $http.delete(rootUrl + '/themes/' + index);
   };
+  
+  service.createCampaign = function(themeName) {
+    var body = {
+      theme: themeName,
+      path: themeName + '.json'
+    };
+    return post(rootUrl + '/campaign', body);
+  };
 
   
   return service;

@@ -89,4 +89,29 @@ router.delete('/themes/:theme_ix', (req, res, next) => {
   });
 });
 
+router.post('/campaign', (req, res, next) => {
+	const options = req.body;
+	try {
+  	if (options) {
+  		let path = 'campaign.json';
+  		if (options.path) {
+  			path = options.path;
+  		}
+  		let theme = '';
+  		if (options.theme) {
+  			theme = options.theme;
+  		}
+  		return portfolio.writeCampaignFile(path, theme).then(() => {
+    		return res.sendStatus(200);
+  		});
+  	} else {
+      const err = new Error("no options specified");
+      err.status = 400;
+      throw err;
+  	}
+	} catch (err) {
+  	return next(err);
+  }
+});
+
 module.exports = router;
