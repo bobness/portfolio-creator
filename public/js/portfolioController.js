@@ -114,9 +114,18 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.createExperience = function(exp) {
       return portfolioService.createExperience(exp).then(function(newexp) {
-        $scope.portfolio.experiences.push(newexp);
-        $scope.newexp.name = '';
+	      $scope.$applyAsync(function() {
+        	$scope.portfolio.experiences.push(newexp);
+					$scope.newexp.name = '';
+	      });
       });
+    };
+    
+    $scope.refreshExperiences = function(callObj) {
+	    var removedExp = callObj.exp;
+	    $scope.$applyAsync(function() {
+		    $scope.portfolio.experiences = $scope.portfolio.experiences.filter(function(exp) { return exp !== removedExp; });
+		  });
     };
     
     $scope.openLinkedInModal = function() {

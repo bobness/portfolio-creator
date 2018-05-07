@@ -23,9 +23,9 @@ router.put('/', (req, res, next) => {
 */
 
 router.post('/experiences', (req, res, next) => {
-  portfolio.addExperience(req.body);
+  const exp = portfolio.addExperience(req.body);
   portfolio.save().then((portfolio) => {
-    return res.json(portfolio.lastExperience);
+    return res.json(exp);
   });
 });
 
@@ -37,6 +37,10 @@ router.param('exp_ix', (req, res, next, exp_ix) => {
     return next(err);
   }
   next();
+});
+
+router.get('/experiences/:exp_ix', (req, res, next) => {
+	return res.json(req.exp);
 });
 
 router.put('/experiences/:exp_ix', (req, res, next) => {
@@ -57,9 +61,9 @@ router.delete('/experiences/:exp_ix', (req, res, next) => {
 });
 
 router.post('/themes', (req, res, next) => {
-  portfolio.addTheme(req.body);
+  const theme = portfolio.addTheme(req.body);
   return portfolio.save().then((portfolio) => {
-    return res.json(portfolio.lastTheme);
+    return res.json(theme);
   });
 });
 

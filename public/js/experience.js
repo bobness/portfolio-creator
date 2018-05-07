@@ -2,7 +2,8 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
   return {
     templateUrl: 'html/experience.html',
     scope: {
-      data: '='
+      data: '=',
+      refreshCallback: '&'
     },
     link: function(scope) {
       
@@ -73,7 +74,9 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
       };
       
       scope.deleteExperience = function(exp) {
-	      return portfolioService.deleteExperience(exp);
+	      return portfolioService.deleteExperience(exp).then(function() {
+		      scope.refreshCallback(exp);
+	      });
       }
       
     }

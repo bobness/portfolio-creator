@@ -76,7 +76,10 @@
         ></histogram>
     </div>
     <div style="display:inline-block;box-sizing:border-box;">
-      <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
+      <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" 
+      	data="exp"
+      	refresh-callback="refreshExperiences({exp: exp})">
+      	</experience>
     </div>
     
     <!-- build:hide -->
