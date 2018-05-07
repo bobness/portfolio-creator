@@ -54,6 +54,7 @@ class Portfolio {
   
   addTheme(theme) {
     this.obj.themes.push(theme);
+    return theme;
   }
   
   deleteTheme(index) {

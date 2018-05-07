@@ -24,10 +24,9 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         tags: selectedTags.map(function(tag) { return tag.name; })
       };
       return portfolioService.createTheme(theme).then(function(theme) {
-        $scope.$applyAsync(function() {
-	        $scope.portfolio.themes.push(theme);
-					$scope.selectedTags = [];
-        });
+	      $scope.portfolio.themes.push(theme);
+				$scope.selectedTags = [];
+				$location.path(theme.name);
       });
     };
     
