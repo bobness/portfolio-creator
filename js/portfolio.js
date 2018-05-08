@@ -64,9 +64,15 @@ class Portfolio {
   
   writeCampaignFile(path, themeName) {
     const theme = this.obj.themes.find((theme) => theme.name === themeName),
-          data = theme.tags.reduce((experiences, tag) => {
-            return experiences.concat(this.obj.experiences.filter((exp) => exp.tags.indexOf(tag) > -1));
-          }, []);
+          experiences = theme.tags.reduce((experiences, tag) => {
+            return experiences.concat(this.obj.experiences.filter((exp) => {
+              return exp.tags.indexOf(tag) > -1 && experiences.indexOf(exp) === -1;
+            }));
+          }, []),
+          data = {
+            experiences: experiences,
+            tags: theme.tags
+          };
     return writeFile(path, data);
   }
 }
