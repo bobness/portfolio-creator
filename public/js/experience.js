@@ -2,12 +2,10 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
   return {
     templateUrl: 'html/experience.html',
     scope: {
-      data: '='
+      data: '=',
+      refreshCallback: '&'
     },
     link: function(scope) {
-      
-      // TODO: parameterize the id instead of using my test account
-      var url = '/portfolios/577b11b224ec6cce246a5751/experiences';
       
       var resetNewRows = function() {
         Object.keys(scope.newrows).forEach(function(key) {
@@ -59,12 +57,27 @@ angular.module('pc').directive('experience', ['portfolioService', function(portf
       
       scope.addSelectedTag = function() {
         var text = getSelectionText();
-        scope.createTag(text);
+        return scope.createTag(text).then(function() {
+		    	scope.tagObjects.push({text: text});
+        });
       };
       
       scope.getFormattedDescription = function() {
-        return scope.data.Description.split('\n').join('<br>');
+	      if (scope.data.description) {
+	        return scope.data.description.split('\n').join('<br>');
+	      }
+	      return '';
       };
+      
+      scope.updateExperience = function(exp) {
+	      return portfolioService.updateExperience(exp);
+      };
+      
+      scope.deleteExperience = function(exp) {
+	      return portfolioService.deleteExperience(exp).then(function() {
+		      scope.refreshCallback(exp);
+	      });
+      }
       
     }
   }

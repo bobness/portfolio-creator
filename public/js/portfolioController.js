@@ -1,12 +1,29 @@
 angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '$location', 'portfolioService',
   function($scope, $uibModal, $location, portfolioService) {
     
+    $scope.alerts = [];
+    
+    var addAlert = function(type, msg) {
+      $scope.alerts.push({
+        type: type,
+        msg: msg
+      });
+    };
+    
+    var success = function(msg) {
+      addAlert('success', msg);
+    };
+    
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+    };
+    
     $scope.newexp = {
-      'Company Name': '',
-      'Title': '',
-      'Description': '',
-      'Start Date': "",
-      'End Date': "",
+      'company': '',
+      'title': '',
+      'description': '',
+      'start': '',
+      'end': '',
       'tags': []
     };
     
@@ -19,18 +36,39 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.createTheme = function(selectedTags) {
       var name = prompt('Theme name');
-      var theme = {
-        name: name,
-        tags: selectedTags.map(function(tag) { return tag.name; })
-      };
-      return portfolioService.createTheme(theme).then(function(theme) {
-        $scope.portfolio.themes.push(theme);
-        $scope.selectedTags = [];
-      });
+      if (name) {
+        var theme = {
+          name: name,
+          tags: selectedTags.map(function(tag) { return tag.name; })
+        };
+        return portfolioService.createTheme(theme).then(function(theme) {
+  	      $scope.portfolio.themes.push(theme);
+  				$scope.selectedTags = [];
+  				$location.path(theme.name);
+        });
+      }
     };
     
     $scope.themeIsSelected = function(name) {
-      return $location.path().substring(1) === name;
+	    if (name) {
+		    return selectedThemeName() === name;
+	    }
+	    if ($scope.portfolio) {
+		    return $scope.portfolio.themes.map(function(theme) { return theme.name; }).indexOf(selectedThemeName()) > -1;
+	    }
+	    return false;
+    };
+    
+    const selectedThemeName = function() {
+	    return $location.path().substring(1);
+    };
+    
+    $scope.deleteSelectedTheme = function() {
+	    var name = selectedThemeName();
+	    return portfolioService.deleteTheme(name).then(function() {
+		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
+		    $location.path('');
+	    });
     };
     
     $scope.expFilter = function(exp) {
@@ -56,7 +94,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return $scope.portfolio.experiences;
     };
     
-    portfolioService.getPortfolio('577b11b224ec6cce246a5751').then(function(portfolio) {
+    portfolioService.getPortfolio().then(function(portfolio) {
       $scope.portfolio = portfolio;
       
 /*
@@ -72,11 +110,15 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     });
     
     $scope.parseDate = function(exp) {
-      var date = exp['Start Date'],
-          parts = date.split('/'),
-          month = parts[0],
-          year = parts[1];
-      return new Date(year + '-' + month);
+      var date = exp['start'],
+          parts = date.split('/');
+      if (parts.length >= 2) {
+	      var month = parts[0],
+            year = parts[1];
+	      return new Date(year + '-' + month);
+      } else {
+	      return new Date(date);
+      }
     };
     
     var makeCharts = function(experiences) {
@@ -101,18 +143,12 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.createExperience = function(exp) {
       return portfolioService.createExperience(exp).then(function(newexp) {
-        $scope.portfolio.experiences.push(newexp);
-        $scope.newexp.name = '';
+	      $scope.$applyAsync(function() {
+        	$scope.portfolio.experiences.push(newexp);
+					$scope.newexp.name = '';
+	      });
       });
     };
-    
-    $scope.showTheme = function(theme) {
-      if (theme) {
-        $location.path(theme.name);
-      } else {
-        $location.path('');
-      }
-    }
     
     $scope.showSurvey = function() {
       $location.hash('contact');
@@ -125,6 +161,13 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     $scope.surveyVisible = function() {
       return $location.hash() === 'contact';
     }
+    
+    $scope.refreshExperiences = function(callObj) {
+	    var removedExp = callObj.exp;
+	    $scope.$applyAsync(function() {
+		    $scope.portfolio.experiences = $scope.portfolio.experiences.filter(function(exp) { return exp !== removedExp; });
+		  });
+    };
     
     $scope.openLinkedInModal = function() {
         var modal = $uibModal.open({
@@ -162,7 +205,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
                     } else if (items.length === 5) {
                         currentExp.Description += '\n' + items[0];
                         currentExp.Location = items[1];
-                        currentExp['Start Date'] = items[2];
+                        currentExp['start'] = items[2];
                         currentExp['End Date'] = items[3];
                         currentExp.Title = items[4];
                     }
@@ -178,6 +221,14 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
             };
           }
         });
+    };
+    
+    $scope.createCampaign = function() {
+      var path = 'public/export';
+      var themeName = selectedThemeName();
+      return portfolioService.createCampaign(themeName, path).then(function() {
+        success('Created campaign JSON file: ' + path + '/' + themeName + '.json');
+      });
     };
   }]
 );
