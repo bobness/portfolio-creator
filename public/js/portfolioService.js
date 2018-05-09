@@ -72,14 +72,5 @@ angular.module('pc').factory('portfolioService', function($http) {
     return post(rootUrl + '/campaign', body);
   };
   
-//   service.sendSurvey = function() {
-//     return {
-//       then: function() {}
-//     };
-//   }; // not needed for the builder UI
-  service.sendSurvey = function(surveyObj) {
-    return post('/portfolios/' + this.id + '/contact', surveyObj);
-  };
-  
   return service;
 });

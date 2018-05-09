@@ -2,75 +2,27 @@ angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($
   return {
     templateUrl: 'html/survey.html',
     scope: {
-//       questions: '<',
-      themes: '<'
+      tagCounts: '<',
+      successFunc: '&'
     },
     link: function(scope, elem, attrs) {
       
-/*
-      var checkAnswered = function(e) {
-        var input = e.target;
-        var questionText = input.getAttribute('question');
-        var question = scope.questions.filter(function(question) { return question.text === questionText; })[0];
-        if (!question || !question.inputs) {
-          return false;
-        }
-        question.answered = question.inputs.reduce(function(answered, input) {
-          return answered && input.val;
-        }, false);
-      };
-*/
-      
-/*
-      scope.$watch('questions', function() {
-        if (scope.questions) {
-          scope.questions.forEach(function(question) {
-            
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(question.html, "text/xml");
-            var inputElements = Array.prototype.slice.call(doc.getElementsByTagName('input'));
-            inputElements.forEach(function(inputEl) {
-              inputEl.setAttribute('question', question.text);
-            });
-            question.inputs = inputElements;
-            question.html = (new XMLSerializer()).serializeToString(doc);
-            
-            question.trustedHtml = $sce.trustAsHtml(question.html);
+      scope.$watch('tagCounts', function() {
+        if (scope.tagCounts) {
+          scope.tags = scope.tagCounts.map(function(tag) {
+            return {
+              name: tag.name,
+              selected: false
+            };
           });
+          scope.otherTag = {
+            name: 'Other',
+            selected: false,
+            text: ''
+          };
         }
       });
-*/
-/*
-      
-      scope.$watch(function() {
-        return elem.find('input').length;
-      }, function() {
-        elem.find('input').off('blur');
-        elem.find('input').on('blur', checkAnswered);
-      })
-*/
-      
-/*
-      var questionsAnswered = function() {
-        if (!scope.questions) {
-          return 0;
-        }
-        return scope.questions.filter(function(question) {
-          return question.answered;
-        }).length;
-      };
-*/
-      
-/*
-      scope.progress = function() {
-        if (!scope.questions) {
-          return 0;1
-        }
-        return Math.round((questionsAnswered()/scope.questions.length)*100);
-      };
-*/
 
-      // TODO: use dynamic questions, but for now just manually computer progress
       scope.progress = function() {
         var answered = Object.keys(scope.answered);
         var denominator = answered.length;
@@ -81,46 +33,42 @@ angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($
       
       scope.answered = {
         salary: null,
-        teamSize: null,
+        comments: null,
         company: null,
-        themes: null,
+        tags: null,
         email: null
       };
       
       scope.answer = function(questionName, value) {
         scope.answered[questionName] = !!value;
       };
-/*
-      scope.createQuestion = function() {
-        // TODO
-      };
-*/
 
-      scope.themesSelected = null;
+      scope.tagsSelected = null;
       
-      scope.selectTheme = function(theme) {
-        if (theme.selected) {
-          scope.themesSelected = true;
+      scope.selectTag = function(tag) {
+        if (tag.selected) {
+          scope.tagsSelected = true;
         } else {
-          scope.themesSelected = scope.themes.reduce(function(anySelected, theme) {
-            return theme.selected ||  anySelected;
+          var tags = scope.tags.concat(scope.otherTag);
+          scope.tagsSelected = tags.reduce(function(anySelected, tag) {
+            return tag.selected ||  anySelected;
           }, false);
         }
         
       };
       
       scope.submit = function() {
-        // ng-models: themes.selected, salary, company, teamSize
         var email = {
           email: scope.email,
-          selectedThemes: scope.themes
-            .filter(function(theme) { return theme.selected; })
-            .map(function(theme) { return theme.name; }),
+          selectedtags: scope.tags
+            .filter(function(tag) { return tag.selected; })
+            .map(function(tag) { return tag.name; }),
           salary: scope.salary,
           company: scope.company,
-          teamSize: scope.teamSize
+          comments: scope.comments
         };
-        return portfolioService.sendSurvey(email);
+        var text = JSON.stringify(email);
+        return scope.successFunc({text: text});
       };
     }
   };

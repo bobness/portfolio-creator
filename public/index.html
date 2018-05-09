@@ -72,8 +72,8 @@
     <!-- endbuild -->
     
     <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
-      <histogram ng-repeat="chart in charts" 
-        data="chart" 
+      <histogram
+        tag-counts="tagCounts" 
         set-filter="setFilter(func)" 
         get-experiences="getExperiences()" 
         selected-tags="selectedTags"
@@ -92,21 +92,24 @@
       </ul>
     </div>
     
-    <div style="display:inline-block;box-sizing:border-box;">
+    <div style="display:inline-block;box-sizing:border-box;" ng-hide="surveyVisible()">
       <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" 
       	data="exp"
       	refresh-callback="refreshExperiences({exp: exp})">
-      	</experience>
+      </experience>
+      <div style="margin-top:10px;">
+  	    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
+  	      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  	      Add another
+  	    </a>
+      </div>
     </div>
     
-    <!-- build:hide -->
-    <div style="margin-top:10px;">
-	    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
-	      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-	      Add another
-	    </a>
-    </div>
-    <!-- endbuild -->
+    <survey ng-show="surveyVisible()"
+      questions="portfolio.survey"
+      tag-counts="tagCounts"
+      success-func="success(text)">
+    </survey>
     
     <script type="text/ng-template" id="tag-template">
       <div class="tag-template tag label label-info">

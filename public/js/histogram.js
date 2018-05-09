@@ -2,21 +2,13 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
   return {
     templateUrl: 'html/histogram.html',
     scope: {
-      data: '=',
+      tagCounts: '=',
       setFilter: '&',
       getExperiences: '&',
       selectedTags: '=',
       themes: '<'
     },
     link: function(scope) {
-      
-      // TODO: bring histogram-creating code into this file from portfolioCreator
-      
-      scope.createTheme = function() {};
-      
-      scope.deleteTheme = function() {};
-      
-      scope.visibleTags = angular.copy(scope.data);
       
       scope.selectTag = function(tag) {
         var index = scope.selectedTags
@@ -39,17 +31,6 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
       var filterExperiencesBySelectedTags = function(exp) {
         return filterExperiencesByTags(exp, scope.selectedTags);
       };
-      
-      scope.$watch(function() { return $location.path(); }, function(path) {
-        var currentTheme = scope.themes.filter(function(theme) { return theme.name === path.substring(1)})[0];
-        if (currentTheme) {
-          scope.visibleTags = scope.data.filter(function(tag) { 
-            return currentTheme.tags.indexOf(tag.name) > -1;
-          });
-        } else {
-          scope.visibleTags = angular.copy(scope.data);
-        }
-      });
       
       scope.isSelected = function(tag) {
         return scope.selectedTags.map(function(tag) { return tag.name; }).indexOf(tag.name) > -1;
