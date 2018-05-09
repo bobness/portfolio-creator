@@ -64,10 +64,10 @@ angular.module('pc').factory('portfolioService', function($http) {
 	  return $http.delete(rootUrl + '/themes/' + index);
   };
   
-  service.createCampaign = function(themeName) {
+  service.createCampaign = function(themeName, path = '.') {
     var body = {
       theme: themeName,
-      path: themeName + '.json'
+      path: path + '/' + themeName + '.json'
     };
     return post(rootUrl + '/campaign', body);
   };

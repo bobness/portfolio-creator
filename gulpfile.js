@@ -33,32 +33,13 @@ gulp.task('export', ['move'], () => {
 
 gulp.task('move', ['json'], () => {
   return gulp.src([
-    'public/index.html',
     'public/readonly.css',
     'public/*.json',
-    'public/js/*.js', 
+    'public/js/readonly.js', 
     'public/export_html/*.html', 
-    'public/bower_components/**/*.min.js',
-    'public/bower_components/**/*.css',
-    'public/bower_components/**/*.map'
+    'public/bower_components/angular/angular.min.js'
   ], {base: 'public'})
     .pipe(gulp.dest(dist));
-});
-
-gulp.task('rename', ['rename-html', 'rename-css', 'rename-portfolioService']);
-
-gulp.task('rename-html', () => {
-  return fs.rename(`${dist}/export_html`, `${dist}/html`);
-});
-
-gulp.task('rename-css', () => {
-  return fs.rename(`${dist}/readonly.css`, `${dist}/style.css`);
-});
-
-gulp.task('rename-portfolioService', () => {
-  return fs.unlink(`${dist}/js/portfolioService.js`, () => {
-    fs.rename(`${dist}/js/readonly-portfolioService.js`, `${dist}/js/portfolioService.js`);
-  });
 });
 
 gulp.task('concat-js', () => {

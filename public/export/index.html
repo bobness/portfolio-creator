@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="style.css"/>
+    
+    <title>Bob Stark's Portfolio</title>
+    
+    <script src="angular.min.js"></script>
+    
+    <script src="app.js"></script>
+    
+  </head>
+  <body ng-app="counteroffer" ng-controller="controller">
+    
+    <div style="text-align:center;">
+      <h1>Bob Stark</h1>
+    </div>
+    
+    <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
+      <histogram ng-repeat="chart in charts" 
+        data="chart" 
+        set-filter="setFilter(func)" 
+        get-experiences="getExperiences()" 
+        selected-tags="selectedTags"
+        themes="portfolio.themes"
+        ></histogram>
+    </div>
+    <div>
+      <experience ng-repeat="exp in experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
+    </div>
+
+  </body>
+</html>

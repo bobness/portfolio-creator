@@ -201,9 +201,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     };
     
     $scope.createCampaign = function() {
+      var path = 'public/export';
       var themeName = selectedThemeName();
-      return portfolioService.createCampaign(themeName).then(function() {
-        success('Created campaign JSON file: ' + themeName + '.json');
+      return portfolioService.createCampaign(themeName, path).then(function() {
+        success('Created campaign JSON file: ' + path + '/' + themeName + '.json');
       });
     };
   }]
