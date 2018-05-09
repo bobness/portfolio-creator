@@ -27,7 +27,6 @@ angular.module('pc').directive('histogram', ['$location', '$q', '$window', 'port
         } else {
           scope.selectedTags.splice(index, 1);
         }
-        $location.hash('');
       };
       
       var filterExperiencesByTags = function(exp, tags) {

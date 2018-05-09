@@ -44,7 +44,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         return portfolioService.createTheme(theme).then(function(theme) {
   	      $scope.portfolio.themes.push(theme);
   				$scope.selectedTags = [];
-  				$location.path(theme.name);
+  				$scope.showTheme(theme.name);
         });
       }
     };
@@ -67,7 +67,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
 	    var name = selectedThemeName();
 	    return portfolioService.deleteTheme(name).then(function() {
 		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
-		    $location.path('');
+		    $scope.showTheme('');
 	    });
     };
     
@@ -160,6 +160,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.surveyVisible = function() {
       return $location.hash() === 'contact';
+    }
+    
+    $scope.showTheme = function(name) {
+      $location.path(name);
     }
     
     $scope.refreshExperiences = function(callObj) {

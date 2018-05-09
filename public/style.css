@@ -34,11 +34,3 @@ tags-input .tags .tag-item {
     float:none;
   }
 }
-.btn-white {
-  background-color: white;
-  border: 1px #ccc solid;
-}
-.btn-white:hover {
-  background-color: #e6e6e6;
-  border-color: #adadad;
-}
