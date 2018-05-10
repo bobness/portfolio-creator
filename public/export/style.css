@@ -33,3 +33,7 @@ body {
 .description {
   white-space: pre-line;
 }
+
+.smcx-widget {
+  margin: 0 auto !important;
+}

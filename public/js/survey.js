@@ -3,7 +3,7 @@ angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($
     templateUrl: 'html/survey.html',
     scope: {
       tagCounts: '<',
-      successFunc: '&'
+      submitFunc: '&'
     },
     link: function(scope, elem, attrs) {
       
@@ -68,7 +68,7 @@ angular.module('pc').directive('survey', ['$sce', 'portfolioService', function($
           comments: scope.comments
         };
         var text = JSON.stringify(email);
-        return scope.successFunc({text: text});
+        return scope.submitFunc({text: text});
       };
     }
   };
