@@ -3,10 +3,8 @@
 const fs = require('fs');
 
 const writeFile = (path, data) => {
-  console.log(`called WriteFile(${path}, `, data)
   return new Promise((resolve, reject) => {
     fs.writeFile(path, JSON.stringify(data), (err) => {
-      console.log('callback: ', err);
       if (err) {
         reject(err);
       } else {
@@ -43,6 +41,10 @@ class Portfolio {
   addExperience(exp) {
     this.obj.experiences.push(exp);
     return exp;
+  }
+  
+  updateExperience(index, newExp) {
+    this.obj.experiences[index] = newExp;
   }
   
   deleteExperience(index) {
