@@ -45,10 +45,9 @@ router.get('/experiences/:exp_ix', (req, res, next) => {
 
 router.put('/experiences/:exp_ix', (req, res, next) => {
 	const index = portfolio.experiences.indexOf(req.exp);
-	console.log("updating exp: ", req.body);
-  portfolio.experiences[index] = req.body;
+  portfolio.updateExperience(index, req.body);
   return portfolio.save().then(() => {
-    return res.json(req.body);
+    return res.json(portfolio.experiences[index]);
   });
 });
 
