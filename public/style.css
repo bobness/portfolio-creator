@@ -28,6 +28,19 @@ tags-input .tags .tag-item {
 	width: 100%;
 }
 
+.pill-title {
+  padding: 10px 15px;
+  font-weight: bold;
+}
+
+table#facts tbody th {
+  width: 20%;
+}
+
+table#facts textarea {
+  width: 80%;
+}
+
 @media only screen and (max-width: 720px) {
   ul.nav.nav-pills>li {
     float:none;

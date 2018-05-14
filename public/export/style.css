@@ -33,3 +33,11 @@ body {
 .description {
   white-space: pre-line;
 }
+
+table#facts tbody th {
+  width: 20%;
+}
+
+table#facts tbody td {
+  width: 80%;
+}

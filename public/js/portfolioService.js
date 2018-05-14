@@ -64,6 +64,49 @@ angular.module('pc').factory('portfolioService', function($http) {
 	  return $http.delete(rootUrl + '/themes/' + index);
   };
   
+  service.updateTheme = function(theme) {
+	  var index = portfolio.themes.indexOf(theme);
+    return put(rootUrl + '/themes/' + index, theme);
+  };
+  
+  service.createFact = function(fact, theme) {
+    if (theme) {
+      if (!theme.facts) {
+        theme.facts = [];
+      }
+      theme.facts.push(fact);
+      return this.updateTheme(theme).then(function(theme) {
+        return theme.facts.filter(function(f) { return f === fact; })[0];
+      });
+    } else {
+      return post(rootUrl + '/facts', fact);
+    }
+  };
+  
+  service.updateFact = function(fact, theme) {
+    if (theme) {
+      if (theme.facts.indexOf(fact) === -1) {
+        theme.facts.push(fact);
+      }
+      var index = portfolio.themes.indexOf(theme);
+      return put(rootUrl + '/themes/' + index, theme);
+    } else {
+      var index = portfolio.facts.indexOf(fact);
+      return put(rootUrl + '/facts/' + index, fact);
+    }
+  };
+  
+  service.deleteFact = function(fact, theme) {
+    if (theme) {
+      theme.facts = theme.facts.filter(function(f) { return f !== fact; });
+      var index = portfolio.themes.indexOf(theme);
+      return put(rootUrl + '/themes/' + index, theme);
+    } else {
+      var index = portfolio.facts.indexOf(fact);
+      return $http.delete(rootUrl + '/facts/' + index); 
+    }
+  };
+  
   service.createCampaign = function(themeName, path = '.') {
     var body = {
       theme: themeName,

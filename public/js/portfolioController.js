@@ -39,7 +39,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       if (name) {
         var theme = {
           name: name,
-          tags: selectedTags.map(function(tag) { return tag.name; })
+          tags: selectedTags.map(function(tag) { return tag.name; }),
+          facts: $scope.portfolio.facts || []
         };
         return portfolioService.createTheme(theme).then(function(theme) {
   	      $scope.portfolio.themes.push(theme);
@@ -59,8 +60,16 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
 	    return false;
     };
     
-    const selectedThemeName = function() {
+    var selectedThemeName = function() {
 	    return $location.path().substring(1);
+    };
+    
+    $scope.getSelectedTheme = function() {
+      var themeName = selectedThemeName();
+      if ($scope.portfolio) {
+        var theme = $scope.portfolio.themes.filter(function(theme) { return theme.name === themeName; })[0];
+        return theme;
+      }
     };
     
     $scope.deleteSelectedTheme = function() {
@@ -70,6 +79,52 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
 		    $location.path('');
 	    });
     };
+    
+    $scope.getThemeFacts = function(theme) {
+      if (!theme) {
+        theme = $scope.getSelectedTheme();
+      }
+      if (theme) {
+        return theme.facts || [];
+      } else if ($scope.portfolio) {
+        return $scope.portfolio.facts;        
+      }
+    }
+    
+    $scope.addFact = function(theme) {
+      if (!theme) {
+        theme = $scope.getSelectedTheme();
+      }
+      var newFact = {name: 'Name (e.g., Objective)', value: 'value'};
+      if (theme) {
+        return portfolioService.createFact(newFact, theme);
+      } else {
+        return portfolioService.createFact(newFact).then(function(fact) {
+          if (!$scope.portfolio.facts) {
+            $scope.portfolio.facts = [];
+          }
+          $scope.portfolio.facts.push(fact);
+        });
+      }
+    };
+    
+    $scope.updateFact = function(fact) {
+      var theme = $scope.getSelectedTheme();
+      return portfolioService.updateFact(fact, theme);
+    };
+    
+    $scope.deleteFact = function(fact) {
+      var theme = $scope.getSelectedTheme();
+      if (theme) {
+        return portfolioService.deleteFact(fact, theme).then(function() {
+          theme.facts = theme.facts.filter(function(f) { return f !== fact; });
+        });
+      } else {
+        return portfolioService.deleteFact(fact).then(function() {
+          $scope.portfolio.facts = $scope.portfolio.facts.filter(function(f) { return f !== fact; });
+        });
+      }
+    }
     
     $scope.expFilter = function(exp) {
       if (filterFunc) {

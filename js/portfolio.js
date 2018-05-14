@@ -25,6 +25,9 @@ class Portfolio {
       if (!this.obj.experiences) {
         this.obj.experiences = [];
       }
+      if (!this.obj.facts) {
+        this.obj.facts = [];
+      }
     } else {
 	    throw new Error('Usage: node app.js [portfolioFile]');
     }
@@ -43,8 +46,8 @@ class Portfolio {
     return exp;
   }
   
-  updateExperience(index, newExp) {
-    this.obj.experiences[index] = newExp;
+  updateExperience(index, exp) {
+    this.obj.experiences[index] = exp;
   }
   
   deleteExperience(index) {
@@ -60,8 +63,29 @@ class Portfolio {
     return theme;
   }
   
+  updateTheme(index, theme) {
+    this.obj.themes[index] = theme;
+  }
+  
   deleteTheme(index) {
     this.obj.themes.splice(index, 1);
+  }
+  
+  get facts() {
+    return this.obj.facts;
+  }
+  
+  addFact(fact) {
+    this.obj.facts.push(fact);
+    return fact;
+  }
+  
+  updateFact(index, fact) {
+    this.obj.facts[index] = fact;
+  }
+  
+  deleteFact(index) {
+    this.obj.facts.splice(index, 1);
   }
   
   writeCampaignFile(path, themeName) {
@@ -73,7 +97,8 @@ class Portfolio {
           }, []),
           data = {
             experiences: experiences,
-            tags: theme.tags
+            tags: theme.tags,
+            facts: theme.facts
           };
     return writeFile(path, data);
   }
