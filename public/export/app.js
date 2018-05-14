@@ -4,6 +4,7 @@ angular.module('counteroffer', [])
       var json = res.data;
       $scope.experiences = json.experiences;
       $scope.tagCounts = countTags(json.experiences, json.tags);
+      $scope.facts = json.facts;
     });
     
     var countTags = function(experiences, tags) {

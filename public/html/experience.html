@@ -29,8 +29,14 @@
     replace-spaces-with-dashes="false"
     template="tag-template"
     ></tags-input>
-  <button class="btn btn-sm btn-default" ng-show="data.description" ng-click="addSelectedTag()">Add Selected Text</button>
+  <button class="btn btn-sm btn-default" ng-show="data.description" ng-click="addSelectedTag()">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    Add Selected Text
+    </button>
   <div>
-	  <button class="btn btn-sm btn-default" ng-click="deleteExperience(data)">Delete Experience</button>
+	  <button class="btn btn-sm btn-default" ng-click="deleteExperience(data)">
+  	  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  	  Delete Experience
+    </button>
   </div>
 </div>
