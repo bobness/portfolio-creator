@@ -15,12 +15,39 @@ router.get('/', (req, res, next) => {
 
 /*
 router.put('/', (req, res, next) => {
-  portfolio = req.body.value;
-  return portfolio.save().then(() => {
-    return res.sendStatus(200);
+  return portfolio.updatePortfolio(req.body).then(() => {
+    return res.json(portfolio.obj);
   });
 });
 */
+
+router.post('/facts', (req, res, next) => {
+  const fact = portfolio.addFact(req.body);
+  portfolio.save().then((portfolio) => {
+    return res.json(fact);
+  });
+});
+
+router.param('fact_ix', (req, res, next, fact_ix) => {
+  req.fact = portfolio.facts[fact_ix];
+  req.fact_ix = fact_ix;
+  if (!req.fact) {
+    const err = new Error("no such fact");
+    err.status = 404;
+    return next(err);
+  }
+  next();
+});
+
+// TODO: get?
+
+router.put('/facts/:fact_ix', (req, res, next) => {
+//   const index = portfolio.facts.indexOf(req.fact);
+  portfolio.updateFact(req.fact_ix, req.body);
+  return portfolio.save().then(() => {
+    return res.json(portfolio.facts[req.fact_ix]);
+  });
+});
 
 router.post('/experiences', (req, res, next) => {
   const exp = portfolio.addExperience(req.body);
@@ -80,12 +107,24 @@ router.get('/themes/:theme_ix', (req, res, next) => {
 	return res.json(req.theme);
 });
 
+router.put('/themes/:theme_ix', (req, res, next) => {
+  const index = portfolio.experiences.indexOf(req.theme);
+  portfolio.updateTheme(index, req.body);
+  return portfolio.save().then(() => {
+    return res.json(portfolio.themes[index]);
+  });
+});
+
 router.delete('/themes/:theme_ix', (req, res, next) => {
 	const index = portfolio.themes.indexOf(req.theme);
   portfolio.deleteTheme(index);
   return portfolio.save().then(() => {
     return res.sendStatus(200);
   });
+});
+
+router.post('/themes/:theme_ix/facts', (req, res, next) => {
+  // TODO
 });
 
 router.post('/campaign', (req, res, next) => {

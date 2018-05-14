@@ -64,6 +64,28 @@ angular.module('pc').factory('portfolioService', function($http) {
 	  return $http.delete(rootUrl + '/themes/' + index);
   };
   
+  service.updateTheme = function(theme) {
+	  var index = portfolio.themes.indexOf(theme);
+    return put(rootUrl + '/themes/' + index, theme);
+  };
+  
+  service.createFact = function(fact, theme) {
+    if (theme) {
+      if (!theme.facts) {
+        theme.facts = [];
+      }
+      theme.facts.push(fact);
+      return $scope.updateTheme(theme);
+    } else {
+      return post(rootUrl + '/facts', fact);
+    }
+  };
+  
+  service.updateFact = function(fact) {
+    var index = portfolio.facts.indexOf(fact);
+    return put(rootUrl + '/facts/' + index, fact);
+  };
+  
   service.createCampaign = function(themeName, path = '.') {
     var body = {
       theme: themeName,

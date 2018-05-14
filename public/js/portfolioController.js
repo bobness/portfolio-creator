@@ -59,8 +59,16 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
 	    return false;
     };
     
-    const selectedThemeName = function() {
+    var selectedThemeName = function() {
 	    return $location.path().substring(1);
+    };
+    
+    $scope.getSelectedTheme = function() {
+      var themeName = selectedThemeName();
+      if ($scope.portfolio) {
+        var theme = $scope.portfolio.themes.filter(function(theme) { return theme.name === themeName; })[0];
+        return theme ? theme.name : '';
+      }
     };
     
     $scope.deleteSelectedTheme = function() {
@@ -69,6 +77,43 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
 		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
 		    $location.path('');
 	    });
+    };
+    
+    $scope.getThemeFacts = function(theme) {
+      if (!theme) {
+        theme = $scope.getSelectedTheme();
+      }
+      if (theme) {
+        return theme.facts || [];
+      } else if ($scope.portfolio) {
+        return $scope.portfolio.facts;        
+      }
+    }
+    
+    $scope.addFact = function(theme) {
+      if (!theme) {
+        theme = $scope.getSelectedTheme();
+      }
+      var newFact = {name: 'Name (e.g., Objective)', value: 'value'};
+      if (theme) {
+        return portfolioService.createFact(newFact, theme).then(function(fact) {
+          if (!theme.facts) {
+            theme.facts = [];
+          }
+          theme.facts.push(newFact);
+        });
+      } else {
+        return portfolioService.createFact(newFact).then(function(fact) {
+          if (!$scope.portfolio.facts) {
+            $scope.portfolio.facts = [];
+          }
+          $scope.portfolio.facts.push(fact);
+        });
+      }
+    };
+    
+    $scope.updateFact = function(fact) {
+      return portfolioService.updateFact(fact);
     };
     
     $scope.expFilter = function(exp) {

@@ -25,6 +25,9 @@ class Portfolio {
       if (!this.obj.experiences) {
         this.obj.experiences = [];
       }
+      if (!this.obj.facts) {
+        this.obj.facts = [];
+      }
     } else {
 	    throw new Error('Usage: node app.js [portfolioFile]');
     }
@@ -62,6 +65,19 @@ class Portfolio {
   
   deleteTheme(index) {
     this.obj.themes.splice(index, 1);
+  }
+  
+  get facts() {
+    return this.obj.facts;
+  }
+  
+  addFact(fact) {
+    this.obj.facts.push(fact);
+    return fact;
+  }
+  
+  updateFact(index, fact) {
+    this.obj.facts[index] = fact;
   }
   
   writeCampaignFile(path, themeName) {
