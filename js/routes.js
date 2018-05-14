@@ -116,7 +116,6 @@ router.get('/themes/:theme_ix', (req, res, next) => {
 
 router.put('/themes/:theme_ix', (req, res, next) => {
   const index = portfolio.themes.indexOf(req.theme);
-  console.log(`updating theme ${index} with: `, req.theme);
   portfolio.updateTheme(index, req.body);
   return portfolio.save().then(() => {
     return res.json(portfolio.themes[index]);
