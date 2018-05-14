@@ -67,7 +67,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       var themeName = selectedThemeName();
       if ($scope.portfolio) {
         var theme = $scope.portfolio.themes.filter(function(theme) { return theme.name === themeName; })[0];
-        return theme ? theme.name : '';
+        return theme;
       }
     };
     
@@ -113,7 +113,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     };
     
     $scope.updateFact = function(fact) {
-      return portfolioService.updateFact(fact);
+      var theme = $scope.getSelectedTheme();
+      return portfolioService.updateFact(fact, theme);
     };
     
     $scope.expFilter = function(exp) {

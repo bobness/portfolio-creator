@@ -75,13 +75,22 @@ angular.module('pc').factory('portfolioService', function($http) {
         theme.facts = [];
       }
       theme.facts.push(fact);
-      return $scope.updateTheme(theme);
+      return this.updateTheme(theme).then(function(theme) {
+        return theme.facts.filter(function(f) { return f === fact; })[0];
+      });
     } else {
       return post(rootUrl + '/facts', fact);
     }
   };
   
-  service.updateFact = function(fact) {
+  service.updateFact = function(fact, theme) {
+    if (theme) {
+      if (theme.facts.indexOf(fact) === -1) {
+        theme.facts.push(fact);
+      }
+      var index = portfolio.themes.indexOf(theme);
+      return put(rootUrl + '/themes/' + index, theme);
+    }
     var index = portfolio.facts.indexOf(fact);
     return put(rootUrl + '/facts/' + index, fact);
   };

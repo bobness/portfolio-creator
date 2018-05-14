@@ -30,7 +30,6 @@ router.post('/facts', (req, res, next) => {
 
 router.param('fact_ix', (req, res, next, fact_ix) => {
   req.fact = portfolio.facts[fact_ix];
-  req.fact_ix = fact_ix;
   if (!req.fact) {
     const err = new Error("no such fact");
     err.status = 404;
@@ -42,10 +41,10 @@ router.param('fact_ix', (req, res, next, fact_ix) => {
 // TODO: get?
 
 router.put('/facts/:fact_ix', (req, res, next) => {
-//   const index = portfolio.facts.indexOf(req.fact);
-  portfolio.updateFact(req.fact_ix, req.body);
+  const index = portfolio.facts.indexOf(req.fact);
+  portfolio.updateFact(index, req.body);
   return portfolio.save().then(() => {
-    return res.json(portfolio.facts[req.fact_ix]);
+    return res.json(portfolio.facts[index]);
   });
 });
 
@@ -108,7 +107,8 @@ router.get('/themes/:theme_ix', (req, res, next) => {
 });
 
 router.put('/themes/:theme_ix', (req, res, next) => {
-  const index = portfolio.experiences.indexOf(req.theme);
+  const index = portfolio.themes.indexOf(req.theme);
+  console.log(`updating theme ${index} with: `, req.theme);
   portfolio.updateTheme(index, req.body);
   return portfolio.save().then(() => {
     return res.json(portfolio.themes[index]);
@@ -121,10 +121,6 @@ router.delete('/themes/:theme_ix', (req, res, next) => {
   return portfolio.save().then(() => {
     return res.sendStatus(200);
   });
-});
-
-router.post('/themes/:theme_ix/facts', (req, res, next) => {
-  // TODO
 });
 
 router.post('/campaign', (req, res, next) => {

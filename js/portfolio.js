@@ -46,8 +46,8 @@ class Portfolio {
     return exp;
   }
   
-  updateExperience(index, newExp) {
-    this.obj.experiences[index] = newExp;
+  updateExperience(index, exp) {
+    this.obj.experiences[index] = exp;
   }
   
   deleteExperience(index) {
@@ -61,6 +61,10 @@ class Portfolio {
   addTheme(theme) {
     this.obj.themes.push(theme);
     return theme;
+  }
+  
+  updateTheme(index, theme) {
+    this.obj.themes[index] = theme;
   }
   
   deleteTheme(index) {
