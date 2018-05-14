@@ -90,9 +90,21 @@ angular.module('pc').factory('portfolioService', function($http) {
       }
       var index = portfolio.themes.indexOf(theme);
       return put(rootUrl + '/themes/' + index, theme);
+    } else {
+      var index = portfolio.facts.indexOf(fact);
+      return put(rootUrl + '/facts/' + index, fact);
     }
-    var index = portfolio.facts.indexOf(fact);
-    return put(rootUrl + '/facts/' + index, fact);
+  };
+  
+  service.deleteFact = function(fact, theme) {
+    if (theme) {
+      theme.facts = theme.facts.filter(function(f) { return f !== fact; });
+      var index = portfolio.themes.indexOf(theme);
+      return put(rootUrl + '/themes/' + index, theme);
+    } else {
+      var index = portfolio.facts.indexOf(fact);
+      return $http.delete(rootUrl + '/facts/' + index); 
+    }
   };
   
   service.createCampaign = function(themeName, path = '.') {

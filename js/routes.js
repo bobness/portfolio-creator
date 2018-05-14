@@ -48,6 +48,14 @@ router.put('/facts/:fact_ix', (req, res, next) => {
   });
 });
 
+router.delete('/facts/:fact_ix', (req, res, next) => {
+  const index = portfolio.facts.indexOf(req.fact);
+  portfolio.deleteFact(index);
+  return portfolio.save().then(() => {
+    return res.sendStatus(200);
+  });
+});
+
 router.post('/experiences', (req, res, next) => {
   const exp = portfolio.addExperience(req.body);
   portfolio.save().then((portfolio) => {

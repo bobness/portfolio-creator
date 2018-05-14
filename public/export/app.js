@@ -3,6 +3,7 @@ angular.module('counteroffer', [])
     $http.get(('Counteroffer.json')).then(function(res) {
       var json = res.data;
       $scope.experiences = json.experiences;
+      $scope.facts = json.facts;
       $scope.charts = makeCharts(json.experiences, json.tags);
     });
     

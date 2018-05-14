@@ -37,7 +37,7 @@ table#facts tbody th {
   width: 20%;
 }
 
-table#facts tbody td {
+table#facts textarea {
   width: 80%;
 }
 

@@ -84,6 +84,10 @@ class Portfolio {
     this.obj.facts[index] = fact;
   }
   
+  deleteFact(index) {
+    this.obj.facts.splice(index, 1);
+  }
+  
   writeCampaignFile(path, themeName) {
     const theme = this.obj.themes.find((theme) => theme.name === themeName),
           experiences = theme.tags.reduce((experiences, tag) => {
@@ -93,7 +97,8 @@ class Portfolio {
           }, []),
           data = {
             experiences: experiences,
-            tags: theme.tags
+            tags: theme.tags,
+            facts: theme.facts
           };
     return writeFile(path, data);
   }

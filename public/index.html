@@ -56,10 +56,17 @@
           <tbody>
             <tr ng-repeat="fact in getThemeFacts() track by $index">
               <th scope="row"><a editable-text="fact.name" onaftersave="updateFact(fact)">{{ fact.name }}</a></th>
-              <td><a editable-text="fact.value" onaftersave="updateFact(fact)">{{ fact.value }}</a></td>
+              <td><a editable-textarea="fact.value" onaftersave="updateFact(fact)">{{ fact.value }}</a></td>
+              <td><button class="btn btn-sm btn-default" ng-click="deleteFact(fact)">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Delete
+              </button></td>
             </tr>
-            <tr style="text-align:center;"><td colspan="2">
-              <button class="btn btn-sm btn-default" ng-click="addFact()">Add Fact</button>
+            <tr style="text-align:center;"><td colspan="3">
+              <button class="btn btn-sm btn-default" ng-click="addFact()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Add Fact
+              </button>
               </td></tr>
           </tbody>
         </table>
@@ -70,16 +77,28 @@
     <!-- build:hide -->
     <div style="text-align:center;margin:1em;">
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
-      	ng-click="openLinkedInModal()">Import LinkedIn</button>
+      	ng-click="openLinkedInModal()">
+      	<span class="glyphicon glyphicon-import" aria-hidden="true"></span>
+      	Import LinkedIn
+      </button>
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
         ng-if="selectedTags.length > 0"
-        ng-click="createTheme(selectedTags)">Create Theme</button>
+        ng-click="createTheme(selectedTags)">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Create Theme
+      </button>
       <button class="btn btn-sm btn-default" style="display:inline-block;" 
       	ng-if="themeIsSelected()"
-      	ng-click="deleteSelectedTheme()">Delete Theme</button>
+      	ng-click="deleteSelectedTheme()">
+      	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      	Delete Theme
+      </button>
       <button class="btn btn-sm btn-default" style="display:inline-block;"
         ng-if="themeIsSelected()"
-      	ng-click="createCampaign()">Export Theme</button>
+      	ng-click="createCampaign()">
+      	<span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+      	Export Theme
+      </button>
     </div>
     <!-- endbuild -->
     
