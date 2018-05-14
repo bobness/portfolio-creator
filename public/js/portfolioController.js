@@ -140,7 +140,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     var updateTagCounts = function() {
       if ($scope.portfolio) {
-        $scope.tagCounts = countTags($scope.portfolio.experiences, getSelectedTheme());
+        $scope.tagCounts = countTags($scope.portfolio.experiences, $scope.getSelectedTheme());
       }
     };
     
