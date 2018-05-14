@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Contact Bob</div>
+  <div class="panel-body">
+    
+    <p>If you would like to talk with Bob about a job opportunity, please fill out the following form. </p>
+    
+    <p><strong>Progress:</strong></p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" ng-style="{width: progress()+'%'}">
+        <span class="sr-only">{{ progress() }}% Complete</span>
+      </div>
+    </div>
+    
+    <div class="panel" ng-class="{'panel-primary': answered['email'] === null, 'panel-success': answered['email'], 'panel-danger': answered['email'] === false}">
+      <div class="panel-heading">Your email address:</div>
+      <div class="panel-body"><input type="text" ng-model="email" ng-change="answer('email', email)"></div>
+    </div>
+    
+    <div class="panel" ng-class="{'panel-primary': answered['salary'] === null, 'panel-success': answered['salary'], 'panel-danger': answered['salary'] === false}">
+      <div class="panel-heading">What is the salary range?</div>
+      <div class="panel-body"><input type="text" ng-model="salary" ng-change="answer('salary', salary)"></input></div>
+    </div>
+    
+    <div class="panel" ng-class="{'panel-primary': answered['company'] === null, 'panel-success': answered['company'], 'panel-danger': answered['company'] === false}">
+      <div class="panel-heading">What is the company?</div>
+      <div class="panel-body"><input type="text" ng-model="company" ng-change="answer('company', company)"></div>
+    </div>
+    
+    <div class="panel"  ng-class="{'panel-primary': answered['tags'] === null, 'panel-success': answered['tags'] === true, 'panel-danger': answered['tags'] === false}">
+      <div class="panel-heading">Desired Skills</div>
+      <div class="panel-body">
+        <div ng-repeat="tag in tags track by $index">
+          <label>
+            <input type="checkbox" ng-model="tag.selected" ng-change="selectTag(tag); answer('tags', tagsSelected);">
+            {{ tag.name }}
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" ng-model="otherTag.selected" ng-change="selectTag(otherTag); answer('tags', tagsSelected);">
+            Other
+            <input type="text" ng-model="otherTag.text" ng-show="otherTag.selected">
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel" ng-class="{'panel-primary': answered['comments'] === null, 'panel-success': answered['comments'], 'panel-danger': answered['comments'] === false}">
+      <div class="panel-heading">Any other comments?</div>
+      <div class="panel-body">
+        <textarea ng-model="comments" ng-change="answer('comments', comments)" style="width:500px;height:200px;"></textarea>
+      </div>
+    </div>
+    
+    <div>
+      <button class="btn btn-sm btn-default" ng-click="submit()">Submit</button>
+    </div>
+  </div>
+</div>

@@ -114,7 +114,6 @@ angular.module('pc').factory('portfolioService', function($http) {
     };
     return post(rootUrl + '/campaign', body);
   };
-
   
   return service;
 });

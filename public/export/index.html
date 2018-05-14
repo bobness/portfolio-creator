@@ -13,7 +13,7 @@
     <title>Bob Stark's Portfolio</title>
     
     <script src="angular.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha.js"></script>
     <script src="app.js"></script>
     
   </head>
@@ -34,17 +34,35 @@
     </div>
     
     <div style="max-height:300px;overflow-y:scroll;border:1px black solid;border-radius:5px;">
-      <histogram ng-repeat="chart in charts" 
-        data="chart" 
+      <histogram
+        tag-counts="tagCounts" 
         set-filter="setFilter(func)" 
         get-experiences="getExperiences()" 
         selected-tags="selectedTags"
         themes="portfolio.themes"
         ></histogram>
     </div>
-    <div>
+    <div style="text-align:center;margin:1em">
+      <ul class="nav nav-pills" style="display:inline-block;">
+        <li ng-class="{active: !surveyVisible()}">
+          <a ng-click="hideSurvey()" style="cursor:pointer;">Experiences</a>
+        </li>
+        <li ng-class="{active: surveyVisible()}">
+          <a ng-click="showSurvey()" style="cursor:pointer;">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <div ng-if="!surveyVisible()">
       <experience ng-repeat="exp in experiences | filter:expFilter | orderBy : parseDate : true" data="exp"></experience>
     </div>
+    
+<!--
+    <survey ng-if="surveyVisible()"
+      tag-counts="tagCounts"
+      submit-func="sendEmail(email)">
+    </survey>
+-->
 
+  <script ng-if="surveyVisible()">(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src=["https:"===location.protocol?"https://":"http://","widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd0QPzSj0UQWRa3qGQLRck3OeLIWFgzEaKhi9VMWqOUZ_2B.js"].join(""),a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
   </body>
 </html>

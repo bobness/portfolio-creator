@@ -34,6 +34,9 @@ body {
   white-space: pre-line;
 }
 
+.smcx-widget {
+  margin: 0 auto !important;
+
 table#facts tbody th {
   width: 20%;
 }

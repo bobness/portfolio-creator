@@ -1,15 +1,14 @@
 angular.module('counteroffer', [])
-  .controller('controller', ['$scope', '$http', function($scope, $http) {
+  .controller('controller', ['$scope', '$http', '$location', function($scope, $http, $location) {
     $http.get(('Counteroffer.json')).then(function(res) {
       var json = res.data;
       $scope.experiences = json.experiences;
+      $scope.tagCounts = countTags(json.experiences, json.tags);
       $scope.facts = json.facts;
-      $scope.charts = makeCharts(json.experiences, json.tags);
     });
     
-    var makeCharts = function(experiences, tags) {
+    var countTags = function(experiences, tags) {
       tags = tags.map(function(name) { return {name: name, count: 0 }; });
-      var charts = [];
       experiences.forEach(function(exp) {
         exp.tags.forEach(function(name) {
           var index = tags.map(function(tag) { return tag.name; }).indexOf(name);
@@ -18,10 +17,7 @@ angular.module('counteroffer', [])
           }
         });
       });
-      charts.push(
-        tags.sort(function(a,b) { return b.count - a.count; })
-      );
-      return charts;
+      return tags.sort(function(a,b) { return b.count - a.count; });
     };
     
     $scope.parseDate = function(exp) {
@@ -52,6 +48,23 @@ angular.module('counteroffer', [])
       return $scope.experiences;
     };
     $scope.selectedTags = [];
+    $scope.showSurvey = function() {
+      $location.hash('contact');
+    };
+    
+    $scope.hideSurvey = function() {
+      $location.hash('');
+    };
+    
+    $scope.surveyVisible = function() {
+      return $location.hash() === 'contact';
+    };
+    
+/*
+    $scope.sendEmail = function(emailObject) {
+    };
+*/
+    
   }])
   .directive('experience', [function() {
     return {
@@ -73,14 +86,12 @@ angular.module('counteroffer', [])
     return {
       templateUrl: 'histogram.html',
       scope: {
-        data: '=',
+        tagCounts: '=',
         setFilter: '&',
         getExperiences: '&',
         selectedTags: '='
       },
       link: function(scope) {
-        
-        scope.visibleTags = angular.copy(scope.data);
         
         scope.selectTag = function(tag) {
           var index = scope.selectedTags
@@ -134,3 +145,77 @@ angular.module('counteroffer', [])
       }
     };
   }])
+  /*.directive('survey', function() {
+    return {
+      templateUrl: 'survey.html',
+      scope: {
+        tagCounts: '<',
+        submitFunc: '&'
+      },
+      link: function(scope, elem, attrs) {
+        scope.$watch('tagCounts', function() {
+          if (scope.tagCounts) {
+            scope.tags = scope.tagCounts.map(function(tag) {
+              return {
+                name: tag.name,
+                selected: false
+              };
+            });
+            scope.otherTag = {
+              name: 'Other',
+              selected: false,
+              text: ''
+            };
+          }
+        });
+  
+        scope.progress = function() {
+          var answered = Object.keys(scope.answered);
+          var denominator = answered.length;
+          var numerator = answered.filter(function(questionName) { return scope.answered[questionName]; }).length;
+          
+          return Math.round((numerator/denominator)*100);
+        };
+        
+        scope.answered = {
+          salary: null,
+          comments: null,
+          company: null,
+          tags: null,
+          email: null
+        };
+        
+        scope.answer = function(questionName, value) {
+          scope.answered[questionName] = !!value;
+        };
+  
+        scope.tagsSelected = null;
+        
+        scope.selectTag = function(tag) {
+          if (tag.selected) {
+            scope.tagsSelected = true;
+          } else {
+            var tags = scope.tags.concat(scope.otherTag);
+            scope.tagsSelected = tags.reduce(function(anySelected, tag) {
+              return tag.selected ||  anySelected;
+            }, false);
+          }
+          
+        };
+        
+        scope.submit = function() {
+          var email = {
+            email: scope.email,
+            selectedtags: scope.tags
+              .filter(function(tag) { return tag.selected; })
+              .map(function(tag) { return tag.name; }),
+            salary: scope.salary,
+            company: scope.company,
+            comments: scope.comments
+          };
+          return scope.submitFunc({email: email}); // TODO: put a spinner while it's sending
+        };
+        
+      }
+    };
+  });*/

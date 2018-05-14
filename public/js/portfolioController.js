@@ -10,7 +10,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       });
     };
     
-    var success = function(msg) {
+    $scope.success = function(msg) {
       addAlert('success', msg);
     };
     
@@ -45,7 +45,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         return portfolioService.createTheme(theme).then(function(theme) {
   	      $scope.portfolio.themes.push(theme);
   				$scope.selectedTags = [];
-  				$location.path(theme.name);
+  				$scope.showTheme(theme.name);
         });
       }
     };
@@ -72,11 +72,15 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       }
     };
     
+    $scope.showTheme = function(name) {
+      $location.path(name);
+    };
+    
     $scope.deleteSelectedTheme = function() {
 	    var name = selectedThemeName();
 	    return portfolioService.deleteTheme(name).then(function() {
 		    $scope.portfolio.themes = $scope.portfolio.themes.filter(function(theme) { return theme.name !== name; });
-		    $location.path('');
+		    $scope.showTheme('');
 	    });
     };
     
@@ -134,16 +138,15 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       }
     };
     
-    $scope.$watch('portfolio.experiences', function() {
+    var updateTagCounts = function() {
       if ($scope.portfolio) {
-        $scope.charts = makeCharts($scope.portfolio.experiences);
-        $scope.portfolio.experiences.forEach(function(exp) {
-            if (exp.Description && exp.Description.indexOf("\"") === 0) {
-              exp.Description = exp.Description.substring(1,exp.Description.length-1);
-            }
-        })
+        $scope.tagCounts = countTags($scope.portfolio.experiences, getSelectedTheme());
       }
-    }, true);
+    };
+    
+    $scope.$watch('portfolio.experiences', updateTagCounts);
+    
+    $scope.$watch(function() { return selectedThemeName(); }, updateTagCounts);
     
     $scope.getExperiences = function() {
       return $scope.portfolio.experiences;
@@ -165,24 +168,31 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       }
     };
     
-    var makeCharts = function(experiences) {
-      var charts = [];
-      var tags = [];
+    var countTags = function(experiences, selectedTheme) {
+      var tags;
+      if (selectedTheme) {
+        tags = selectedTheme.tags
+      } else {
+        tags = experiences.reduce(function(tags, exp) { 
+          return tags.concat(exp.tags); 
+        }, []);
+      }
+      tags = tags.map(function(tagName) {
+        return {
+          name: tagName,
+          count: 0
+        };
+      });
       experiences.forEach(function(exp) {
         var expTags = exp.tags;
         expTags.forEach(function(name) {
           var tag = tags.filter(function(tag2) { return tag2.name === name; })[0];
-          if (!tag) {
-            tag = {name: name, count: 0};
-            tags.push(tag);
+          if (tag) {
+            tag.count++;
           }
-          tag.count++;
         });
       });
-      charts.push(
-        tags.sort(function(a,b) { return b.count - a.count; })
-      );
-      return charts;
+      return tags.sort(function(a,b) { return b.count - a.count; })
     };
     
     $scope.createExperience = function(exp) {
@@ -194,10 +204,24 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       });
     };
     
+    $scope.showSurvey = function() {
+      $location.hash('contact');
+    };
+    
+    $scope.hideSurvey = function() {
+      $location.hash('');
+    };
+    
+    $scope.surveyVisible = function() {
+      return $location.hash() === 'contact';
+    };
+    
     $scope.refreshExperiences = function(callObj) {
 	    var removedExp = callObj.exp;
 	    $scope.$applyAsync(function() {
-		    $scope.portfolio.experiences = $scope.portfolio.experiences.filter(function(exp) { return exp !== removedExp; });
+		    $scope.portfolio.experiences = $scope.portfolio.experiences.filter(function(exp) { 
+  		    return exp !== removedExp;
+  		  });
 		  });
     };
     
@@ -233,9 +257,9 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
                       }
                       experiences.push(currentExp);                
                     } else if (items.length === 1) {
-                        currentExp.Description += '\n' + row;
+                        currentExp.description += '\n' + row;
                     } else if (items.length === 5) {
-                        currentExp.Description += '\n' + items[0];
+                        currentExp.description += '\n' + items[0];
                         currentExp.Location = items[1];
                         currentExp['start'] = items[2];
                         currentExp['End Date'] = items[3];
@@ -259,7 +283,7 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       var path = 'public/export';
       var themeName = selectedThemeName();
       return portfolioService.createCampaign(themeName, path).then(function() {
-        success('Created campaign JSON file: ' + path + '/' + themeName + '.json');
+        $scope.success('Created campaign JSON file: ' + path + '/' + themeName + '.json');
       });
     };
   }]
