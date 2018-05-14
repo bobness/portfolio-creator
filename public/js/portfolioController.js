@@ -177,6 +177,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
           return tags.concat(exp.tags); 
         }, []);
       }
+      // remove dupes
+      tags = tags.filter(function(tag, index) {
+        return tags.indexOf(tag) === index;
+      });
       tags = tags.map(function(tagName) {
         return {
           name: tagName,
