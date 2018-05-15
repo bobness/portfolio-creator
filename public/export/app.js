@@ -57,7 +57,13 @@ angular.module('counteroffer', [])
     };
     
     $scope.surveyVisible = function() {
-      return $location.hash() === 'contact';
+      var ret = $location.hash() === 'contact';
+      if (ret) {
+        $('.smcx-widget').show();
+      } else {
+        $('.smcx-widget').hide();
+      }
+      return ret;
     };
     
 /*
