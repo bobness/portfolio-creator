@@ -107,6 +107,19 @@ angular.module('pc').factory('portfolioService', function($http) {
     }
   };
   
+  service.updateFacts = function(facts, theme) {
+    if (theme) {
+      theme.facts = facts;
+      return this.updateTheme(theme).then(function() {
+        return facts;
+      });
+    } else {
+      return put(rootUrl + '/facts', facts).then(function() {
+        return facts;
+      });
+    }
+  };
+  
   service.createCampaign = function(themeName, path = '.') {
     var body = {
       theme: themeName,

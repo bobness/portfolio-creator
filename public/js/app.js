@@ -3,7 +3,8 @@ angular.module('pc', [
   'xeditable',
   'ui.bootstrap',
   'ngSanitize',
-  'ngTagsInput'
+  'ngTagsInput',
+  'ngDragToReorder'
 ]).run(function (editableOptions) {
    editableOptions.theme = 'bs3';
 });

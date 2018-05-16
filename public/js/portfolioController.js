@@ -128,7 +128,20 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
           $scope.portfolio.facts = $scope.portfolio.facts.filter(function(f) { return f !== fact; });
         });
       }
-    }
+    };
+    
+    $scope.$on('dragToReorder.dropped', function (evt, data) {
+      if (data.newIndex != data.prevIndex) {
+        var theme = $scope.getSelectedTheme();
+        portfolioService.updateFacts(data.list, theme).then(function(facts) {
+          if (theme) {
+            theme.facts = facts
+          } else {
+            $scope.portfolio.facts = facts;
+          }
+        })
+      }
+    });
     
     $scope.expFilter = function(exp) {
       if (filterFunc) {

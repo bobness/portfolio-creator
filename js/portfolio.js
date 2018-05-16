@@ -75,6 +75,10 @@ class Portfolio {
     return this.obj.facts;
   }
   
+  set facts(facts) {
+    this.obj.facts = facts;
+  }
+  
   addFact(fact) {
     this.obj.facts.push(fact);
     return fact;

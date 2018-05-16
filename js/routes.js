@@ -40,6 +40,13 @@ router.param('fact_ix', (req, res, next, fact_ix) => {
 
 // TODO: get?
 
+router.put('/facts', (req, res, next) => {
+  portfolio.facts = req.body;
+  return portfolio.save().then(() => {
+    return res.json(portfolio.facts);
+  });
+})
+
 router.put('/facts/:fact_ix', (req, res, next) => {
   const index = portfolio.facts.indexOf(req.fact);
   portfolio.updateFact(index, req.body);
