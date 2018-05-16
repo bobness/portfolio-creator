@@ -21,6 +21,10 @@ tags-input .tags .tag-item {
 	background-color: #d9534f;
 }
 
+.label-info {
+  background-color: #337ab7;
+}
+
 .editable-textarea {
 	width: 100%;
 }
