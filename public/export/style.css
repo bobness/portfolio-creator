@@ -45,3 +45,9 @@ table#facts tbody th {
 table#facts tbody td {
   width: 80%;
 }
+
+@media print {
+  histogram, #navLinks, smcx-widget {
+    display: none !important;
+  }
+}
