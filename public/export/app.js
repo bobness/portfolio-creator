@@ -53,21 +53,27 @@ angular.module('counteroffer', [])
     $scope.selectedTags = [];
     $scope.showSurvey = function() {
       $location.hash('contact');
+      showHideSurveyMonkey();
     };
     
     $scope.hideSurvey = function() {
       $location.hash('');
+      showHideSurveyMonkey();
     };
     
     $scope.surveyVisible = function() {
-      var ret = $location.hash() === 'contact';
-      if (ret) {
+      return $location.hash() === 'contact';
+    };
+    
+    var showHideSurveyMonkey = function() {
+      if ($scope.surveyVisible()) {
         $('.smcx-widget').show();
       } else {
         $('.smcx-widget').hide();
       }
-      return ret;
     };
+    
+    $(window).on('load', showHideSurveyMonkey);
     
 /*
     $scope.sendEmail = function(emailObject) {
