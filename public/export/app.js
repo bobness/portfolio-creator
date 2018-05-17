@@ -26,6 +26,9 @@ angular.module('counteroffer', [])
       if (parts.length >= 2) {
 	      var month = parts[0],
             year = parts[1];
+        if (month.length === 1) {
+          month = '0' + month;
+        }
 	      return new Date(year + '-' + month);
       } else {
 	      return new Date(date);
