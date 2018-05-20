@@ -190,7 +190,18 @@ angular.module('counteroffer', [])
         
         scope.submit = function() {
           scope.busy = true;
-          return scope.submitFunc({questions: scope.questions}).finally(function() {
+          var questions = scope.questions.filter(function(question) {
+            if (question.type === 'skills') {
+              question.value = scope.tags
+                .filter(function(tag) { return tag.selected; })
+                .map(function(tag) { return tag.name; });
+            }
+            if (question.type === 'textarea' && question.value) {
+              question.value = question.value.split('\n');
+            }
+            return !!question.value;
+          });
+          return scope.submitFunc({questions: questions}).finally(function() {
             scope.busy = false;
           });
         };

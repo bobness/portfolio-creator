@@ -11,7 +11,11 @@
       </div>
     </div>
     
-    <div class="panel question" ng-repeat="question in questions" ng-class="{'panel-primary': !question.resuired || question.value === null, 'panel-success': question.required && question.value, 'panel-danger': question.required && question.value === ''}">
+    <div ng-show="busy">
+      Sending email...
+      <img src="loading.gif" />
+    </div>
+    <div ng-hide="busy" class="panel question" ng-repeat="question in questions" ng-class="{'panel-primary': !question.resuired || question.value === null, 'panel-success': question.required && question.value, 'panel-danger': question.required && question.value === ''}">
       <div class="panel-heading">
         {{ question.text }} {{ question.required ? '*' : '' }}
       </div>
@@ -34,7 +38,7 @@
     </div>
     
     <div>
-      <button class="btn btn-sm btn-default" ng-click="submit()">
+      <button class="btn btn-sm btn-default" ng-click="submit()" ng-disabled="progress() !== 100">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
         Submit
       </button>
