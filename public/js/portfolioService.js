@@ -126,7 +126,7 @@ angular.module('pc').factory('portfolioService', function($http) {
       }
       theme.questions.push(question);
       return this.updateTheme(theme).then(function(theme) {
-        return theme.questions.filter(function(f) { return q === question; })[0];
+        return theme.questions.filter(function(q) { return q === question; })[0];
       });
     } else {
       return post(rootUrl + '/questions', question);
