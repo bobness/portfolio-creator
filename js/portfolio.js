@@ -28,6 +28,9 @@ class Portfolio {
       if (!this.obj.facts) {
         this.obj.facts = [];
       }
+      if (!this.obj.questions) {
+        this.obj.questions = [];
+      }
     } else {
 	    throw new Error('Usage: node app.js [portfolioFile]');
     }
@@ -92,6 +95,23 @@ class Portfolio {
     this.obj.facts.splice(index, 1);
   }
   
+  get questions() {
+    return this.obj.questions;
+  }
+  
+  addQuestion(question) {
+    this.obj.questions.push(question);
+    return question;
+  }
+  
+  updateQuestion(index, question) {
+    this.obj.questions[index] = question;
+  }
+  
+  deleteQuestion(index) {
+    this.obj.questions.splice(index, 1);
+  }
+  
   writeCampaignFile(path, themeName) {
     const theme = this.obj.themes.find((theme) => theme.name === themeName),
           experiences = theme.tags.reduce((experiences, tag) => {
@@ -102,7 +122,8 @@ class Portfolio {
           data = {
             experiences: experiences,
             tags: theme.tags,
-            facts: theme.facts
+            facts: theme.facts,
+            questions: theme.questions
           };
     return writeFile(path, data);
   }

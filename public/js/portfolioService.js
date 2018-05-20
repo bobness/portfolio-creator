@@ -99,8 +99,7 @@ angular.module('pc').factory('portfolioService', function($http) {
   service.deleteFact = function(fact, theme) {
     if (theme) {
       theme.facts = theme.facts.filter(function(f) { return f !== fact; });
-      var index = portfolio.themes.indexOf(theme);
-      return put(rootUrl + '/themes/' + index, theme);
+      return this.updateTheme(theme);
     } else {
       var index = portfolio.facts.indexOf(fact);
       return $http.delete(rootUrl + '/facts/' + index); 
@@ -117,6 +116,42 @@ angular.module('pc').factory('portfolioService', function($http) {
       return put(rootUrl + '/facts', facts).then(function() {
         return facts;
       });
+    }
+  };
+  
+  service.createQuestion = function(question, theme) {
+    if (theme) {
+      if (!theme.questions) {
+        theme.questions = [];
+      }
+      theme.questions.push(question);
+      return this.updateTheme(theme).then(function(theme) {
+        return theme.questions.filter(function(f) { return q === question; })[0];
+      });
+    } else {
+      return post(rootUrl + '/questions', question);
+    }
+  };
+  
+  service.updateQuestion = function(question, theme) {
+    if (theme) {
+      if (theme.questions.indexOf(question) === -1) {
+        theme.questions.push(question);
+      }
+      return this.updateTheme(theme);
+    } else {
+      var index = portfolio.questions.indexOf(question);
+      return put(rootUrl + '/questions/' + index, question);
+    }
+  };
+  
+  service.deleteQuestion = function(question, theme) {
+    if (theme) {
+      theme.questions = theme.questions.filter(function(q) { return q !== question; });
+      return this.updateTheme(theme);
+    } else {
+      var index = portfolio.questions.indexOf(question);
+      return $http.delete(rootUrl + '/questions/' + index);
     }
   };
   

@@ -28,6 +28,13 @@ router.post('/facts', (req, res, next) => {
   });
 });
 
+router.put('/facts', (req, res, next) => {
+  portfolio.facts = req.body;
+  return portfolio.save().then(() => {
+    return res.json(portfolio.facts);
+  });
+});
+
 router.param('fact_ix', (req, res, next, fact_ix) => {
   req.fact = portfolio.facts[fact_ix];
   if (!req.fact) {
@@ -37,15 +44,6 @@ router.param('fact_ix', (req, res, next, fact_ix) => {
   }
   next();
 });
-
-// TODO: get?
-
-router.put('/facts', (req, res, next) => {
-  portfolio.facts = req.body;
-  return portfolio.save().then(() => {
-    return res.json(portfolio.facts);
-  });
-})
 
 router.put('/facts/:fact_ix', (req, res, next) => {
   const index = portfolio.facts.indexOf(req.fact);
@@ -58,6 +56,39 @@ router.put('/facts/:fact_ix', (req, res, next) => {
 router.delete('/facts/:fact_ix', (req, res, next) => {
   const index = portfolio.facts.indexOf(req.fact);
   portfolio.deleteFact(index);
+  return portfolio.save().then(() => {
+    return res.sendStatus(200);
+  });
+});
+
+router.post('/questions', (req, res, next) => {
+  const question = portfolio.addQuestion(req.body);
+  portfolio.save().then((portfolio) => {
+    return res.json(question);
+  });
+});
+
+router.param('question_ix', (req, res, next, question_ix) => {
+  req.question = portfolio.questions[question_ix];
+  if (!req.question) {
+    const err = new Error("no such question");
+    err.status = 404;
+    return next(err);
+  }
+  next();
+});
+
+router.put('/questions/:question_ix', (req, res, next) => {
+  const index = portfolio.questions.indexOf(req.question);
+  portfolio.updateQuestion(index, req.body);
+  return portfolio.save().then(() => {
+    return res.json(portfolio.questions[index]);
+  });
+});
+
+router.delete('/questions/:question_ix', (req, res, next) => {
+  const index = portfolio.questions.indexOf(req.question);
+  portfolio.deleteQuestion(index);
   return portfolio.save().then(() => {
     return res.sendStatus(200);
   });

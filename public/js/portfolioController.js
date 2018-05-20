@@ -40,7 +40,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
         var theme = {
           name: name,
           tags: selectedTags.map(function(tag) { return tag.name; }),
-          facts: $scope.portfolio.facts || []
+          facts: $scope.portfolio.facts || [],
+          questions: $scope.portfolio.questions || []
         };
         return portfolioService.createTheme(theme).then(function(theme) {
   	      $scope.portfolio.themes.push(theme);
@@ -234,6 +235,15 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.surveyVisible = function() {
       return $location.hash() === 'contact';
+    };
+    
+    $scope.getQuestions = function() {
+      var theme = $scope.getSelectedTheme();
+      if (theme) {
+        return theme.questions;
+      } else {
+        return $scope.portfolio.questions;
+      }
     };
     
     $scope.refreshExperiences = function(callObj) {
