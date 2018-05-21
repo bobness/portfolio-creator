@@ -130,16 +130,16 @@
     </div>
     
     <div style="display:inline-block;box-sizing:border-box;" ng-hide="surveyVisible()">
+      <div style="margin-top:10px;">
+  	    <button class="btn btn-sm btn-default" ng-click="createExperience()">
+  	      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          Add Experience
+  	    </button>
+      </div>
       <experience ng-repeat="exp in portfolio.experiences | filter:expFilter | orderBy : parseDate : true" 
       	data="exp"
       	refresh-callback="refreshExperiences({exp: exp})">
       </experience>
-      <div style="margin-top:10px;">
-  	    <a href="#" editable-text="newexp.company" onaftersave="createExperience(newexp)">
-  	      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-  	      Add another
-  	    </a>
-      </div>
     </div>
     
     <survey ng-if="surveyVisible()"

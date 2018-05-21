@@ -1,3 +1,22 @@
+var today = new Date();
+
+function zeroPadMonth(month) {
+  month = '' + month;
+  if (month.length === 1) {
+    return '0' + month;
+  }
+  return month;
+}
+
+function Experience() {
+  this.company = 'Company name';
+  this.title = 'Title';
+  this.description = 'Description';
+  this.start = zeroPadMonth(today.getMonth() + 1) + '/' + today.getFullYear();
+  this.end = 'End date (MM/YYYY, YYYY, or empty)';
+  this.tags = [];
+};
+
 angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '$location', 'portfolioService',
   function($scope, $uibModal, $location, portfolioService) {
     
@@ -16,15 +35,6 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
     
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
-    };
-    
-    $scope.newexp = {
-      'company': '',
-      'title': '',
-      'description': '',
-      'start': '',
-      'end': '',
-      'tags': []
     };
     
     var filterFunc;
@@ -174,11 +184,8 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       var date = exp['start'],
           parts = date.split('/');
       if (parts.length >= 2) {
-	      var month = parts[0],
+	      var month = zeroPadMonth(parts[0]),
             year = parts[1];
-        if (month.length === 1) {
-          month = '0' + month;
-        }
 	      return new Date(year + '-' + month);
       } else {
 	      return new Date(date);
@@ -216,11 +223,10 @@ angular.module('pc').controller('portfolioController', ['$scope', '$uibModal', '
       return tags.sort(function(a,b) { return b.count - a.count; })
     };
     
-    $scope.createExperience = function(exp) {
-      return portfolioService.createExperience(exp).then(function(newexp) {
+    $scope.createExperience = function() {
+      return portfolioService.createExperience(new Experience()).then(function(newexp) {
 	      $scope.$applyAsync(function() {
         	$scope.portfolio.experiences.push(newexp);
-					$scope.newexp.name = '';
 	      });
       });
     };
