@@ -1,14 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">Contact Bob</div>
   <div class="panel-body">
-    
-    <p><strong>Progress:</strong></p>
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" ng-style="{width: progress()+'%'}">
-        <span class="sr-only">{{ progress() }}% Complete</span>
-      </div>
-    </div>
-    
+    <h5>Questions to ask for each job...</h5>
     <div class="panel question" ng-repeat="question in questions" ng-class="getPanelClass(question)">
       <div class="panel-heading">
         <a href="#"

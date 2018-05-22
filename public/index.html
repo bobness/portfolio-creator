@@ -50,7 +50,7 @@
         <ul ng-show="portfolio.themes" class="nav nav-pills" style="display:inline-block;">
           <li class="pill-title">Themes:</li>
           <li ng-class="{active: !themeIsSelected()}">
-            <a href="#">All</a>
+            <a ng-click="showTheme('')">All</a>
           </li>
           <li ng-repeat="theme in portfolio.themes" ng-class="{active: themeIsSelected(theme.name)}">
             <a ng-click="showTheme(theme.name)" style="cursor:pointer;">{{ theme.name }}</a>

@@ -2,7 +2,7 @@ function Question() {
   this.type = 'text';
   this.text = 'Question text';
   this.required = false;
-  this.value = null;;
+  this.value = null;
 }
 
 angular.module('pc').directive('survey', ['portfolioService', function(portfolioService) {
@@ -38,19 +38,6 @@ angular.module('pc').directive('survey', ['portfolioService', function(portfolio
         return portfolioService.deleteQuestion(question, scope.theme).then(function() {
           scope.questions = scope.questions.filter(function(q) { return q !== question; });
         });
-      };
-      
-      scope.progress = function() {
-        var requiredQuestions = scope.questions.filter(function(question) { return question.required; });
-        var denominator = requiredQuestions.length;
-        var numerator = requiredQuestions.filter(function(question) { 
-          if (Array.isArray(question.value)) {
-            return question.value.length > 0;
-          }
-          return question.value; 
-        }).length;
-        
-        return Math.round((numerator/denominator)*100);
       };
       
       scope.$watch('tagCounts', function() {
